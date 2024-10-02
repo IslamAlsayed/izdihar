@@ -157,6 +157,78 @@ if (insert_budget) {
     });
 }
 
+let register = document.getElementById("register");
+if (register) {
+  document
+    .getElementById("register_user")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      let error_validation = document.querySelector(".error_validation");
+      let username = document.getElementById("username");
+      let email = document.getElementById("email");
+      let password = document.getElementById("password");
+      let password_confirmation = document.getElementById(
+        "password_confirmation"
+      );
+      let currency = document.getElementById("currency");
+
+      error_validation.classList.add("error_active");
+
+      // تحقق من القيم المدخلة
+      if (!username.value) {
+        username.focus();
+        error_validation.innerHTML = "اسم المستخدم مطلوب.";
+        return;
+      }
+
+      if (!email.value) {
+        email.focus();
+        error_validation.innerHTML = "البريد الإلكتروني مطلوب.";
+        return;
+      }
+
+      if (!password.value) {
+        password.focus();
+        error_validation.innerHTML = "كلمة المرور مطلوبة.";
+        return;
+      }
+
+      if (!password_confirmation.value) {
+        password_confirmation.focus();
+        error_validation.innerHTML = "تأكيد كلمة المرور مطلوب.";
+        return;
+      }
+
+      if (!currency.value) {
+        currency.focus();
+        error_validation.innerHTML = "العملة مطلوبة.";
+        return;
+      }
+
+      // تحقق من تطابق كلمة المرور مع التأكيد
+      if (password.value !== password_confirmation.value) {
+        password_confirmation.focus();
+        error_validation.innerHTML = "كلمات المرور لا تتطابق.";
+        return;
+      }
+
+      // إعداد البيانات لإرسالها
+      let data = {
+        username: username.value,
+        email: email.value,
+        password: password.value,
+        password_confirmation: password_confirmation.value,
+        currency: currency.value,
+      };
+
+      setTimeout(() => {
+        location.href = "./";
+      }, 2000);
+
+      insertData("register", data, "تم إنشاء الحساب!");
+    });
+}
+
 function insertData(requestType, data, successMessage) {
   let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = () => {
@@ -200,7 +272,7 @@ function insertData(requestType, data, successMessage) {
 
   xhr.open(
     "POST",
-    `http://localhost/izdiha/includes/database/insert_data.php?request=${requestType}`,
+    `./includes/database/insert_data.php?request=${requestType}`,
     true
   );
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

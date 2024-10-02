@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             handleDebt();
         } elseif ($requestType == 'budget') {
             handleBudget();
+        } elseif ($requestType == 'register') {
+            handleRegister();
         } else {
             sendErrorResponse('طلب غير معروف.');
         }
@@ -128,6 +130,45 @@ function handleBudget()
 
     if ($row) {
         $message = ['status' => 'success', 'message' => 'لقد تم إعداد الميزانية.'];
+    } else {
+        sendErrorResponse('فشل الإنشاء.');
+    }
+
+    echo json_encode($message);
+    exit();
+}
+
+function handleRegister()
+{
+    global $message;
+
+    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+    $password_confirmation = isset($_POST['password_confirmation']) ? trim($_POST['password_confirmation']) : '';
+    $currency = isset($_POST['currency']) ? trim($_POST['currency']) : '';
+
+    // التحقق من صحة البيانات
+    if (empty($username) || empty($email) || empty($password) || empty($password_confirmation)) {
+        sendErrorResponse('البيانات غير صالحة');
+    }
+
+    if ($password !== $password_confirmation) {
+        sendErrorResponse('كلمة المرور وتأكيد كلمة المرور لا تتطابقان.');
+    }
+
+    // إعداد البيانات
+    $data = [
+        'username' => $username,
+        'email' => $email,
+        'password' => sha1($password),
+        'currency' => $currency,
+    ];
+
+    $row = insertRows('users', $data);
+
+    if ($row) {
+        $message = ['status' => 'success', 'message' => 'لقد تم إنشاء الحساب بنجاح.'];
     } else {
         sendErrorResponse('فشل الإنشاء.');
     }
