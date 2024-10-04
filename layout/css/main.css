@@ -210,7 +210,7 @@
     direction: rtl;
 
     & .rows {
-        width: 40%;
+        width: 70%;
         margin: auto;
 
         & .row {
@@ -238,6 +238,12 @@
         & h3 {
             color: var(--whiteColor);
         }
+    }
+
+    & .edit_plan {
+        cursor: pointer;
+        margin-top: 15px;
+        border-radius: 3px;
     }
 }
 
@@ -394,7 +400,7 @@
     }
 }
 
-.debt_details {
+.debts_details {
     /* direction: rtl; */
     margin-bottom: 50px;
 
@@ -413,6 +419,31 @@
     }
 }
 
+.head {
+    position: relative;
+    margin-bottom: 30px;
+
+    & p {
+        width: 70%;
+        text-align: center;
+        margin: 0 auto 30px;
+    }
+
+    & a {
+        position: absolute;
+        top: 0;
+        right: 0;
+        gap: 7px;
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+
+        & * {
+            color: var(--whiteColor);
+        }
+    }
+}
+
 .budget_preparation .content {
     gap: 30px;
     display: flex;
@@ -420,13 +451,13 @@
 
     & .image {
         /* flex: 1; */
-        width: 40%;
+        width: 50%;
     }
 
     & .form {
-        width: 50%;
+        width: 40%;
         padding: 30px;
-        margin-top: 100px;
+        margin-top: 50px;
         height: fit-content;
         background-color: var(--whiteColor);
 
@@ -505,14 +536,6 @@
     direction: rtl;
     margin-bottom: 50px;
 
-    & .head {
-        & p {
-            width: 70%;
-            text-align: center;
-            margin: 0 auto 30px;
-        }
-    }
-
     & .row {
         gap: 15px;
         display: flex;
@@ -523,7 +546,11 @@
         & .col {
             padding: 3px;
             border-radius: 7px;
-            background-color: var(--mainColor);
+            background-color: var(--mainHoverColor);
+
+            &:hover {
+                background-color: var(--mainColor);
+            }
 
             & .image {
                 height: 150px;
@@ -574,28 +601,6 @@
     margin-bottom: 50px;
     text-align: center;
 
-    & .head {
-        position: relative;
-        margin-bottom: 30px;
-
-        & p {
-            width: 70%;
-            text-align: center;
-            margin: 0 auto 30px;
-        }
-
-        & a {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            border-radius: 3px;
-
-            & * {
-                color: var(--whiteColor);
-            }
-        }
-    }
-
     &._1 h2 {
         background-color: #06eca0;
     }
@@ -632,8 +637,8 @@
             width: 50%;
             height: auto;
             padding: 35px;
+            margin-top: 50px;
             align-content: center;
-            background-color: rgb(155, 154, 154);
             background-color: var(--whiteColor);
 
             & h2 {
@@ -728,7 +733,6 @@
 
                     & button {
                         cursor: pointer;
-                        font-size: 18px;
                         font-weight: bold;
                     }
                 }
@@ -846,7 +850,7 @@
         justify-content: center;
 
         & .card {
-            width: 170px;
+            width: 200px;
             height: 120px;
             border-radius: 7px;
             align-content: center;
@@ -1063,6 +1067,12 @@ footer {
             }
         }
     }
+
+    .calculate {
+        & .rows {
+            width: 80%;
+        }
+    }
 }
 
 @media (max-width: 768px) {
@@ -1078,34 +1088,8 @@ footer {
         }
     }
 
-    .services-content {
-        & .head {
-            & p {
-                width: 90%;
-            }
-        }
-    }
-
-    .services-content {
-        & .head {
-            & a {
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                & span {
-                    display: none;
-                }
-
-                & i {
-                    font-size: 20px;
-                }
-            }
-        }
-
-
+    .services-content,
+    .budget_preparation {
         & .content {
             flex-direction: column;
 
@@ -1178,6 +1162,28 @@ footer {
         }
     }
 
+    /* .head {
+        & p {
+            width: 90%;
+        }
+
+        & a {
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            & span {
+                display: none;
+            }
+
+            & i {
+                font-size: 20px;
+            }
+        }
+    } */
+
     .monthly_sales_data {
         & .totals {
             flex-direction: row;
@@ -1205,6 +1211,8 @@ footer {
             & form {
                 & .groups {
                     & .group {
+                        height: 40px;
+                        margin-top: 0;
                         margin-bottom: 15px;
                     }
                 }
@@ -1215,6 +1223,16 @@ footer {
     .site_helps_you {
         & .cards {
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+    }
+
+    .calculate {
+        & .rows {
+            width: 100%;
+        }
+
+        & .total {
+            font-size: 14px;
         }
     }
 }
@@ -1325,6 +1343,17 @@ footer {
         }
     }
 
+    .head {
+        & a {
+            font-size: 10px;
+            padding-inline: 10px;
+
+            & i {
+                font-size: 16px;
+            }
+        }
+    }
+
     .section-services {
         & .row {
             & .col {
@@ -1337,6 +1366,12 @@ footer {
         }
     }
 
+    .services-content {
+        &>p {
+            width: 100%;
+        }
+    }
+
     .services-content.educational {
         & .news {
             display: flex;
@@ -1344,8 +1379,20 @@ footer {
         }
     }
 
+    .calculate {
+        & .rows {
+            font-size: 14px;
+        }
+
+        & .total {
+            font-size: 10px;
+        }
+    }
+
     footer {
         & .container {
+            padding-top: 0;
+
             & .row {
                 align-items: center;
                 text-align: center;
@@ -1358,5 +1405,11 @@ footer {
 @media (max-width: 425px) {
     .navbar {
         width: 92%;
+    }
+
+    .calculate {
+        & .rows {
+            font-size: 10px;
+        }
     }
 }

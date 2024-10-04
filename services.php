@@ -29,46 +29,43 @@ $key = $_GET['page'] ?? '1';
 } elseif ($page == 'services') {
 
     include './pages/services.php';
-} elseif ($page == 'debts') {
+} elseif ($page == 'add_debt') {
 
-    include './pages/debts.php';
-} elseif ($page == 'debt_details') {
+    include './pages/add_debt.php';
+} elseif ($page == 'debts_details') {
 
-    include './pages/debt_details.php';
+    include './pages/debts_details.php';
 } elseif ($page == 'budget') {
 
     include './pages/budget.php';
 } elseif ($page == 'add_budget') {
 
     include './pages/add_budget.php';
-} elseif ($page == 'insert_budget') {
-
-    include './pages/insert_budget.php';
 } elseif ($page == 'contact') {
 
     include './pages/contact.php';
-} elseif ($page == 'budget_details') {
-
-    include './pages/budget_details.php';
 } elseif ($page == 'privacy') { ?>
 
-<section class="services-content _<?= $key ?>">
-    <div class="head">
-        <h2 class="headSection">privacy</h2>
-        <p><?= $site['privacy'] ?></p>
-    </div>
-</section>
+    <section class="services-content _<?= $key ?>">
+        <div class="head">
+            <h2 class="headSection">privacy</h2>
+            <p><?= $site['privacy'] ?></p>
+        </div>
+    </section>
 
 <?php } elseif ($page == 'conditions') { ?>
 
-<section class="services-content _<?= $key ?>">
-    <div class="head">
-        <h2 class="headSection">Terms & & conditions</h2>
-        <p><?= $site['conditions'] ?></p>
-    </div>
-</section>
+    <section class="services-content _<?= $key ?>">
+        <div class="head">
+            <h2 class="headSection">Terms & & conditions</h2>
+            <p><?= $site['conditions'] ?></p>
+        </div>
+    </section>
 
-<?php }
+<?php } else {
+    header('Location:./services.php?page=services');
+    exit();
+}
 include './includes/templates/footer.php';
 ob_end_flush();
 ?>

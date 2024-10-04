@@ -7,32 +7,6 @@ if (isset($_SESSION['username'])) {
     header('Location: ./home.php');
     exit();
 }
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['signin'])) {
-        $email = isset($_POST['email']) && !empty($_POST['email']) ? $_POST['email'] : '';
-        $password = isset($_POST['password']) && !empty($_POST['password']) ? $_POST['password'] : '';
-        $hashPassword = sha1($password);
-
-        $check = "SELECT * FROM `users` WHERE email='$email' AND password='$hashPassword'";
-        $result = mysqli_query($connect, $check);
-
-        if ($result && mysqli_num_rows($result) > 0) {
-            $user = mysqli_fetch_assoc($result);
-            if ($user) {
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['currency'] = 'SAR';
-                setFlashMessage('success', 'تم تسجيل الدخول بنجاح.');
-                header('Location: ./home.php');
-                exit();
-            }
-        } else {
-            setFlashMessage('error', 'البريد الإلكتروني أو كلمة المرور عير صحيحة!');
-        }
-    }
-}
-$message = getFlashMessage();
 ?>
 
 <section class="authForm signin">
@@ -42,13 +16,15 @@ $message = getFlashMessage();
         </div>
         <div class="form">
             <?php if (!empty($message['message'])) { ?>
-                <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
+            <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
             <?php } ?>
+
+            <label class="error_validation"></label>
 
             <h3>أهلا بعودتك!</h3>
             <h2>تسجيل الدخول</h2>
 
-            <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+            <form id="signin_user">
                 <div class="group">
                     <input type="email" class="email" name="email" id="email" value="admin@gmail.com" placeholder=" " required />
                     <label for="email">الإيميل</label>
@@ -85,7 +61,7 @@ $message = getFlashMessage();
                     <a href="#" class="forget_password">نسيت كلمة المرور؟</a>
                 </div>
                 <div class="group">
-                    <button type="submit" name="signin" class="btn btn-main">تسجيل الدخول</button>
+                    <button type="submit" name="signin" id="signin" class="btn btn-main">تسجيل الدخول</button>
                 </div>
 
                 <div class="create_account">

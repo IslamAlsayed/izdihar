@@ -6,7 +6,7 @@
     --darkHoverColor: #000000;
     --mainColor: #5d64ae;
     --darkMainColor: #3e47a6;
-    --mainHoverColor: #3a44b3;
+    --mainHoverColor: #c4c6de;
     --successColor: #66ce32;
     --errorColor: #ce3c32;
     --blackColor: #000000;
@@ -88,7 +88,7 @@ input::-webkit-inner-spin-button {
 .container {
     max-width: 90%;
     margin: 0 auto;
-    padding-top: 70px;
+    padding: 70px 15px 0;
     position: relative;
 }
 
@@ -110,7 +110,7 @@ input::-webkit-inner-spin-button {
 @media (max-width: 425px) {
     .container {
         max-width: 100%;
-        padding: 30px;
+        /* padding: 30px; */
     }
 }
 
@@ -128,7 +128,6 @@ input::-webkit-inner-spin-button {
     outline: none;
     display: block;
     transition: 0.1s;
-    letter-spacing: 2px;
     color: var(--whiteColor);
     text-transform: uppercase;
 
@@ -167,6 +166,7 @@ input::-webkit-inner-spin-button {
     &::before,
     &::after {
         content: '';
+        width: 150px;
         height: 30px;
         background-color: var(--mainColor);
         position: absolute;
@@ -177,12 +177,10 @@ input::-webkit-inner-spin-button {
     }
 
     &::before {
-        width: 150px;
         animation: headSectionBefore 3s infinite linear;
     }
 
     &::after {
-        width: 150px;
         animation: headSectionAfter 3s infinite linear;
     }
 }
@@ -278,5 +276,19 @@ input::-webkit-inner-spin-button {
 
     70% {
         opacity: 1;
+    }
+}
+
+@media (max-width:500px) {
+    .headSection {
+        font-size: 18px;
+        border-radius: 25px;
+        margin-bottom: 30px;
+
+        &::before,
+        &::after {
+            width: 100px;
+            height: 25px;
+        }
     }
 }

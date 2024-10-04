@@ -1,151 +1,174 @@
-<?php $message = getFlashMessage();
-$user_budgets = selectRows('*', 'budget', "user_id=$user_id", '', '*');
+<?php
+$message = getFlashMessage();
+$currency = $_SESSION['currency'];
+
+$user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
 $user_debts = selectRows('*', 'debt', "user_id=$user_id", '', '*');
 
-$monthlyIncome = 80000;
-$expenses = 0;
-$netIncome = 0;
-$totalDuration = 0;
-$cumulativeAmounts = [];
-
-$lineChartData = [];
-$categories = [];
-$expensesData = [];
-$durationMonths = [];
-
-// حساب الميزانيات
-foreach ($user_budgets as $budget) {
-    $monthlyIncome += $budget['monthly_income'];
-    $expenses += $budget['expenses'];
-    $netIncome = $monthlyIncome - $expenses;
-
-    $durationMonths = intval($budget['duration']);
-    $totalDuration += $durationMonths;
-
-    for ($month = 0; $month < $durationMonths; $month++) {
-        $categories[$month] = date('M', strtotime("+$month month", strtotime(date('Y-m-01'))));
-        $lineChartData[$month] = isset($lineChartData[$month]) ? $lineChartData[$month] + $netIncome : $netIncome;
-    }
+if (empty($user_retirement_plan)) {
+    header('Location: ./services.php?page=plan');
+    exit();
 }
 
-$debtsData = [];
-$debtLabels = [];
-$debtMap = [];
+// حساب عدد السنوات حتى التقاعد
+$years_until_retirement = intval($user_retirement_plan['retirement_age']) - intval($user_retirement_plan['user_old']);
 
+// الهدف بعد التقاعد
+$goal_retirement = $user_retirement_plan['goal_retirement'];
+
+// القسط الشهري المطلوب
+$monthly_target_savings = ceil($goal_retirement / ($years_until_retirement * 12));
+
+// جميع النفقات الشهرية
+$monthly_expenses = [];
 foreach ($user_debts as $debt) {
-    $type = $debt['debt_type'];
-    $amount = floatval($debt['debt_amount']);
+    $month = date('Y-m', strtotime($debt['created_at']));
+    if (!isset($monthly_expenses[$month])) {
+        $monthly_expenses[$month] = 0;
+    }
+    $monthly_expenses[$month] += intval($debt['debt_amount']);
+}
 
-    if (isset($debtMap[$type])) {
-        $debtMap[$type] += $amount;
+$expenses = 0;
+foreach ($monthly_expenses as $expense) $expenses += $expense;
+
+// إعداد البيانات للرسم البياني
+$months = array_keys($monthly_expenses);
+$expenses_data = array_values($monthly_expenses);
+$target_savings_data = array_fill(0, count($months), $monthly_target_savings);
+
+
+// إعداد بيانات الديون
+$debt_types = [];
+foreach ($user_debts as $debt) {
+    // تحويل القيم النصية إلى أرقام صحيحة أو عشرية
+    $debt_amount = floatval($debt['debt_amount']);
+    if (isset($debt_types[$debt['debt_type']])) {
+        $debt_types[$debt['debt_type']] += $debt_amount;
     } else {
-        $debtMap[$type] = $amount;
+        $debt_types[$debt['debt_type']] = $debt_amount;
     }
 }
 
-foreach ($debtMap as $type => $amount) {
-    $debtLabels[] = $type;
-    $debtsData[] = $amount;
-}
+// حساب الدخل الشهري
+$debt_types['الدخل الشهري'] = array_sum(array_map('floatval', array_column($user_debts, 'debt_monthly'))) * 12;
 
-$debtsData[] = $monthlyIncome;
-$debtLabels[] = 'الدخل الشهري';
+// تحويل البيانات إلى JSON
+$debt_labels = array_keys($debt_types);
+$debt_data = array_values($debt_types);
+
+$debt_data_json = json_encode($debt_data);
+$debt_labels_json = json_encode($debt_labels);
 ?>
 
 <section class="services-content">
-    <?php if (!empty($message['message'])) { ?>
-        <div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
-    <?php } ?>
-
     <div class="head">
         <h2 class="headSection">إعداد الميزانية</h2>
-        <a href="./services.php?page=add_budget" class="btn btn-dark add">
-            <span>إضافة ميزانية</span>
+
+        <p>يهدف قسم <b class="site_name">إعداد الميزانية</b> إلى مساعدتك في تتبع نفقاتك الشهرية ومقارنتها بالمدخرات المستهدفة لتحقيق هدفك المالي بعد التقاعد. من خلال تحليل نفقاتك، يمكنك تحديد الفرص لتقليل المصاريف وزيادة المدخرات لضمان مستقبل مالي
+            آمن. استخدم أدواتنا
+            البصرية لمراقبة تقدمك المالي وتعديل ميزانيتك بناءً على البيانات الفعلية.</p>
+
+        <a href="./services.php?page=add_debt" class="btn btn-dark">
+            <span>إضافة دييون</span>
             <i class="fas fa-add"></i>
         </a>
     </div>
+
     <div class="budget_cards">
         <div class="card">
             <h3>الدخل الشهري</h3>
-            <span><?= $monthlyIncome > 0 ? $monthlyIncome . ' ' . $_SESSION['currency'] : '00' ?></span>
+            <span><?= number_format($user_retirement_plan['monthly_amount']) . ' ' . $currency ?? '00' ?></span>
         </div>
 
         <div class="card">
             <h3>إجمالي المصروفات</h3>
-            <span><?= $expenses > 0 ? $expenses . ' ' . $_SESSION['currency'] : '00' ?></span>
+            <span><?= number_format($expenses) . ' ' . $currency ?? '00' ?></span>
         </div>
 
         <div class="card">
             <h3>المبلغ المستهدف</h3>
-            <span><?= isset($budget['target_amount']) ? $budget['target_amount'] . ' ' . $_SESSION['currency'] : '00' ?></span>
+            <span><?= number_format($user_retirement_plan['goal_retirement']) . ' ' . $currency ?? '00' ?></span>
         </div>
 
         <div class="card">
             <h3>مدة الهدف</h3>
-            <span><?= $totalDuration > 0 ? $totalDuration . ' month' : '0 month' ?></span>
+            <span><?= $years_until_retirement . ' عام' ?? '--' ?></span>
         </div>
 
         <div class="card">
             <h3>نوع الهدف</h3>
-            <span><?= isset($budget['target_type']) ? $budget['target_type'] : 'الهدف لم يتم تحديده بعد' ?></span>
+            <span><?= $user_retirement_plan['goal_type'] ?? '--' ?></span>
         </div>
     </div>
 
-    <?php if ($netIncome > 0) { ?>
-        <div class="parentProgressChart">
-            <div class="myChart myChart_1">
-                <div id="myChartLine"></div>
-            </div>
-            <div class="myChart myChart_2">
-                <div id="debtsChart"></div>
-            </div>
+    <div class="parentProgressChart">
+        <div class="myChart myChart_1">
+            <div id="myChartLine"></div>
         </div>
-    <?php } ?>
+        <div class="myChart myChart_2">
+            <div id="debtsChart"></div>
+        </div>
+    </div>
 </section>
 
 <script>
-    const lineChartData = <?= json_encode($lineChartData); ?>;
-    const categories = <?= json_encode($categories); ?>;
-
-    const optionsLine = {
+    var options = {
+        series: [{
+                name: 'ديون ونفقات الشهر',
+                data: <?php echo json_encode($expenses_data); ?>
+            },
+            {
+                name: 'الادخار المستهدف شهريا',
+                data: <?php echo json_encode($target_savings_data); ?>
+            }
+        ],
         chart: {
             type: 'line',
             height: 350
         },
-        series: [{
-            name: 'Net Income',
-            data: lineChartData
-        }],
-        xaxis: {
-            categories: categories,
-        },
+        colors: ['#5D64AE', '#0619e2'],
         title: {
-            text: 'Monthly Net Income',
-            align: 'center'
+            text: "النفقات الشهرية مقابل الادخار المستهدف",
+            align: 'center',
         },
-        colors: ['#5d64ae']
+        xaxis: {
+            categories: <?php echo json_encode($months); ?>,
+            title: {
+                text: 'الشهر',
+                align: 'center',
+            }
+        },
+        yaxis: {
+            title: {
+                text: "الكمية <?= $currency ?>"
+            }
+        },
     };
 
-    const chartLine = new ApexCharts(document.querySelector("#myChartLine"), optionsLine);
-    chartLine.render();
+    var myChartLine = new ApexCharts(document.querySelector("#myChartLine"), options);
+    myChartLine.render();
+</script>
 
-    const debtsData = <?= json_encode($debtsData); ?>;
-    const debtLabels = <?= json_encode($debtLabels); ?>;
+<script>
+    // إعداد مخطط الديون
+    var debtData = <?= $debt_data_json ?>;
+    var debtLabels = <?= $debt_labels_json ?>;
 
-    const debtsOptions = {
+    var debtOptions = {
         chart: {
             type: 'donut',
-            height: 350,
+            height: 350
         },
-        series: debtsData,
+        series: debtData,
         labels: debtLabels,
         title: {
-            text: 'توزيع المديونيات',
+            text: 'توزيع الديون',
             align: 'center'
         },
-        colors: ['#404f92', '#2f367d', '#4f5cbf', '#3e47a6'],
+        colors: ['#4e5389', '#3b428e', '#5D64AE', '#4c54a6'],
     };
 
-    const debtsChart = new ApexCharts(document.querySelector("#debtsChart"), debtsOptions);
-    debtsChart.render();
+    var debtChart = new ApexCharts(document.querySelector("#debtsChart"), debtOptions);
+    debtChart.render();
 </script>

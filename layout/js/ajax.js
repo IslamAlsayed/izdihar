@@ -8,10 +8,18 @@ if (insert_plan) {
       let retirement_age = document.getElementById("retirement_age");
       let user_old = document.getElementById("user_old");
       let monthly_amount = document.getElementById("monthly_amount");
-      let debts_and_expenses = document.getElementById("debts_and_expenses");
       let goal_retirement = document.getElementById("goal_retirement");
+      let goal_type = document.getElementById("goal_type");
 
-      error_validation.classList.add("error_active");
+      if (
+        !retirement_age.value ||
+        !user_old.value ||
+        !monthly_amount.value ||
+        !goal_retirement.value ||
+        !goal_type.value
+      ) {
+        error_validation.classList.add("error_active");
+      }
 
       if (!retirement_age.value) {
         retirement_age.focus();
@@ -31,15 +39,15 @@ if (insert_plan) {
         return;
       }
 
-      if (!debts_and_expenses.value) {
-        debts_and_expenses.focus();
-        error_validation.innerHTML = "الديون والنفقات مطلوب.";
-        return;
-      }
-
       if (!goal_retirement.value) {
         goal_retirement.focus();
         error_validation.innerHTML = "هدف التقاعد مطلوب.";
+        return;
+      }
+
+      if (!goal_type.value) {
+        goal_type.focus();
+        error_validation.innerHTML = "نوع هدف التقاعد مطلوب.";
         return;
       }
 
@@ -47,8 +55,8 @@ if (insert_plan) {
         retirement_age: retirement_age.value,
         user_old: user_old.value,
         monthly_amount: monthly_amount.value,
-        debts_and_expenses: debts_and_expenses.value,
         goal_retirement: goal_retirement.value,
+        goal_type: goal_type.value,
       };
 
       insertData("plan", data, "تم إنشاء خطة التقاعد!");
@@ -57,17 +65,37 @@ if (insert_plan) {
 
 let insert_debt = document.getElementById("insert_debt");
 if (insert_debt) {
+  let debt_amount = document.getElementById("debt_amount");
+  let debt_monthly = document.getElementById("debt_monthly");
+  let duration = document.getElementById("duration");
+
+  document.getElementById("insert_debt_form").addEventListener("input", () => {
+    if (debt_amount.value && debt_monthly.value && debt_monthly.value != 0) {
+      duration.value = Math.ceil(debt_amount.value / debt_monthly.value);
+    } else if (
+      !debt_amount.value ||
+      !debt_monthly.value ||
+      debt_monthly.value == 0
+    ) {
+      duration.value = 0;
+    }
+  });
+
   document
     .getElementById("insert_debt_form")
     .addEventListener("submit", function (e) {
       e.preventDefault();
       let error_validation = document.querySelector(".error_validation");
       let debt_type = document.getElementById("debt_type");
-      let debt_amount = document.getElementById("debt_amount");
-      let debt_monthly = document.getElementById("debt_monthly");
-      let duration = document.getElementById("duration");
 
-      error_validation.classList.add("error_active");
+      if (
+        !debt_type.value ||
+        !debt_amount.value ||
+        !debt_monthly.value ||
+        !duration.value
+      ) {
+        error_validation.classList.add("error_active");
+      }
 
       if (!debt_type.value) {
         debt_type.focus();
@@ -106,32 +134,50 @@ if (insert_debt) {
 
 let insert_budget = document.getElementById("insert_budget");
 if (insert_budget) {
+  let monthly_amount = document.getElementById("monthly_amount");
+  let expenses = document.getElementById("expenses");
+  let goal_amount = document.getElementById("goal_amount");
+  let duration = document.getElementById("duration");
+
+  document
+    .getElementById("insert_budget_form")
+    .addEventListener("input", () => {
+      if (monthly_amount.value && expenses.value && expenses.value != 0) {
+        duration.value = Math.ceil(
+          goal_amount.value / (monthly_amount.value - expenses.value)
+        );
+      } else if (
+        !monthly_amount.value ||
+        !expenses.value ||
+        expenses.value == 0
+      ) {
+        duration.value = 0;
+      }
+    });
+
   document
     .getElementById("insert_budget_form")
     .addEventListener("submit", function (e) {
       e.preventDefault();
       let error_validation = document.querySelector(".error_validation");
-      let monthly_income = document.getElementById("monthly_income");
-      let expenses = document.getElementById("expenses");
-      let goal_type = document.getElementById("goal_type");
-      let goal_amount = document.getElementById("goal_amount");
-      let duration = document.getElementById("duration");
 
-      error_validation.classList.add("error_active");
+      if (
+        !monthly_amount.value ||
+        !expenses.value ||
+        !goal_amount.value ||
+        !duration.value
+      ) {
+        error_validation.classList.add("error_active");
+      }
 
-      if (!monthly_income.value) {
-        monthly_income.focus();
+      if (!monthly_amount.value) {
+        monthly_amount.focus();
         error_validation.innerHTML = "الدخل الشهري مطلوب.";
         return;
       }
       if (!expenses.value) {
         expenses.focus();
         error_validation.innerHTML = "المصروفات مطلوبة.";
-        return;
-      }
-      if (!goal_type.value) {
-        goal_type.focus();
-        error_validation.innerHTML = "نوع الهدف مطلوب.";
         return;
       }
       if (!goal_amount.value) {
@@ -146,9 +192,8 @@ if (insert_budget) {
       }
 
       let data = {
-        monthly_income: monthly_income.value,
+        monthly_amount: monthly_amount.value,
         expenses: expenses.value,
-        goal_type: goal_type.value,
         goal_amount: goal_amount.value,
         duration: duration.value,
       };
@@ -172,7 +217,16 @@ if (register) {
       );
       let currency = document.getElementById("currency");
 
-      error_validation.classList.add("error_active");
+      if (
+        !username.value ||
+        !email.value ||
+        !password.value ||
+        !password_confirmation.value ||
+        password.value != password_confirmation.value ||
+        !currency.value
+      ) {
+        error_validation.classList.add("error_active");
+      }
 
       // تحقق من القيم المدخلة
       if (!username.value) {
@@ -223,9 +277,45 @@ if (register) {
 
       setTimeout(() => {
         location.href = "./";
-      }, 2000);
+      }, 1000);
 
       insertData("register", data, "تم إنشاء الحساب!");
+    });
+}
+
+let signin = document.getElementById("signin");
+if (signin) {
+  document
+    .getElementById("signin_user")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      let error_validation = document.querySelector(".error_validation");
+      let email = document.getElementById("email");
+      let password = document.getElementById("password");
+
+      if (!email.value || !password.value) {
+        error_validation.classList.add("error_active");
+      }
+
+      if (!email.value) {
+        email.focus();
+        error_validation.innerHTML = "البريد الإلكتروني مطلوب.";
+        return;
+      }
+
+      if (!password.value) {
+        password.focus();
+        error_validation.innerHTML = "كلمة المرور مطلوبة.";
+        return;
+      }
+
+      // إعداد البيانات لإرسالها
+      let data = {
+        email: email.value,
+        password: password.value,
+      };
+
+      insertData("signin", data, "تم تسجيل الدخول!");
     });
 }
 
@@ -254,12 +344,15 @@ function insertData(requestType, data, successMessage) {
               location.href = "./services.php?page=plan_details";
             }
             if (requestType == "debt") {
-              location.href = "./services.php?page=debt_details";
+              location.href = "./services.php?page=debts_details";
             }
             if (requestType == "budget") {
               location.href = "./services.php?page=budget";
             }
-          }, 2000);
+            if (requestType == "signin") {
+              location.href = "./";
+            }
+          }, 1000);
         } else {
           error_validation.innerHTML = response.message;
         }
@@ -272,9 +365,23 @@ function insertData(requestType, data, successMessage) {
 
   xhr.open(
     "POST",
-    `./includes/database/insert_data.php?request=${requestType}`,
+    `./includes/database/ajax_server.php?request=${requestType}`,
     true
   );
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(new URLSearchParams(data).toString());
+}
+
+let profile_form = document.getElementById("profile_form");
+
+if (profile_form) {
+  let profile_submit = document.getElementById("profile_submit");
+
+  profile_form.addEventListener("keyup", () => {
+    profile_submit.classList.remove("disabled");
+  });
+
+  profile_form.addEventListener("change", () => {
+    profile_submit.classList.remove("disabled");
+  });
 }

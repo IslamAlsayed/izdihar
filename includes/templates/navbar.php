@@ -35,21 +35,30 @@
                             <i class="fas fa-book-open-reader"></i>
                         </a>
                     </li>
+                    <?php if (isset($_SESSION['plan_details']) && $_SESSION['plan_details'] == 'yes') { ?>
+                        <li>
+                            <a href="./services.php?page=plan_details" class="<?= setPageActive('plan_details') ?>">
+                                <span>تفاصيل خطة التقاعد</span>
+                                <i class="fas fa-map"></i>
+                            </a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
+                                <span>خطة التقاعد</span>
+                                <i class="fas fa-map"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
                     <li>
-                        <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
-                            <span>خطة التقاعد</span>
-                            <i class="fas fa-map"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./services.php?page=debts" class="<?= setPageActive('debts') ?>">
+                        <a href="./services.php?page=debts_details" class="<?= setPageActive('debts_details') ?>">
                             <span>إدارة الديون</span>
                             <i class="fas fa-list-check"></i>
                         </a>
                     </li>
                     <li>
                         <a href="./services.php?page=budget" class="<?= setPageActive('budget') ?>">
-                            <span>إعداد الميزانية</span>
+                            <span>تفاصيل الميزانية</span>
                             <i class="fas fa-money-check-dollar"></i>
                         </a>
                     </li>
@@ -64,12 +73,6 @@
                         <a href="./profile.php" class="<?= setActive('profile') ?>">
                             <span>حسابي</span>
                             <i class="fas fa-user"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./dashboard">
-                            <span>لوحة التحكم</span>
-                            <i class="fas fa-chart-line"></i>
                         </a>
                     </li>
                     <li>

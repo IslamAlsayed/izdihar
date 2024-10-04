@@ -1,5 +1,9 @@
 <section class="services-content _<?= $key ?>">
-    <h2 class="headSection">إدارة الديون</h2>
+    <div class="head">
+        <h2 class="headSection">إدارة الديون</h2>
+
+        <a href="./services.php?page=debts_details" class="btn btn-dark">الديون</a>
+    </div>
 
     <div class="content">
         <div class="image">

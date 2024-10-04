@@ -28,7 +28,7 @@
             <span>خطة التقاعد</span>
         </a>
 
-        <a href="?page=debts" class="col">
+        <a href="?page=debts_details" class="col">
             <div class="image">
                 <img src="<?= $image . 'do.jpeg' ?>">
             </div>

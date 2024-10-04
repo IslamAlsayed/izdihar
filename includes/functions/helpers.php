@@ -14,7 +14,7 @@ function setActive($url)
 
 function setPageActive($page)
 {
-    return isset($_GET['page']) && $_GET['page'] == $page ? 'active' : '';
+    return isset($_GET['page']) && ($_GET['page'] == $page || $_GET['page'] == $page . '_details' || $_GET['page'] == 'add_' . $page) ? 'active' : '';
 }
 
 function setFlashMessage($status, $message)
