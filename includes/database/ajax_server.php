@@ -83,7 +83,7 @@ function handleDebt()
         'user_id' => $_SESSION['user_id'],
     ];
 
-    $row = insertRows('debt', $data);
+    $row = insertRows('debts', $data);
 
     if ($row) {
         $message = ['status' => 'success', 'message' => 'لقد تم إعداد دينك.'];
@@ -134,11 +134,8 @@ function handleBudget()
     }
 
     $data = [
-        // 'current_amount' => $current_amount,
         'monthly_amount' => $monthly_amount,
         'expenses' => $expenses,
-        // 'net_income' => $netIncome,
-        // 'target_type' => $goal_type,
         'target_amount' => $goal_amount,
         'duration' => $duration,
         'currency' => $_SESSION['currency'],
