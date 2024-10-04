@@ -1,13 +1,13 @@
 <?php
 
-if (!isset($_SESSION['plan_details']) && $_SESSION['plan_details'] == false) {
+if (!isset($_SESSION['plan_details']) && $_SESSION['plan_details'] != 'yes') {
     header('Location: ./services.php?page=plan');
     exit();
 }
 
 $currency = $_SESSION['currency'];
 $user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
-$user_debts = selectRows('*', 'debt', "user_id=$user_id", '', '*');
+$user_debts = selectRows('*', 'debts', "user_id=$user_id", '', '*');
 $expenses = 0;
 foreach ($user_debts as $debt) $expenses += $debt['debt_amount'];
 

@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="<?= $css ?>app.css">
     <link rel="stylesheet" href="<?= $css ?>main.css">
     <link rel="stylesheet" href="<?= $css ?>auth.css">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script defer src="<?= $js ?>script.js" type="text/javascript"></script>
     <script defer src="<?= $js ?>ajax.js" type="text/javascript"></script>

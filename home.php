@@ -1,5 +1,5 @@
 <?php
-$pageTitle = 'Home page';
+$pageTitle = 'الصفحة الرئيسية';
 include 'init.php';
 
 if (!isset($_SESSION['username'])) {
@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 
 <div class="homeSection_1 section">
     <div class="section-image">
-        <img src="<?= $image ?>one.jpeg" alt="">
+        <img src="<?= $image ?>mi.jpeg" alt="">
     </div>
 
     <div class="section-text">

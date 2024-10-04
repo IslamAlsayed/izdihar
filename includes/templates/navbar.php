@@ -35,21 +35,7 @@
                             <i class="fas fa-book-open-reader"></i>
                         </a>
                     </li>
-                    <?php if (isset($_SESSION['plan_details']) && $_SESSION['plan_details'] == 'yes') { ?>
-                        <li>
-                            <a href="./services.php?page=plan_details" class="<?= setPageActive('plan_details') ?>">
-                                <span>تفاصيل خطة التقاعد</span>
-                                <i class="fas fa-map"></i>
-                            </a>
-                        </li>
-                    <?php } else { ?>
-                        <li>
-                            <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
-                                <span>خطة التقاعد</span>
-                                <i class="fas fa-map"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
+
                     <li>
                         <a href="./services.php?page=debts_details" class="<?= setPageActive('debts_details') ?>">
                             <span>إدارة الديون</span>

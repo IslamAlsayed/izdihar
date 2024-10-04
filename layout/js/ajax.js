@@ -275,10 +275,6 @@ if (register) {
         currency: currency.value,
       };
 
-      setTimeout(() => {
-        location.href = "./";
-      }, 1000);
-
       insertData("register", data, "تم إنشاء الحساب!");
     });
 }
@@ -325,7 +321,6 @@ function insertData(requestType, data, successMessage) {
     if (xhr.readyState == 4) {
       let error_validation = document.querySelector(".error_validation");
       if (xhr.status == 200) {
-        console.log(xhr.responseText);
         let response = JSON.parse(xhr.responseText);
         if (response.status == "success") {
           error_validation.innerHTML = successMessage;
@@ -349,8 +344,11 @@ function insertData(requestType, data, successMessage) {
             if (requestType == "budget") {
               location.href = "./services.php?page=budget";
             }
-            if (requestType == "signin") {
+            if (requestType == "register") {
               location.href = "./";
+            }
+            if (requestType == "signin") {
+              location.href = "./home.php";
             }
           }, 1000);
         } else {

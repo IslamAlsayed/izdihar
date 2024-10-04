@@ -1,6 +1,5 @@
 <?php
-$pageTitle = 'Sign in';
-$noNavbar = '';
+$pageTitle  = 'تسجيل الدخول';
 include 'init.php';
 
 if (isset($_SESSION['username'])) {
@@ -16,7 +15,7 @@ if (isset($_SESSION['username'])) {
         </div>
         <div class="form">
             <?php if (!empty($message['message'])) { ?>
-            <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
+                <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
             <?php } ?>
 
             <label class="error_validation"></label>

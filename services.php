@@ -1,6 +1,5 @@
 <?php
-ob_start();
-$pageTitle = 'Services page';
+$pageTitle = 'الخدمات';
 include 'init.php';
 
 if (!isset($_SESSION['username'])) {
@@ -10,8 +9,6 @@ if (!isset($_SESSION['username'])) {
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'services';
 $user_id = $_SESSION['user_id'];
-$user_budget = selectRows('*', 'budget', "id=$user_id", '', '1');
-$key = $_GET['page'] ?? '1';
 ?>
 
 <?php if ($page == 'offers') {
@@ -46,7 +43,7 @@ $key = $_GET['page'] ?? '1';
     include './pages/contact.php';
 } elseif ($page == 'privacy') { ?>
 
-    <section class="services-content _<?= $key ?>">
+    <section class="services-content">
         <div class="head">
             <h2 class="headSection">privacy</h2>
             <p><?= $site['privacy'] ?></p>
@@ -55,7 +52,7 @@ $key = $_GET['page'] ?? '1';
 
 <?php } elseif ($page == 'conditions') { ?>
 
-    <section class="services-content _<?= $key ?>">
+    <section class="services-content">
         <div class="head">
             <h2 class="headSection">Terms & & conditions</h2>
             <p><?= $site['conditions'] ?></p>
@@ -67,5 +64,4 @@ $key = $_GET['page'] ?? '1';
     exit();
 }
 include './includes/templates/footer.php';
-ob_end_flush();
 ?>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 }
 ?>
 
-<section class="services-content _<?= $key ?>">
+<section class="services-content">
     <div class="head">
         <h2 class="headSection">تواصل معنا</h2>
         <h3>نحن قادرون على تمهيد الطريق لنجاح عملك.</h3>

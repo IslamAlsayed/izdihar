@@ -1,4 +1,4 @@
-<section class="services-content _<?= $key ?>">
+<section class="services-content">
     <h2 class="headSection">عروض الاستثمار</h2>
     <div class="text">
         <p><?= $site['invest'] ?></p>

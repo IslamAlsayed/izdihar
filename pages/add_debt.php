@@ -1,4 +1,4 @@
-<section class="services-content _<?= $key ?>">
+<section class="services-content">
     <div class="head">
         <h2 class="headSection">إدارة الديون</h2>
 

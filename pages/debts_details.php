@@ -1,5 +1,5 @@
 <?php
-$user_debts = selectRows('*', 'debt', "user_id=$user_id", '', '*');
+$user_debts = selectRows('*', 'debts', "user_id=$user_id", '', '*');
 
 if (count($user_debts) <= 0) {
     header('Location: ./services.php?page=add_debt');

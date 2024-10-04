@@ -3,7 +3,7 @@ $message = getFlashMessage();
 $currency = $_SESSION['currency'];
 
 $user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
-$user_debts = selectRows('*', 'debt', "user_id=$user_id", '', '*');
+$user_debts = selectRows('*', 'debts', "user_id=$user_id", '', '*');
 
 if (empty($user_retirement_plan)) {
     header('Location: ./services.php?page=plan');

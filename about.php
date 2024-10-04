@@ -1,11 +1,12 @@
 <?php
-$pageTitle = 'About page';
+$pageTitle = 'عنا نحن';
 include 'init.php';
 
 if (!isset($_SESSION['username'])) {
     header('Location: ./');
     exit();
 }
+
 ?>
 
 <section class="about_us">

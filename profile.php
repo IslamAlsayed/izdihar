@@ -1,20 +1,18 @@
 <?php
-ob_start();
 $pageTitle = 'حسابي الشخصي';
 include 'init.php';
-
-$message = ['status' => '', 'message' => ''];
 
 if (!isset($_SESSION['username'])) {
     header('Location: ./');
     exit();
 }
 
+$message = ['status' => '', 'message' => ''];
+
 $do = isset($_GET['do']) ? $_GET['do'] : 'index';
 
 $user_id = $_SESSION['user_id'];
 $user = selectRows('*', 'users', "id=$user_id", '', '1');
-$key = $_GET['page'] ?? '1';
 ?>
 
 <?php if (!empty($message['message'])) { ?>

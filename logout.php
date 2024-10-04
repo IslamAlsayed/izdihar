@@ -4,15 +4,15 @@ include './includes/functions/helpers.php';
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-    setFlashMessage('success', 'تم تسجيل الخروج بنحاح.');
+    session_unset();
+    session_destroy();
 
-    unset($_SESSION['user_id']);
-    unset($_SESSION['username']);
+    setFlashMessage('success', 'تم تسجيل الخروج بنحاح.');
     header('Location: ./');
     exit();
 } else {
     setFlashMessage('error', 'لم يتم تسحيل الخروج.');
 
-    header('Location: ./');
+    header('Location: ./home.php');
     exit();
 }

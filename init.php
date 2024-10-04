@@ -1,9 +1,5 @@
 <?php
 session_start();
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
 include 'connect.php';
 
 $database   = 'includes/database/';
@@ -16,7 +12,6 @@ $image      = 'layout/downloads/images/';
 $upload     = 'upload/';
 $education  = 'layout/downloads/education/';
 $article    = 'layout/downloads/education/articles/';
-$avatar     = 'layout/downloads/avatars/';
 $logo       = 'layout/downloads/logo/';
 
 include $functions . 'helpers.php';
@@ -28,12 +23,10 @@ if (!isset($noNavbar)) {
 }
 
 $site = selectRows('*', 'site', '', '', '1');
-$user_id = isset($_SESSION['user_id']);
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $user = selectRows('*', 'users', "id='$user_id'", '', '1');
 
 $user_plan = [];
-if ($user_id) selectRows('*', 'retirement_plan', "user_id='$user_id'", '', '1');
-
-if ($user_plan) {
-    echo $user_plan['user_id'];
+if ($user_id) {
+    $user_plan = selectRows('*', 'retirement_plan', "user_id='$user_id'", '', '1');
 }

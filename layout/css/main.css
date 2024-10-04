@@ -142,7 +142,8 @@
     justify-content: space-between;
 
     & .section-image {
-        width: 50%;
+        width: 40%;
+        margin: auto;
     }
 
     & .section-text {
@@ -160,6 +161,11 @@
             line-height: 1.6;
         }
     }
+}
+
+.homeSection_1 {
+    margin-top: 70px;
+    align-items: start;
 }
 
 .site_goals {
@@ -600,26 +606,6 @@
     margin: auto;
     margin-bottom: 50px;
     text-align: center;
-
-    &._1 h2 {
-        background-color: #06eca0;
-    }
-
-    &._2 h2 {
-        background-color: #eb5f01;
-    }
-
-    &._3 h2 {
-        background-color: #14e805;
-    }
-
-    &._4 h2 {
-        background-color: #0c72d1;
-    }
-
-    &._5 h2 {
-        background-color: #e108de;
-    }
 
     & .content {
         gap: 15px;
