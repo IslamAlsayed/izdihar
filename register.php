@@ -11,7 +11,7 @@ $message = getFlashMessage();
 ?>
 
 <?php if (!empty($message['message'])) { ?>
-<div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
+    <div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
 <?php } ?>
 
 <section class="authForm register">
@@ -21,7 +21,7 @@ $message = getFlashMessage();
         </div>
         <div class="form">
             <?php if (!empty($message['message'])) { ?>
-            <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
+                <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
             <?php } ?>
             <h3>أهلا بعودتك !</h3>
             <h2>إنشاء حساب جديد</h2>
