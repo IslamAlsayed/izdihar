@@ -4,38 +4,28 @@ function selectRows($select, $table, $where, $order, $limit)
 {
     global $connect;
 
-    if (!empty($order) && $order != '*') {
-        $order = "ORDER BY $order ASC";
-    } else {
-        $order = '';
-    }
+    // إعداد الجزء الخاص بالترتيب
+    $order = !empty($order) && $order != '*' ? "ORDER BY $order ASC" : '';
 
-    if (!empty($limit) && $limit != '*') {
-        $limit = "LIMIT $limit";
-    } elseif (empty($limit)) {
-        $limit = "LIMIT 3";
-    } elseif ($limit == '*') {
-        $limit = '';
-    }
+    // إعداد الجزء الخاص بالحد
+    $limit = !empty($limit) && $limit != '*' ? "LIMIT $limit" : '';
 
-    if (!empty($where) && $where != '*') {
-        $where = "WHERE $where";
-    } else {
-        $where = '';
-    }
+    // إعداد الجزء الخاص بالشروط
+    $where = !empty($where) ? "WHERE $where" : '';
 
+    // إنشاء الاستعلام
     $check = "SELECT $select FROM `$table` $where $order $limit";
+
+    // تنفيذ الاستعلام
     $result = mysqli_query($connect, $check);
 
+    // التحقق من وجود خطأ في الاستعلام
     if (!$result) {
         die('Error: ' . mysqli_error($connect));
     }
 
-    if ($limit == 'LIMIT 1') {
-        return mysqli_fetch_assoc($result) ?? [];
-    } else {
-        return mysqli_fetch_all($result, MYSQLI_ASSOC) ?? [];
-    }
+    // إرجاع النتائج
+    return $limit == 'LIMIT 1' ? mysqli_fetch_assoc($result) : mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 function insertRows($table, $data)

@@ -1,7 +1,11 @@
+<?php
+$user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
+$user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
+$user_budget = selectRows('*', 'budgets', "user_id=$user_id", '', '1');
+?>
 <nav class="navbar">
     <a href="./home.php" class="logo">
-        <h2>ازدهــــار</h2>
-        <i class="fa-solid fa-chart-area"></i>
+        <img src="<?= $image ?>logo.png" alt="">
     </a>
 
     <div class="bars" id="bars">
@@ -34,12 +38,22 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a href="./services.php?page=budget" class="<?= setPageActive('budget') ?>">
-                            <span>أعداد الميزانية</span>
-                            <i class="fas fa-sheet-plastic"></i>
-                        </a>
-                    </li>
+
+                    <?php if (isset($user_budget) && !empty($user_budget)) { ?>
+                        <li>
+                            <a href="./services.php?page=budget_chart" class="<?= setPageActive('budget_chart') ?>">
+                                <span>تحديد الهدف</span>
+                                <i class="fas fa-sheet-plastic"></i>
+                            </a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <a href="./services.php?page=budget" class="<?= setPageActive('budget') ?>">
+                                <span>أعداد الميزانية</span>
+                                <i class="fas fa-sheet-plastic"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
 
                     <li>
                         <a href="./services.php?page=debts" class="<?= setPageActive('debts') ?>">
@@ -48,12 +62,21 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
-                            <span>خطة التقاعد</span>
-                            <i class="fas fa-money-check-dollar"></i>
-                        </a>
-                    </li>
+                    <?php if (!isset($user_retirement_plan) && !empty($user_retirement_plan)) { ?>
+                        <li>
+                            <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
+                                <span>خطة التقاعد</span>
+                                <i class="fas fa-money-check-dollar"></i>
+                            </a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <a href="./services.php?page=plan_chart" class="<?= setPageActive('plan_chart') ?>">
+                                <span>اعداد خطة التقاعد</span>
+                                <i class="fas fa-money-check-dollar"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
 
@@ -62,7 +85,7 @@
     </div>
 
     <div class="user dropdown">
-        <i class="fas fa-user"></i>
+        <img src="<?= $image ?>user.png" alt="">
 
         <ul class="dropList">
             <li>

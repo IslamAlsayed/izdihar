@@ -3,10 +3,10 @@ $pageTitle  = 'تسجيل الدخول';
 $noNavbar = '';
 include 'init.php';
 
-if (isset($_SESSION['username'])) {
-    header('Location: ./home.php');
-    exit();
-}
+// if (isset($_SESSION['username'])) {
+//     header('Location: ./home.php');
+//     exit();
+// }
 ?>
 
 <section class="authForm signin">
@@ -16,7 +16,7 @@ if (isset($_SESSION['username'])) {
         </div>
         <div class="form">
             <?php if (!empty($message['message'])) { ?>
-                <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
+            <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
             <?php } ?>
 
             <label class="error_validation"></label>
@@ -30,7 +30,7 @@ if (isset($_SESSION['username'])) {
                     <label for="email">الإيميل</label>
                 </div>
                 <div class="group">
-                    <input type="password" name="password" id="password" value="test123" placeholder=" " required />
+                    <input type="password" name="password" id="password" value="123456" placeholder=" " required />
                     <label for="password">كلمة المرور</label>
                 </div>
                 <div class="group">

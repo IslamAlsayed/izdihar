@@ -9,26 +9,28 @@
 
     <div class="row">
         <form id="insert_debt_form" class="form">
-            <label class="error_validation"></label>
-            <div class="group">
-                <label for="debt_type">نـــوع الدين</label>
-                <input type="text" name="debt_type" id="debt_type" placeholder="عقار .. طبي .. قرض دراسي .. دين قرض شخصي">
-            </div>
-            <div class="groups">
+            <div class="version">
+                <label class="error_validation"></label>
                 <div class="group">
-                    <label for="monthly_payment">الدفعه الشهرية</label>
-                    <input type="text" name="monthly_payment" id="monthly_payment">
+                    <label for="debt_goal">نـــوع الدين</label>
+                    <input type="text" name="debt_goal" id="debt_goal" placeholder="عقار .. طبي .. قرض دراسي .. دين قرض شخصي">
+                </div>
+                <div class="groups">
+                    <div class="group">
+                        <label for="monthly_payment">الدفعه الشهرية</label>
+                        <input type="text" name="monthly_payment" id="monthly_payment">
+                    </div>
+                    <div class="group">
+                        <label for="expenses">أجمالي مبلغ الدين</label>
+                        <input type="text" name="expenses" id="expenses">
+                    </div>
                 </div>
                 <div class="group">
-                    <label for="expenses">أجمالي مبلغ الدين</label>
-                    <input type="text" name="expenses" id="expenses">
+                    <label for="duration">المدة المتبقية للسداد</label>
+                    <input type="text" name="duration" id="duration" disabled>
                 </div>
+                <button type="submit" class="btn btn-dark" id="insert_debt">حفظ</button>
             </div>
-            <div class="group">
-                <label for="duration">المدة المتبقية للسداد</label>
-                <input type="text" name="duration" id="duration">
-            </div>
-            <button type="submit" class="btn btn-dark" id="save">حفظ</button>
         </form>
 
         <div class="image">
@@ -36,43 +38,3 @@
         </div>
     </div>
 </section>
-
-
-<!-- <section class="services-content">
-    <div class="head">
-        <h2 class="headSection">إدارة الديون</h2>
-
-        <a href="./services.php?page=debts_details" class="btn btn-dark">الديون</a>
-    </div>
-
-    <div class="content">
-        <div class="image">
-            <img src="<?= $image  . 'Business Plan-amico.png' ?>" alt="">
-        </div>
-        <div class="form">
-            <label class="error_validation"></label>
-            <form id="insert_debt_form">
-                <div class="group">
-                    <input type="text" name="debt_type" id="debt_type" placeholder=" ">
-                    <label for="debt_type">نوع الدين</label>
-                </div>
-                <div class="group">
-                    <input type="text" name="debt_amount" id="debt_amount" placeholder=" ">
-                    <label for="debt_amount">إجمالي مبلغ الدين</label>
-                </div>
-                <div class="group">
-                    <input type="text" name="debt_monthly" id="debt_monthly" placeholder=" ">
-                    <label for="debt_monthly">القسط الشهري</label>
-                </div>
-                <div class="group">
-                    <input type="text" name="duration" id="duration" placeholder=" ">
-                    <label for="duration">الفترة المتبقية للسداد بالشهر</label>
-                </div>
-
-                <div class="group">
-                    <button type="submit" name="insert_debt" id="insert_debt" class="btn btn-dark">خطة السداد</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</section> -->

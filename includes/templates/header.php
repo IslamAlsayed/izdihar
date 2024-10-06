@@ -1,7 +1,7 @@
 <?php $message = getFlashMessage(); ?>
 
 <?php if (!empty($message['message'])) { ?>
-    <div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
+<div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
 <?php } ?>
 
 <!DOCTYPE html>

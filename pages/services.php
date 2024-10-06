@@ -7,41 +7,41 @@
             <div class="image">
                 <img src="<?= $image . 'Money stress-pana.png' ?>">
             </div>
-            <a href="?page=offers">إدارة الديون</a>
+            <a href="./services.php?page=debts">إدارة الديون</a>
         </div>
         <div class="col">
             <div class="image">
                 <img src="<?= $image . 'Paid idea-bro.png' ?>">
             </div>
-            <a href="?page=education">تحديد الهدف</a>
+            <a href="./services.php?page=budget">تحديد الهدف</a>
         </div>
 
         <div class="col">
             <div class="image">
                 <img src="<?= $image . 'Business Plan-amico.png' ?>">
             </div>
-            <a href="?page=plan">إدارة الميزانية</a>
+            <a href="./services.php?page=budget">إدارة الميزانية</a>
         </div>
 
         <div class="col">
             <div class="image">
                 <img src="<?= $image . 'Site Stats-amico.png' ?>">
             </div>
-            <a href="?page=debts_details">التعليم والتوجيه</a>
+            <a href="./services.php?page=education">التعليم والتوجيه</a>
         </div>
 
         <div class="col">
             <div class="image">
                 <img src="<?= $image . 'Revenue-cuate.png' ?>">
             </div>
-            <a href="?page=budget">عروض الاستثمار</a>
+            <a href="#">عروض الاستثمار</a>
         </div>
 
         <div class="col">
             <div class="image">
                 <img src="<?= $image . 'Revenue-bro.png' ?>">
             </div>
-            <a href="?page=budget">خطة التقاعد</a>
+            <a href="./services.php?page=plan">خطة التقاعد</a>
         </div>
     </div>
 </section>

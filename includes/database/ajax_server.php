@@ -7,6 +7,7 @@ $message = ['status' => '', 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_GET['request'])) {
+
         $requestType = $_GET['request'];
         if ($requestType == 'plan') {
             handleRetirementPlan();
@@ -30,29 +31,29 @@ function handleRetirementPlan()
 {
     global $message;
 
-    $retirement_age = isset($_POST['retirement_age']) ? floatval($_POST['retirement_age']) : 0;
-    $user_old = isset($_POST['user_old']) ? floatval($_POST['user_old']) : 0;
-    $monthly_amount = isset($_POST['monthly_amount']) ? floatval($_POST['monthly_amount']) : 0;
-    $goal_retirement = isset($_POST['goal_retirement']) ? floatval($_POST['goal_retirement']) : 0;
-    $goal_type = isset($_POST['goal_type']) ? trim($_POST['goal_type']) : '';
+    $data = json_decode(file_get_contents('php://input'), true);
+    $retirement_age = isset($data['retirement_age']) ? floatval($data['retirement_age']) : 0;
+    $user_age = isset($data['user_age']) ? floatval($data['user_age']) : 0;
+    $debts_and_expenses = isset($data['debts_and_expenses']) ? floatval($data['debts_and_expenses']) : 0;
+    $monthly_income = isset($data['monthly_income']) ? floatval($data['monthly_income']) : 0;
+    $retirement_goal = isset($data['retirement_goal']) ? floatval($data['retirement_goal']) : 0;
 
-    if ($retirement_age <= 0 || $user_old <= 0 || $monthly_amount <= 0 || $goal_retirement <= 0 || empty($goal_type)) {
+    if ($retirement_age <= 0 || $user_age <= 0 || $debts_and_expenses <= 0 || $monthly_income <= 0 || $retirement_goal <= 0) {
         sendErrorResponse('كل الحقول يجب أن تكون صحيحة');
     }
 
     $data = [
         'retirement_age' => $retirement_age,
-        'user_old' => $user_old,
-        'monthly_amount' => $monthly_amount,
-        'goal_retirement' => $goal_retirement,
-        'goal_type' => $goal_type,
+        'user_age' => $user_age,
+        'monthly_income' => $monthly_income,
+        'debts_and_expenses' => $debts_and_expenses,
+        'retirement_goal' => $retirement_goal,
         'user_id' => $_SESSION['user_id']
     ];
 
     $row = insertRows('retirement_plan', $data);
 
-    if ($row) {
-        $_SESSION['plan_details'] = 'yes';
+    if ($row == true) {
         $message = ['status' => 'success', 'message' => 'تم إعداد خطة التقاعد.'];
     } else {
         sendErrorResponse('فشل الإنشاء.');
@@ -66,17 +67,19 @@ function handleDebt()
 {
     global $message;
 
-    $debt_type = isset($_POST['debt_type']) ? trim($_POST['debt_type']) : '';
-    $expenses = isset($_POST['expenses']) ? floatval($_POST['expenses']) : 0;
-    $monthly_payment = isset($_POST['monthly_payment']) ? floatval($_POST['monthly_payment']) : 0;
-    $duration = isset($_POST['duration']) ? floatval($_POST['duration']) : 0;
+    $data = json_decode(file_get_contents('php://input'), true);
+    $debt_goal = isset($data['debt_goal']) ? trim($data['debt_goal']) : '';
+    $expenses = isset($data['expenses']) ? floatval($data['expenses']) : 0;
+    $monthly_payment = isset($data['monthly_payment']) ? floatval($data['monthly_payment']) : 0;
+    $duration = isset($data['duration']) ? floatval($data['duration']) : 0;
 
-    if (empty($debt_type) || $expenses <= 0 || $monthly_payment < 0 || $duration < 0) {
+    // التحقق من القيم المدخلة
+    if (empty($debt_goal) || $expenses <= 0 || $monthly_payment < 0 || $duration < 0) {
         sendErrorResponse('كل الحقول يجب أن تكون صحيحة');
     }
 
     $data = [
-        'debt_type' => $debt_type,
+        'debt_goal' => $debt_goal,
         'expenses' => $expenses,
         'monthly_payment' => $monthly_payment,
         'duration' => $duration,
@@ -100,24 +103,30 @@ function handleBudget()
     global $message;
     global $connect;
 
-    $monthly_income = isset($_POST['monthly_income']) ? floatval($_POST['monthly_income']) : 0;
-    $expenses = isset($_POST['expenses']) ? floatval($_POST['expenses']) : 0;
-    $selling_goal = isset($_POST['selling_goal']) ? floatval($_POST['selling_goal']) : 0;
-    $target_type = isset($_POST['target_type']) ? trim($_POST['target_type']) : '';
-    $duration = isset($_POST['duration']) ? intval($_POST['duration']) : 0;
+    $data = json_decode(file_get_contents('php://input'), true);
+    $monthly_income = isset($data['monthly_income1']) ? floatval($data['monthly_income1']) : 0;
+    $expenses = isset($data['expenses']) ? json_decode($data['expenses'], true) : [];
+    $total_expenses = isset($data['total_expenses']) ? floatval($data['total_expenses']) : 0;
+    $selling_goal = isset($data['selling_goal']) ? floatval($data['selling_goal']) : 0;
+    $budget_goal = isset($data['budget_goal']) ? trim($data['budget_goal']) : '';
+    $goal_date = isset($data['goal_date']) ? intval($data['goal_date']) : 0;
 
     // تحقق من صحة البيانات
-    if ($monthly_income <= 0 || $expenses < 0 || $selling_goal <= 0 || empty($target_type) || $duration < 0) {
+    if ($monthly_income <= 0 || empty($expenses) || $total_expenses <= 0 || $selling_goal <= 0 || empty($budget_goal) || $goal_date < 0) {
         sendErrorResponse('البيانات غير صالحة');
     }
 
+    $user_id = $_SESSION['user_id'];
+    $user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
+
     $data = [
         'monthly_income' => $monthly_income,
-        'expenses' => $expenses,
-        'net_income' => $monthly_income - $expenses,
+        'expenses' => json_encode($expenses),
+        'total_expenses' => $total_expenses,
+        'net_income' => $user_retirement_plan['monthly_income'] - $total_expenses,
         'selling_goal' => $selling_goal,
-        'target_type' => $target_type,
-        'duration' => $duration,
+        'budget_goal' => $budget_goal,
+        'goal_date' => $goal_date,
         'user_id' => $_SESSION['user_id']
     ];
 
@@ -137,12 +146,12 @@ function handleBudget()
 function handleRegister()
 {
     global $message;
+    $data = json_decode(file_get_contents('php://input'), true);
 
-    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
-    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
-    $password_confirmation = isset($_POST['password_confirmation']) ? trim($_POST['password_confirmation']) : '';
-    $currency = isset($_POST['currency']) ? trim($_POST['currency']) : '';
+    $username = isset($data['username']) ? trim($data['username']) : '';
+    $email = isset($data['email']) ? trim($data['email']) : '';
+    $password = isset($data['password']) ? trim($data['password']) : '';
+    $password_confirmation = isset($data['password_confirmation']) ? trim($data['password_confirmation']) : '';
 
     // التحقق من صحة البيانات
     if (empty($username) || empty($email) || empty($password) || empty($password_confirmation)) {
@@ -158,7 +167,6 @@ function handleRegister()
         'username' => $username,
         'email' => $email,
         'password' => sha1($password),
-        'currency' => $currency,
     ];
 
     $row = insertRows('users', $data);
@@ -178,8 +186,9 @@ function handleSignin()
     global $connect;
     global $message;
 
-    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+    $data = json_decode(file_get_contents('php://input'), true);
+    $email = isset($data['email']) ? trim($data['email']) : '';
+    $password = isset($data['password']) ? trim($data['password']) : '';
 
     // التحقق من صحة البيانات
     if (empty($email) || empty($password)) {
@@ -196,7 +205,6 @@ function handleSignin()
         if ($user) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['currency'] = 'SAR';
             $message = ['status' => 'success', 'message' => 'لقد تم إنشاء الحساب بنجاح.'];
             echo json_encode($message);
             exit();

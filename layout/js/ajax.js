@@ -6,19 +6,17 @@ if (insert_plan) {
       e.preventDefault();
       let error_validation = document.querySelector(".error_validation");
       let retirement_age = document.getElementById("retirement_age");
-      let user_old = document.getElementById("user_old");
-      let monthly_amount = document.getElementById("monthly_amount");
-      let goal_retirement = document.getElementById("goal_retirement");
-      let goal_type = document.getElementById("goal_type");
+      let user_age = document.getElementById("user_age");
+      let monthly_income = document.getElementById("monthly_income");
+      let debts_and_expenses = document.getElementById("debts_and_expenses");
+      let retirement_goal = document.getElementById("retirement_goal");
 
-      if (
-        !retirement_age.value ||
-        !user_old.value ||
-        !monthly_amount.value ||
-        !goal_retirement.value ||
-        !goal_type.value
-      ) {
-        error_validation.classList.add("error_active");
+      error_validation.classList.add("error_active");
+
+      if (!user_age.value) {
+        user_age.focus();
+        error_validation.innerHTML = "عمرك مطلوب.";
+        return;
       }
 
       if (!retirement_age.value) {
@@ -27,267 +25,217 @@ if (insert_plan) {
         return;
       }
 
-      if (!user_old.value) {
-        user_old.focus();
-        error_validation.innerHTML = "عمرك مطلوب.";
-        return;
-      }
-
-      if (!monthly_amount.value) {
-        monthly_amount.focus();
+      if (!monthly_income.value) {
+        monthly_income.focus();
         error_validation.innerHTML = "القسط الشهري مطلوب.";
         return;
       }
 
-      if (!goal_retirement.value) {
-        goal_retirement.focus();
+      if (!debts_and_expenses.value) {
+        debts_and_expenses.focus();
         error_validation.innerHTML = "هدف التقاعد مطلوب.";
         return;
       }
 
-      if (!goal_type.value) {
-        goal_type.focus();
-        error_validation.innerHTML = "نوع هدف التقاعد مطلوب.";
+      if (!retirement_goal.value) {
+        retirement_goal.focus();
+        error_validation.innerHTML = "هدف التقاعد مطلوب.";
         return;
       }
 
       let data = {
         retirement_age: retirement_age.value,
-        user_old: user_old.value,
-        monthly_amount: monthly_amount.value,
-        goal_retirement: goal_retirement.value,
-        goal_type: goal_type.value,
+        user_age: user_age.value,
+        debts_and_expenses: debts_and_expenses.value,
+        monthly_income: monthly_income.value,
+        retirement_goal: retirement_goal.value,
       };
 
       insertData("plan", data, "تم إنشاء خطة التقاعد!");
     });
 }
 
-let save = document.getElementById("save");
-if (save) {
-  let debt_type = document.getElementById("debt_type");
-  let expenses = document.getElementById("expenses");
-  let monthly_payment = document.getElementById("monthly_payment");
-  let duration = document.getElementById("duration");
-
-  document.getElementById("insert_debt_form").addEventListener("input", () => {
-    if (expenses.value && monthly_payment.value && monthly_payment.value != 0) {
+let insert_debt_form = document.getElementById("insert_debt_form");
+if (insert_debt_form) {
+  insert_debt_form.addEventListener("keyup", () => {
+    if (expenses.value != 0 && monthly_payment.value != 0) {
       duration.value = Math.ceil(expenses.value / monthly_payment.value);
-    } else if (
-      !expenses.value ||
-      !monthly_payment.value ||
-      monthly_payment.value == 0
-    ) {
+    } else {
       duration.value = 0;
     }
   });
 
-  document
-    .getElementById("insert_debt_form")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
-      let error_validation = document.querySelector(".error_validation");
+  insert_debt_form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-      if (
-        !debt_type.value ||
-        !expenses.value ||
-        !monthly_payment.value ||
-        !duration.value
-      ) {
-        error_validation.classList.add("error_active");
-      }
+    let debt_goal = document.getElementById("debt_goal");
+    let expenses = document.getElementById("expenses");
+    let monthly_payment = document.getElementById("monthly_payment");
+    let duration = document.getElementById("duration");
+    let error_validation = document.querySelector(".error_validation");
 
-      if (!debt_type.value) {
-        debt_type.focus();
-        error_validation.innerHTML = "نوع الدين مطلوب.";
-        return;
-      }
+    // التحقق من المدخلات
+    if (!debt_goal.value) {
+      debt_goal.focus();
+      error_validation.innerHTML = "نوع الدين مطلوب.";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-      if (!expenses.value) {
-        expenses.focus();
-        error_validation.innerHTML = "كمية الدين مطلوبة.";
-        return;
-      }
+    if (!expenses.value) {
+      expenses.focus();
+      error_validation.innerHTML = "كمية الدين مطلوبة.";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-      if (!monthly_payment.value) {
-        monthly_payment.focus();
-        error_validation.innerHTML = "القسط الشهري مطلوب.";
-        return;
-      }
+    if (!monthly_payment.value) {
+      monthly_payment.focus();
+      error_validation.innerHTML = "القسط الشهري مطلوب.";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-      if (!duration.value) {
-        duration.focus();
-        error_validation.innerHTML = "المدة مطلوب.";
-        return;
-      }
+    let data = {
+      debt_goal: debt_goal.value,
+      expenses: expenses.value,
+      monthly_payment: monthly_payment.value,
+      duration: duration.value,
+    };
 
-      let data = {
-        debt_type: debt_type.value,
-        expenses: expenses.value,
-        monthly_payment: monthly_payment.value,
-        duration: duration.value,
-      };
-
-      insertData("debt", data, "تم إنشاء الدين!");
-    });
+    // استدعاء دالة الإدخال
+    insertData("debt", data, "تم إنشاء الدين!");
+  });
 }
 
-// let insert_budget = document.getElementById("insert_budget");
-// if (insert_budget) {
-//   let monthly_income = document.getElementById("monthly_income");
-//   let expenses = document.getElementById("expenses");
-//   let selling_goal = document.getElementById("selling_goal");
-//   let target_type = document.getElementById("target_type");
-//   let duration = document.getElementById("duration");
+let insert_budget_form = document.getElementById("insert_budget_form");
+if (insert_budget_form) {
+  insert_budget_form.addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
 
-//   document
-//     .getElementById("insert_budget_form")
-//     .addEventListener("keyup", () => {
-//       if (monthly_income.value && expenses.value && selling_goal.value) {
-//         duration.value = Math.ceil(
-//           selling_goal.value / (monthly_income.value - expenses.value)
-//         );
-//       } else if (
-//         monthly_income.value ||
-//         expenses.value ||
-//         expenses.value == 0
-//       ) {
-//         duration.value = 0;
-//       }
-//     });
+  let error_validation = document.querySelector(".error_validation");
+  let monthly_income1 = document.getElementById("monthly_income1");
+  let monthly_income2 = document.getElementById("monthly_income2");
+  let expensesInputs = document.querySelectorAll("input[name='expenses[]']");
+  let expensesTotalInput = document.getElementById("expenses");
+  let budget_goal = document.getElementById("budget_goal");
+  let goal_date = document.getElementById("goal_date");
+  let selling_goal = document.getElementById("selling_goal");
+  let more_details = document.getElementById("more_details");
+  let insert_budget = document.getElementById("insert_budget");
+  // تخزين المصروفات في كائن
+  let expensesObject = {};
 
-//   document
-//     .getElementById("insert_budget_form")
-//     .addEventListener("submit", function (e) {
-//       e.preventDefault();
-//       let error_validation = document.querySelector(".error_validation");
+  more_details.addEventListener("click", () => {
+    // تصفية المدخلات للحصول على القيم غير الفارغة
+    let expensesInputsFilter = Array.from(expensesInputs)
+      .map((input) => ({
+        key: input.dataset.key,
+        value: parseFloat(input.value) || 0,
+      }))
+      .filter((item) => item.value > 0);
 
-//       error_validation.classList.add("error_active");
+    if (expensesInputsFilter.length <= 0) {
+      expensesInputs[1].focus();
+      error_validation.classList.add("error_active");
+      error_validation.innerHTML = "المصروفات مطلوب!";
+      return;
+    }
 
-//       if (!monthly_income.value) {
-//         monthly_income.focus();
-//         error_validation.innerHTML = "الدخل الشهري مطلوب.";
-//         return;
-//       }
-//       if (!expenses.value) {
-//         expenses.focus();
-//         error_validation.innerHTML = "المصروفات مطلوبة.";
-//         return;
-//       }
-//       if (!selling_goal.value) {
-//         selling_goal.focus();
-//         error_validation.innerHTML = "سعر الهدف مطلوب.";
-//         return;
-//       }
-//       if (!target_type.value) {
-//         target_type.focus();
-//         error_validation.innerHTML = "الهدف مطلوبة.";
-//         return;
-//       }
-//       if (!duration.value) {
-//         duration.focus();
-//         error_validation.innerHTML = "المدة مطلوبة.";
-//         return;
-//       }
+    // اجمع المصروفات
+    expensesInputsFilter.forEach((item) => {
+      expensesObject[item.key] = item.value;
+    });
 
-//       let data = {
-//         monthly_income: monthly_income.value,
-//         expenses: expenses.value,
-//         selling_goal: selling_goal.value,
-//         target_type: target_type.value,
-//         duration: duration.value,
-//       };
+    // احسب إجمالي المصروفات
+    let total_expenses = Object.values(expensesObject).reduce(
+      (a, b) => a + b,
+      0
+    );
+    expensesTotalInput.value = total_expenses;
 
-//       insertData("budget", data, "تم إنشاء الميزانية!");
-//     });
-// }
+    // إخفاء النسخة الأولى وإظهار النسخة الثانية
+    document.querySelector(".version").style.display = "none";
+    document.querySelector(".more_details").style.display = "block";
+    error_validation.classList.remove("error_active");
 
-// let insert_budget = document.getElementById("insert_budget");
-// if (insert_budget) {
-//   document
-//     .getElementById("insert_budget_form")
-//     .addEventListener("submit", function (e) {
-//       e.preventDefault();
+    budget_goal.focus();
+  });
 
-//       let error_validation = document.querySelector(".error_validation");
-//       error_validation.classList.add("error_active");
-//       let array_expenses = document.querySelectorAll(
-//         "input[name='expenses[]']"
-//       );
-//       let monthly_income1 = document.querySelector(
-//         "input[name='monthly_income1']"
-//       );
-//       let monthly_income2 = document.querySelector(
-//         "input[name='monthly_income2']"
-//       );
-//       let budget_goal = document.querySelector("input[name='budget_goal']");
-//       let expenses = document.querySelector("input[name='expenses']");
-//       let goal_date = document.querySelector("input[name='goal_date']");
-//       let selling_goal = document.querySelector("input[name='selling_goal']");
+  insert_budget_form.addEventListener("keyup", (e) => {
+    if (
+      monthly_income1.value &&
+      expensesTotalInput.value &&
+      expensesTotalInput.value != "" &&
+      selling_goal.value &&
+      selling_goal.value != ""
+    ) {
+      goal_date.value = Math.ceil(
+        selling_goal.value / (monthly_income1.value - expensesTotalInput.value)
+      );
+    } else {
+      goal_date.value = 0;
+    }
 
-//       // تحويل المدخلات إلى مصفوفة وجلب القيم
-//       let expenseValues = Array.from(array_expenses)
-//         .map((input) => input.value)
-//         .filter((value) => value.trim() !== "");
+    monthly_income2.value = monthly_income1.value;
+    console.log(monthly_income2.value);
+  });
 
-//       if (!monthly_income1.value) {
-//         monthly_income1.focus();
-//         error_validation.innerHTML = "الدخل الشهري مطلوب!";
-//         return;
-//       } else if (expenseValues.length <= 0) {
-//         array_expenses[1].focus();
-//         error_validation.innerHTML = "اجمالي المصروفات مطلوب!";
-//         return;
-//       }
+  insert_budget.addEventListener("click", () => {
+    if (monthly_income1.value == "") {
+      monthly_income1.focus();
+      error_validation.innerHTML = "الدخل الشهري مطلوب!";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-//       monthly_income2.value = monthly_income1.value;
+    if (budget_goal.value == "") {
+      budget_goal.focus();
+      error_validation.innerHTML = "الهدف مطلوب!";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-//       if (budget_goal.length <= 0) {
-//         budget_goal.focus();
-//         error_validation.innerHTML = "الهدف مطلوب!";
-//         return;
-//       } else if (expenses.length <= 0) {
-//         expenses.focus();
-//         error_validation.innerHTML = "المصروفات مطلوب!";
-//         return;
-//       } else if (goal_date.length <= 0) {
-//         goal_date.focus();
-//         error_validation.innerHTML = "مبلغ الهدف مطلوب!";
-//         return;
-//       } else if (selling_goal.length <= 0) {
-//         selling_goal.focus();
-//         error_validation.innerHTML = "سعر الهدف مطلوبة!";
-//         return;
-//       }
+    if (selling_goal.value <= 0) {
+      selling_goal.focus();
+      error_validation.innerHTML = "مبلغ الهدف مطلوب!";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-//       const firstRow = document.querySelector(".row");
-//       const secondRow = document.querySelector(".row.hide");
+    if (goal_date.value <= 0) {
+      goal_date.focus();
+      error_validation.innerHTML = "تاريخ انجاز الهدف مطلوب!";
+      error_validation.classList.add("error_active");
+      return;
+    }
 
-//       if (firstRow && secondRow) {
-//         firstRow.classList.add("hide");
-//         secondRow.classList.remove("hide");
-//       }
+    let data = {
+      monthly_income1: monthly_income1.value,
+      expenses: JSON.stringify(expensesObject),
+      total_expenses: expensesTotalInput.value,
+      selling_goal: selling_goal.value,
+      budget_goal: budget_goal.value,
+      goal_date: goal_date.value,
+    };
 
-//       setTimeout(() => {
-//         firstRow.style.display = "none";
-//         error_validation.classList.remove("error_active");
-//       }, 150);
+    document.querySelector(".error_validation").classList.add("success_active");
+    document
+      .querySelector(".error_validation")
+      .classList.remove("error_active");
+    document.querySelector(".error_validation").innerHTML =
+      "تم إنشاء الميزانية";
+    setTimeout(() => {
+      document
+        .querySelector(".error_validation")
+        .classList.remove("success_active");
+      location.href = "./services.php?page=budget_chart";
+    }, 1000);
 
-//       let data = {
-//         monthly_income: monthly_income.value,
-//         expenses: expenses.value,
-//         selling_goal: selling_goal.value,
-//         target_type: target_type.value,
-//         duration: duration.value,
-//       };
-
-//       insertData("budget", data, "تم إنشاء الميزانية!");
-
-//       setTimeout(() => {
-//         error_validation.classList.remove("error_active");
-//       }, 2000);
-//     });
-// }
+    insertData("budget", data, "تم إنشاء الميزانية!");
+  });
+}
 
 let register = document.getElementById("register");
 if (register) {
@@ -302,15 +250,13 @@ if (register) {
       let password_confirmation = document.getElementById(
         "password_confirmation"
       );
-      let currency = document.getElementById("currency");
 
       if (
         !username.value ||
         !email.value ||
         !password.value ||
         !password_confirmation.value ||
-        password.value != password_confirmation.value ||
-        !currency.value
+        password.value != password_confirmation.value
       ) {
         error_validation.classList.add("error_active");
       }
@@ -340,12 +286,6 @@ if (register) {
         return;
       }
 
-      if (!currency.value) {
-        currency.focus();
-        error_validation.innerHTML = "العملة مطلوبة.";
-        return;
-      }
-
       // تحقق من تطابق كلمة المرور مع التأكيد
       if (password.value !== password_confirmation.value) {
         password_confirmation.focus();
@@ -359,91 +299,93 @@ if (register) {
         email: email.value,
         password: password.value,
         password_confirmation: password_confirmation.value,
-        currency: currency.value,
       };
 
+      location.href = "./";
       insertData("register", data, "تم إنشاء الحساب!");
     });
 }
 
-let signin = document.getElementById("signin");
-if (signin) {
-  document
-    .getElementById("signin_user")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
-      let error_validation = document.querySelector(".error_validation");
-      let email = document.getElementById("email");
-      let password = document.getElementById("password");
+let signin_user = document.getElementById("signin_user");
+if (signin_user) {
+  signin_user.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let error_validation = document.querySelector(".error_validation");
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
 
-      if (!email.value || !password.value) {
-        error_validation.classList.add("error_active");
-      }
+    if (!email.value || !password.value) {
+      error_validation.classList.add("error_active");
+    }
 
-      if (!email.value) {
-        email.focus();
-        error_validation.innerHTML = "البريد الإلكتروني مطلوب.";
-        return;
-      }
+    if (!email.value) {
+      email.focus();
+      error_validation.innerHTML = "البريد الإلكتروني مطلوب.";
+      return;
+    }
 
-      if (!password.value) {
-        password.focus();
-        error_validation.innerHTML = "كلمة المرور مطلوبة.";
-        return;
-      }
+    if (!password.value) {
+      password.focus();
+      error_validation.innerHTML = "كلمة المرور مطلوبة.";
+      return;
+    }
 
-      // إعداد البيانات لإرسالها
-      let data = {
-        email: email.value,
-        password: password.value,
-      };
+    // إعداد البيانات لإرسالها
+    let data = {
+      email: email.value,
+      password: password.value,
+    };
 
-      insertData("signin", data, "تم تسجيل الدخول!");
-    });
+    location.href = "./home.php";
+    insertData("signin", data, "تم تسجيل الدخول!");
+  });
 }
 
 function insertData(requestType, data, successMessage) {
   let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = () => {
     if (xhr.readyState == 4) {
-      let error_validation = document.querySelector(".error_validation");
       if (xhr.status == 200) {
         let response = JSON.parse(xhr.responseText);
+        console.log(response);
         if (response.status == "success") {
-          error_validation.innerHTML = successMessage;
+          document.querySelector(".error_validation").innerHTML =
+            successMessage;
           Object.keys(data).forEach((key) => {
             document.getElementById(key).value = "";
           });
-          error_validation.classList.remove("error_active");
-          error_validation.classList.add("success_active");
+          document
+            .querySelector(".error_validation")
+            .classList.remove("error_active");
+          document
+            .querySelector(".error_validation")
+            .classList.add("success_active");
 
           setTimeout(() => {
-            error_validation.classList.remove("success_active");
-          }, 3000);
+            document
+              .querySelector(".error_validation")
+              .classList.remove("success_active");
+          }, 1000);
 
           setTimeout(() => {
             if (requestType == "plan") {
-              location.href = "./services.php?page=plan_details";
+              location.href = "./services.php?page=plan_chart";
             }
             if (requestType == "debt") {
               location.href = "./services.php?page=debts_details";
             }
             if (requestType == "budget") {
-              location.href = "./services.php?page=budgets_details";
-            }
-            if (requestType == "register") {
-              location.href = "./";
-            }
-            if (requestType == "signin") {
-              location.href = "./home.php";
+              location.href = "./services.php?page=budgets_chart";
             }
           }, 1000);
         } else {
-          error_validation.innerHTML = response.message;
+          document.querySelector(".error_validation").innerHTML =
+            response.message;
         }
       } else {
         console.error("Error: " + xhr.status);
-        error_validation.innerHTML = "في مشكله! جرب مره أخري.";
+        document.querySelector(".error_validation").innerHTML =
+          "في مشكله! جرب مره أخري.";
       }
     }
   };
@@ -453,8 +395,8 @@ function insertData(requestType, data, successMessage) {
     `./includes/database/ajax_server.php?request=${requestType}`,
     true
   );
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.send(new URLSearchParams(data).toString());
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(JSON.stringify(data));
 }
 
 let profile_form = document.getElementById("profile_form");
@@ -477,10 +419,6 @@ fa_minuses.forEach((minus) => {
   minus.addEventListener("click", () => {
     console.log(minus.dataset.debt_id);
     updatedData("trash", minus.dataset.debt_id);
-
-    // let payment = minus.closest(".row").nextElementSibling;
-    // minus.classList.toggle("fa-rotate-180");
-    // if (payment) payment.classList.toggle("show");
   });
 });
 
@@ -525,7 +463,7 @@ function updatedData(requestType, id) {
 
           setTimeout(() => {
             customAlert.classList.remove("success");
-          }, 1000);
+          }, 2000);
         } else {
           customAlert.innerHTML = response.message;
         }

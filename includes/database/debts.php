@@ -40,7 +40,7 @@ function handleCheck($id)
             $check = "SELECT *,SUM(expenses) as total_expenses FROM `debts` WHERE `id`='$id'";
             $result = mysqli_query($connect, $check);
             $debt = mysqli_fetch_assoc($result);
-            sendSuccessResponse($debt, 'تم التحقق بنجاح.');
+            sendSuccessResponse($debt, 'تم الدفع بنجاح.');
         } else {
             sendErrorResponse('لم يتم التحقق.');
         }

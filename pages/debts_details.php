@@ -22,7 +22,7 @@ if (count($user_debts) <= 0) {
             <div class="tbody" id="debt_<?= $debt['id'] ?>">
                 <div class=" row">
                     <div class="col"><i class="fas fa-minus" data-debt_id="<?= $debt['id'] ?>"></i></div>
-                    <div class=" col"><?= $debt['debt_type'] ?></div>
+                    <div class=" col"><?= $debt['debt_goal'] ?></div>
                     <div class="col expenses_<?= $debt['id'] ?>"><?= $debt['expenses'] ?> ر.س</div>
                     <div class="col"><?= $debt['monthly_payment'] ?> ر.س</div>
                     <div class="col"><i class="fas fa-chevron-down"></i></div>
