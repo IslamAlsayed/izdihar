@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2024 at 03:03 AM
+-- Generation Time: Oct 06, 2024 at 09:15 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,14 +24,39 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `budgets`
+--
+
+CREATE TABLE `budgets` (
+  `id` int(11) NOT NULL,
+  `monthly_income` int(11) NOT NULL,
+  `expenses` int(11) NOT NULL,
+  `net_income` varchar(11) NOT NULL,
+  `selling_goal` varchar(11) NOT NULL,
+  `target_type` varchar(255) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `budgets`
+--
+
+INSERT INTO `budgets` (`id`, `monthly_income`, `expenses`, `net_income`, `selling_goal`, `target_type`, `duration`, `user_id`, `created_at`) VALUES
+(2, 25000, 16000, '9000', '100000', 'شراء سيارة', 12, 1, '2024-10-05 13:41:26');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `debts`
 --
 
 CREATE TABLE `debts` (
   `id` int(11) NOT NULL,
   `debt_type` varchar(255) NOT NULL,
-  `debt_amount` decimal(11,0) NOT NULL,
-  `debt_monthly` varchar(255) NOT NULL,
+  `expenses` decimal(11,0) NOT NULL,
+  `monthly_payment` varchar(255) NOT NULL,
   `duration` varchar(255) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -41,26 +66,20 @@ CREATE TABLE `debts` (
 -- Dumping data for table `debts`
 --
 
-INSERT INTO `debts` (`id`, `debt_type`, `debt_amount`, `debt_monthly`, `duration`, `user_id`, `created_at`) VALUES
+INSERT INTO `debts` (`id`, `debt_type`, `expenses`, `monthly_payment`, `duration`, `user_id`, `created_at`) VALUES
 (26, 'شخصي', 4500, '4500', '0', 2, '2024-11-04 00:32:06'),
 (27, 'ملابس', 7000, '3500', '2', 2, '2024-12-04 00:32:06'),
-(28, 'شخصي', 2500, '0', '0', 2, '2024-10-04 00:32:06'),
 (29, 'اثاث', 20000, '2000', '10', 2, '2025-01-04 00:32:06'),
-(30, 'انترنت', 9000, '0', '0', 2, '2024-10-04 02:25:54'),
-(31, 'ملابس', 8000, '1500', '6', 1, '2024-07-04 03:05:54'),
-(32, 'طعام', 4000, '0', '0', 1, '2024-08-04 03:06:15'),
-(33, 'انترنت', 2000, '500', '4', 1, '2024-09-04 03:07:53'),
-(34, 'اثاث', 7500, '0', '0', 1, '2024-10-04 03:09:22'),
-(35, 'شخصي', 8700, '0', '0', 1, '2024-11-04 03:11:33'),
-(36, 'ملابس', 9500, '0', '0', 1, '2024-12-04 03:19:19');
+(57, 'شخصي', 3000, '500', '10', 1, '2025-05-05 14:06:49'),
+(58, 'عقار', 50000, '1500', '34', 1, '2024-11-06 01:43:33');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `educational_material`
+-- Table structure for table `education`
 --
 
-CREATE TABLE `educational_material` (
+CREATE TABLE `education` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
@@ -71,20 +90,10 @@ CREATE TABLE `educational_material` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `educational_material`
+-- Dumping data for table `education`
 --
 
-INSERT INTO `educational_material` (`id`, `title`, `image`, `description`, `link`, `type`, `created_at`) VALUES
-(1, 'التمويل الشخصي: مفتاح النجاح المالي', '1.jpg', 'يعتبر التعليم المالي جزءًا أساسيًا من حياة الأفراد، حيث يساعدهم على تحقيق النجاح المالي. تبدأ رحلة الوعي المالي بفهم الأساسيات، مثل كيفية إعداد الميزانية، وتحديد مصادر الدخل والنفقات. التعليم المالي يمكّن الأفراد من اتخاذ قرارات مستنيرة حول كيفية إدارة أموالهم. من خلال ورش العمل والدورات التدريبية، يمكن للأشخاص تطوير مهاراتهم في التخطيط المالي. هذه المعرفة ليست مهمة فقط للمستقبل، بل تؤثر أيضًا على الحياة اليومية. بفضل التعليم المالي، يمكن تحسين القدرة على الادخار والاستثمار، مما يؤدي إلى حياة مالية مستقرة. في النهاية، الاستثمار في التعليم المالي هو استثمار في مستقبل مزدهر.', NULL, 'article', '2024-09-30 00:00:00'),
-(2, 'أهمية إعداد الميزانية لصحتك المالية', '2.jpg', 'إعداد الميزانية هو خطوة أساسية لتحقيق الاستقرار المالي. يساعد الأفراد في تتبع دخلهم ونفقاتهم، مما يمنحهم صورة واضحة عن وضعهم المالي. الميزانية تعمل على تحديد الأولويات وتساعد في تجنب النفقات غير الضرورية. من خلال تحليل النفقات، يمكن تحديد المجالات التي يمكن فيها توفير المال. يعد الادخار جزءًا مهمًا من الميزانية، حيث يجب تخصيص نسبة معينة من الدخل للادخار. الأفراد الذين يلتزمون بإعداد الميزانية يميلون إلى اتخاذ قرارات مالية أكثر حكمة. بشكل عام، إعداد الميزانية يعزز الوعي المالي ويمنح الأفراد السيطرة على أموالهم.', NULL, 'article', '2024-09-30 00:00:00'),
-(3, ' أساسيات الاستثمار: فهم الخيارات المختلفة', '3.jpg', 'يعتبر الاستثمار وسيلة فعالة لتحقيق النمو المالي على المدى الطويل. تشمل خيارات الاستثمار الأسهم، والسندات، والعقارات، كل منها يحمل مزاياه وعيوبه. يجب على المستثمرين الجدد فهم المخاطر المرتبطة بكل نوع من أنواع الاستثمار. يعد البحث والتحليل من الخطوات الأساسية لتحديد الخيار الأنسب. كما يُنصح ب diversifying (تنويع) المحفظة الاستثمارية لتقليل المخاطر. التعرف على الأسواق المالية وكيفية عملها يمكن أن يساعد المستثمرين في اتخاذ قرارات مستنيرة. الاستثمار الذكي يمكن أن يؤتي ثماره بمرور الوقت، مما يساهم في تحقيق الأهداف المالية.', NULL, 'article', '2024-09-30 00:00:00'),
-(4, 'التخطيط للتقاعد: ابدأ مبكرًا لمستقبل آمن', '4.jpg', 'التخطيط للتقاعد هو خطوة مهمة لضمان مستقبل مريح. كلما بدأت في التخطيط مبكرًا، زادت فرصتك لتحقيق الأمان المالي في مرحلة التقاعد. يجب على الأفراد تقدير التكاليف التي سيواجهونها بعد التقاعد، مثل نفقات المعيشة والرعاية الصحية. الادخار المنتظم هو أحد أفضل الطرق لضمان توفر المال عند التقاعد. يُنصح بفتح حسابات خاصة للتقاعد مثل IRA أو 401(k) للاستفادة من العوائد الضريبية. بجانب الادخار، يعتبر الاستثمار جزءًا أساسيًا من التخطيط للتقاعد. التخطيط الجيد يمكن أن يوفر لك الراحة النفسية ويجعل فترة التقاعد تجربة إيجابية.', NULL, 'article', '2024-09-30 00:00:00'),
-(5, 'استراتيجيات إدارة الديون من أجل الحرية المالية', '5.jpg', 'إدارة الديون تعتبر واحدة من أكبر التحديات التي يواجهها الكثيرون. أول خطوة في إدارة الديون هي تحديد مقدار الديون المستحقة وتوزيعها على فئات مختلفة. يمكن أن تساعد استراتيجيات مثل \"سداد الديون الأعلى فائدة أولًا\" أو \"تقسيم الديون إلى فئات\" في تسريع عملية السداد. من المهم وضع خطة واضحة لتحقيق سداد كامل الديون خلال فترة محددة. التفاوض مع الدائنين قد يكون خيارًا جيدًا لتخفيض الفوائد أو إعادة جدولة الدفعات. إدارة الديون بشكل فعال يمكن أن تعزز الثقة بالنفس وتمنح الأفراد حرية مالية أكبر. أخيرًا، التعلم من الأخطاء المالية السابقة يساعد في تجنب الوقوع في فخ الديون مرة أخرى.', NULL, 'article', '2024-09-30 00:00:00'),
-(6, 'فهم درجات الائتمان وأهميتها', '6.jpg', 'درجات الائتمان تلعب دورًا كبيرًا في تحديد القدرة على الحصول على قروض. تُعتبر الدرجة الجيدة علامة على السلوك المالي الجيد، مما يسهل الحصول على قروض بشروط أفضل. يمكن أن تؤثر عوامل مثل سداد الدفعات في الوقت المحدد ومقدار الديون المتراكمة على درجة الائتمان. من المهم مراقبة درجات الائتمان بانتظام وإصلاح أي أخطاء قد تظهر. يمكن للأفراد تحسين درجاتهم من خلال سداد الديون في الوقت المحدد وتقليل استخدام الائتمان. فهم النظام الائتماني وكيفية عمله يمكن أن يمنح الأفراد ميزة في إدارة أموالهم. درجات الائتمان هي أداة قوية لتحقيق الأهداف المالية.', NULL, 'article', '2024-09-30 00:00:00'),
-(7, 'الأهداف المالية: تحديد وتحقيق أهدافك', '7.jpg', 'تحديد الأهداف المالية هو جزء أساسي من التخطيط المالي الناجح. يجب أن تكون الأهداف محددة وقابلة للقياس، مثل الادخار لشراء منزل أو التقاعد. يمكن أن يساعد وضع خطة واضحة وتحليل الميزانية في تحقيق هذه الأهداف. من المهم أن تكون الأهداف واقعية وأن تُحدد جدول زمني لتحقيقها. العمل على تحقيق الأهداف المالية يعزز الدافع ويوفر شعورًا بالإنجاز. مراجعة الأهداف بشكل دوري وتعديلها حسب الحاجة يعزز الاستدامة المالية. الأهداف المالية تساعد الأفراد على التركيز والتقدم نحو مستقبل أفضل.', NULL, 'article', '2024-09-30 00:00:00'),
-(8, 'دور المستشارين الماليين: متى تطلب المساعدة', '8.jpg', 'قد يجد بعض الأفراد صعوبة في إدارة أموالهم بشكل مستقل، مما يجعل الاستعانة بمستشار مالي خيارًا منطقيًا. يمكن للمستشارين الماليين تقديم المشورة المتخصصة حول كيفية تحسين الوضع المالي. يجب على الأفراد البحث عن مستشار يتمتع بسمعة جيدة وموثوقية. تعتبر الاستشارة المالية مفيدة في وضع استراتيجيات الاستثمار وإدارة المخاطر. من المهم التواصل بشكل جيد مع المستشار لضمان فهم الأهداف المالية بشكل دقيق. يساعد المستشارون في تحقيق الأمان المالي من خلال تقديم استراتيجيات مخصصة تناسب احتياجات الأفراد. الاستعانة بالمستشارين يمكن أن تكون خطوة مهمة نحو تحقيق الأهداف المالية.', NULL, 'article', '2024-09-30 00:00:00'),
-(9, 'الادخار للطوارئ: بناء شبكة الأمان المالي', '9.jpg', 'الادخار للطوارئ يعد من أهم الخطوات لتحقيق الأمان المالي. يوصى بأن يكون لديك صندوق طوارئ يغطي نفقات ثلاثة إلى ستة أشهر من المصروفات. يساعد هذا الصندوق الأفراد في التعامل مع الظروف غير المتوقعة مثل فقدان العمل أو النفقات الطبية الطارئة. يجب تحديد مبلغ معين للادخار كل شهر لبناء هذا الصندوق تدريجيًا. يعتبر الادخار للطوارئ وسيلة لحماية نفسك من الضغوط المالية. بالإضافة إلى ذلك، يمكن أن يعزز هذا الادخار الثقة بالنفس ويمنحك شعورًا بالأمان. بشكل عام، يعد الادخار للطوارئ جزءًا أساسيًا من التخطيط المالي السليم.', NULL, 'article', '2024-09-30 00:00:00'),
-(10, 'سيكولوجية المال: فهم سلوكك المالي', '10.jpg', 'تؤثر العوامل النفسية بشكل كبير على كيفية إدارة الأفراد لأموالهم. من الضروري فهم سلوكيات الشراء والادخار، وكيفية تأثيرها على الوضع المالي. تتضمن سيكولوجية المال أيضًا التعامل مع المخاوف والضغوط المرتبطة بالمال. الوعي الذاتي يمكن أن يساعد الأفراد في اتخاذ قرارات مالية أكثر عقلانية. من المهم معالجة المشاعر السلبية المتعلقة بالمال مثل القلق والشعور بالذنب. التعلم من التجارب السابقة يساعد في تطوير سلوكيات مالية أفضل. بفهم سلوكياتك المالية، يمكنك تحسين قدرتك على إدارة أموالك بفعالية.', NULL, 'article', '2024-09-30 00:00:00'),
+INSERT INTO `education` (`id`, `title`, `image`, `description`, `link`, `type`, `created_at`) VALUES
 (50, 'التخطيط المالي\r\n', NULL, '', 'https://www.youtube.com/embed/Ru-yBS7wXEU?si=cknu1AUuyxjbhQ8g', 'video', '2024-10-03 12:33:34'),
 (51, 'كيف تخطط لحياتك المالية؟', NULL, '', 'https://www.youtube.com/embed/erADTfaK9Pk?si=QVJSQfN2AJqC7M5f', 'video', '2024-10-03 12:33:34'),
 (52, 'كيف تكتفي مالياً؟ مع صلاح خاشقجي', NULL, '', 'https://www.youtube.com/embed/reHvsmSHzhY?si=91afDytwTBxNUawg', 'video', '2024-10-03 12:33:34'),
@@ -116,8 +125,8 @@ CREATE TABLE `retirement_plan` (
 --
 
 INSERT INTO `retirement_plan` (`id`, `retirement_age`, `user_old`, `monthly_amount`, `goal_retirement`, `goal_type`, `user_id`, `created_at`) VALUES
-(37, 60, 23, 25000, '4000000', 'تقاعد', 2, '2024-10-03 19:33:25'),
-(38, 60, 24, 9000, '250000', 'زواج', 1, '2024-10-04 02:56:37');
+(38, 60, 24, 9000, '250000', 'زواج', 2, '2024-10-04 02:56:37'),
+(41, 60, 23, 25000, '2000000', 'تقاعد', 1, '2024-10-05 00:16:25');
 
 -- --------------------------------------------------------
 
@@ -159,7 +168,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `lang` varchar(255) NOT NULL,
+  `lang` varchar(255) NOT NULL DEFAULT 'en',
   `currency` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -177,6 +186,13 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `image`, `lang`, `cu
 --
 
 --
+-- Indexes for table `budgets`
+--
+ALTER TABLE `budgets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_budgets` (`user_id`);
+
+--
 -- Indexes for table `debts`
 --
 ALTER TABLE `debts`
@@ -184,9 +200,9 @@ ALTER TABLE `debts`
   ADD KEY `debt_user` (`user_id`);
 
 --
--- Indexes for table `educational_material`
+-- Indexes for table `education`
 --
-ALTER TABLE `educational_material`
+ALTER TABLE `education`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -213,22 +229,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `budgets`
+--
+ALTER TABLE `budgets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `debts`
 --
 ALTER TABLE `debts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
--- AUTO_INCREMENT for table `educational_material`
+-- AUTO_INCREMENT for table `education`
 --
-ALTER TABLE `educational_material`
+ALTER TABLE `education`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `retirement_plan`
 --
 ALTER TABLE `retirement_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `site`
@@ -240,11 +262,17 @@ ALTER TABLE `site`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `budgets`
+--
+ALTER TABLE `budgets`
+  ADD CONSTRAINT `user_budgets` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `debts`
