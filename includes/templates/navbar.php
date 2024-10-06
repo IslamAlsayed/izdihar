@@ -1,8 +1,11 @@
 <?php
-$user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
-$user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
-$user_budget = selectRows('*', 'budgets', "user_id=$user_id", '', '1');
+if (isset($_SESSION['user_id'])) {
+    $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
+    $user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
+    $user_budget = selectRows('*', 'budgets', "user_id=$user_id", '', '1');
+}
 ?>
+
 <nav class="navbar">
     <a href="./home.php" class="logo">
         <img src="<?= $image ?>logo.png" alt="">

@@ -3,10 +3,10 @@ $pageTitle  = 'تسجيل الدخول';
 $noNavbar = '';
 include 'init.php';
 
-// if (isset($_SESSION['username'])) {
-//     header('Location: ./home.php');
-//     exit();
-// }
+if (isset($_SESSION['username'])) {
+    header('Location: ./home.php');
+    exit();
+}
 ?>
 
 <section class="authForm signin">
