@@ -10,15 +10,14 @@ if (!isset($_SESSION['username'])) {
 
 <section class="services-content">
     <div class="head">
-        <h2 class="headSection">تواصل معنا</h2>
+        <h2>تواصل معنا</h2>
         <h3>نحن قادرون على تمهيد الطريق لنجاح عملك.</h3>
         <p>يرجى إعلامنا إذا كان لديك أي أسئلة، أو تريد ترك تعليق لنا، أو ترغب في معرفة المزيد عنا </p>
-        <p>الحل الأمثل لإدارة شؤونك المالية والتخطيط لمستقبلك المالي بكل سهولة واحترافية. هدفنا هو تمكينك من اتخاذ قرارات مالية مدروسة تضمن لك الرخاء المالي في كل مرحلة من مراحل حياتك.</p>
     </div>
 
     <div class="content">
         <div class="image">
-            <img src="<?= $image  . 'mi.jpeg' ?>" alt="">
+            <img src="<?= $image  . 'Contact us-bro.png' ?>" alt="">
         </div>
         <div class="form">
             <label class="error_validation"></label>
@@ -47,18 +46,6 @@ if (!isset($_SESSION['username'])) {
                     <button type="submit" name="contact" class="btn btn-dark">حفظ</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <div class="contact-tool">
-        <div class="col">
-            <span>رقم الواتساب</span>
-            <a href="mailto:"><?= $site['phone'] ?></a>
-        </div>
-        -
-        <div class="col">
-            <span>البريد الإلكتروني</span>
-            <a href="mailto:" class="email"><?= $site['email'] ?></a>
         </div>
     </div>
 </section>

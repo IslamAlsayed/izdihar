@@ -10,120 +10,155 @@ if (!isset($_SESSION['username'])) {
 
 <div class="homeSection_1 section">
     <div class="section-image">
-        <img src="<?= $image ?>mi.jpeg" alt="">
+        <img src="<?= $image ?>Revenue-pana.png" alt="">
     </div>
 
     <div class="section-text">
         <h2 class="site_name">إزدهار</h2>
 
-        <p>هو الحل الأمثل لإدارة شؤونك المالية والتخطيط لمستقبلك المالي بسهولة واحترافية. نحن نهدف إلى تمكينك من اتخاذ قرارات مالية مدروسة تضمن لك الرخاء المالي في جميع مراحل حياتك. من خلال أدواتنا المتطورة، نقدم لك تحليلات دقيقة وإرشادات واضحة
-            لتحقيق أهدافك المالية. انضم إلينا اليوم وابدأ رحلتك نحو الاستقلال المالي والثقة في إدارة مواردك. مع <b class="site_name">إزدهار</b>، أنت دائمًا على الطريق الصحيح نحو مستقبل مشرق.</p>
+        <p>الحل الأمثل لإدارة شؤونك المالية والتخطيط لمستقبلك المالي بكل سهولة واحترافية. هدفنا هو تمكينك من اتخاذ قرارات مالية مستنيرة تضمن لك الرخاء المالي في كل مرحلة من مراحل حياتك.</p>
 
         <div class="default-btn">
-            <a href="./services.php?page=budget" class="btn btn-dark">البدأ</a>
+            <a href="./services.php?page=budget" class="btn btn-dark">البدأ الأن</a>
+        </div>
+    </div>
+</div>
+
+<div class="homeSection_1 section">
+    <div class="section-text">
+        <h2 class="site_name">ماهــو ازدهــــار </h2>
+
+        <p> هو موقع يختص في التخطيط المالي يساعدك على وضع خطة مالية مبسطة تُمكنك من فهم وإدارة شؤونك المالية بوضوح. نقدم أدوات لإعداد الميزانية و تحديد أهدافك المالية و التخطيط لتقاعد مريح ووضع خطة فعالة لسداد ديونك. كما نوفر لك مجموعة من الكتب
+            والمقالات التي تساهم في زيادة الوعي المالي وتوجيهك نحو خطوات مدروسة لبناء مستقبل مالي أفضل.</p>
+    </div>
+
+    <div class="section-image">
+        <img src="<?= $image ?>Questions-pana.png" alt="">
+    </div>
+</div>
+
+<div class="homeSection_2">
+    <div class="head">
+        <h2>أهداف ازدهار</h2>
+        <div class="image">
+            <img src="<?= $image ?>Target-amico.png" alt="">
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="image">
+                <img src="<?= $image . 'Shared goals-amico.png' ?>" alt="">
+            </div>
+            <div class="text">تمكين الأفراد من اتخاذ قرارات مالية ذكية</div>
+        </div>
+        <div class="card">
+            <div class="image">
+                <img src="<?= $image . 'Goal-bro.png' ?>" alt="">
+            </div>
+            <div class="text">دعم الاستقلال المالي</div>
+        </div>
+        <div class="card">
+            <div class="image">
+                <img src="<?= $image . 'Investing-pana.png' ?>" alt="">
+            </div>
+            <div class="text">تشجيع التخطيط الطويل الأمد</div>
+        </div>
+        <div class="card">
+            <div class="image">
+                <img src="<?= $image . 'Personal finance-pana.png' ?>" alt="">
+            </div>
+            <div class="text"> تحقيق أهداف رؤية تطوير القطاع المالي في المملكة العربية السعودية لعام 2030.</div>
+        </div>
+    </div>
+</div>
+
+<div class="homeSection_2">
+    <div class="head">
+        <h2>خــدماتــنا</h2>
+        <div class="image">
+            <img src="<?= $image . 'Devices-amico.png' ?>" alt="">
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>الاهداف</h3>
+
+            <div class="content">
+                <img src="<?= $image . 'Paid idea-bro.png' ?>" alt="">
+                <p>خدمة الاهداف تتيح للمستخدم اختيار هدف مستقبل وتقدم له خطة لسير نحو تخقيق الهدف</p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>اعداد الميزانية</h3>
+
+            <div class="content">
+                <p>تتيح الخدمة تحليل الدخل والنفقات وتوزيع الأموال بطريقة تضمن تحقيق أهداف مالية واضحة، سواء كانت لتوفير، أو حتى التحكم في المصاريف اليومي</p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>العروض الاستثمارية</h3>
+
+            <div class="content">
+                <img src="<?= $image . 'Banknote-bro.png' ?>" alt="">
+                <p>قريبًا سنقدم مجموعة من العروض الاستثمارية لمساعدتك في تنمية أموالك. من خلال توفير للفرص الاستثمارية المتاحة التي تحقق لك عوائد مالية جيدة.</p>
+            </div>
+            <a href="#" class="btn btn-dark">قريبا</a>
+        </div>
+        <div class="card">
+            <h3>ادارة الديون</h3>
+
+            <div class="content">
+                <p>تتيح الخدمة تبسيط سداد الدين للمستخدم حيث تعرض مبلغد الدين و القسط والمدة وتحديد عند انتهائه</p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>خطة التقاعد</h3>
+
+            <div class="content">
+                <img src="<?= $image . 'Grandma-pana.png' ?>" alt="">
+                <p>توفر الخدمة اهداف مستقبلة لما بعد التقاعد حيث يتم حساب ما يريد المستخدم الوصول اليه ويتم تحديد ما القيمة التي سيصل اليها</p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>خطة التقاعد</h3>
+
+            <div class="content">
+                <img src="<?= $image . 'Data extraction-amico.png' ?>" alt="">
+                <p>نتيح الخدمة عدة مصارد لتعلم التخطيط المالي </p>
+            </div>
         </div>
     </div>
 </div>
 
 <section class="site_goals">
-    <h2 class="headSection">أهداف موقع "ازدهار"</h2>
+    <h2>مـــزايا أزدهــــار</h2>
 
     <div class="cards">
         <div class="card">
             <div class="icon">
-                <i class="fas fa-chart-pie"></i>
+                <i class="fas fa-desktop"></i>
             </div>
 
-            <div class="text">
-                تمكين الأفراد من اتخاذ قرارات مالية ذكية: يسعى الموقع إلى توفير الأدوات والمعلومات التي تساعد المستخدمين على فهم وضعهم المالي، مما يمكنهم من اتخاذ قرارات مالية أفضل وأكثر وعيًا.
-            </div>
+            <p>متوافق مع جميع الاجهزه</p>
         </div>
         <div class="card">
             <div class="icon">
-                <i class="fas fa-chart-column"></i>
+                <span>easy</span>
+                <i class="fas fa-hand-holding"></i>
             </div>
 
-            <div class="text">
-                مساعدة المستخدمين في تحقيق أهدافهم المالية: سواء كانت أهدافهم تتعلق بالادخار، الاستثمار، أو التخطيط للتقاعد، يوفر الموقع الأدوات والخطط التي تساعد على تحقيق هذه الأهداف بشكل مستدام وفعّال.
-            </div>
+            <p>سهل الاستخدام</p>
+
         </div>
         <div class="card">
             <div class="icon">
-                <i class="fas fa-ranking-star"></i>
+                <span>24</span>
+                <i class="fas fa-headset"></i>
             </div>
 
-            <div class="text">
-                دعم الاستقلال المالي: يهدف الموقع إلى مساعدة الأفراد في بناء استقلال مالي يمكنهم من الاعتماد على أنفسهم في اتخاذ القرارات المالية دون الحاجة إلى الاستعانة بمستشارين ماليين.
-            </div>
-        </div>
-        <div class="card">
-            <div class="icon">
-                <i class="fas fa-chart-simple"></i>
-            </div>
-
-            <div class="text">
-                تشجيع التخطيط الطويل الأمد: يركز الموقع على أهمية التخطيط للمستقبل من خلال تقديم أدوات مخصصة للتقاعد والاستثمار طويل الأمد، مما يساعد الأفراد على بناء ثروة مستدامة. </div>
-        </div>
-    </div>
-</section>
-
-<section class="site_goals site_helps_you">
-    <h2 class="headSection">كيف يساعدك الموقع</h2>
-
-    <div class="cards">
-        <div class="card">
-            <div class="icon">
-                <i class="fas fa-chart-line"></i>
-            </div>
-
-            <div class="text">
-                اتخاذ قرارات مالية أفضل : يقدم الموقع أدوات تحليلية تساعدك على فهم نمط إنفاقك وكيفية تحسينه.
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="icon">
-                <i class="fas fa-bullseye"></i>
-            </div>
-
-            <div class="text">
-                تحقيق الأهداف المالية: سواء كان هدفك شراء منزل، سداد ديون، أو التخطيط للتقاعد، "ازدهار" يوفر لك الأدوات التي تحتاجها لتحقيق هذه الأهداف. </div>
-        </div>
-
-        <div class="card">
-            <div class="icon">
-                <i class="fas fa-slideshare"></i>
-            </div>
-
-            <div class="text">
-                تعزيز الوعي المالي: من خلال موارد تعليمية وإرشادية
-            </div>
-        </div>
-</section>
-
-<section class="site_goals site_helps_you">
-    <h2 class="headSection">للميزانية والتخطيط والتوقعات يتيح لك التركيز على عملك CCH Tagetik أسباب تجعل برنامج 3</h2>
-
-    <div class="cards">
-        <div class="card">
-            <h3 class="title">توقع النتائج</h3>
-
-            <div class="text">
-                باستخدام التخطيط والتنبؤ التنيني، يمكنك تحويل مليارات الأسطر من البيانات العام إلى اتجاهات ورؤى يمكنها توفير الوقت والمال المنظمك </div>
-        </div>
-
-        <div class="card">
-            <h3 class="title">فهم التأثيرات</h3>
-
-            <div class="text">
-                يمكنك التعمق في البيانات المنخفضة المستوى والتخطيط على أي مستوى لاستخدام محركات التفصيلية وتفصل المعلومات المالية والتشغيلية المتوافقة والأبعاد غير المحدودة التي يمكنك استكشافها، يمكنك التاج تحليل متعمق. الربحية </div>
-        </div>
-
-        <div class="card">
-            <h3 class="title">اتخذ قرارا أسرع</h3>
-
-            <div class="text">
-                قم بتشريع وقت رد فعلك واتخاذ قرارات أسرع. تتيح لك عمليات المحاكاة القائمة على السائق في الوقت الفعلي والأئمنة المدمجة المرونة اللازمة للتخطيط الطريقك في أي وقت </div>
+            <p>يمكن الوصول إليها</p>
         </div>
     </div>
 </section>

@@ -5,7 +5,7 @@ function selectRows($select, $table, $where, $order, $limit)
     global $connect;
 
     if (!empty($order) && $order != '*') {
-        $order = "ORDER BY $order DESC";
+        $order = "ORDER BY $order ASC";
     } else {
         $order = '';
     }

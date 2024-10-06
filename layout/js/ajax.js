@@ -63,19 +63,20 @@ if (insert_plan) {
     });
 }
 
-let insert_debt = document.getElementById("insert_debt");
-if (insert_debt) {
-  let debt_amount = document.getElementById("debt_amount");
-  let debt_monthly = document.getElementById("debt_monthly");
+let save = document.getElementById("save");
+if (save) {
+  let debt_type = document.getElementById("debt_type");
+  let expenses = document.getElementById("expenses");
+  let monthly_payment = document.getElementById("monthly_payment");
   let duration = document.getElementById("duration");
 
   document.getElementById("insert_debt_form").addEventListener("input", () => {
-    if (debt_amount.value && debt_monthly.value && debt_monthly.value != 0) {
-      duration.value = Math.ceil(debt_amount.value / debt_monthly.value);
+    if (expenses.value && monthly_payment.value && monthly_payment.value != 0) {
+      duration.value = Math.ceil(expenses.value / monthly_payment.value);
     } else if (
-      !debt_amount.value ||
-      !debt_monthly.value ||
-      debt_monthly.value == 0
+      !expenses.value ||
+      !monthly_payment.value ||
+      monthly_payment.value == 0
     ) {
       duration.value = 0;
     }
@@ -86,12 +87,11 @@ if (insert_debt) {
     .addEventListener("submit", function (e) {
       e.preventDefault();
       let error_validation = document.querySelector(".error_validation");
-      let debt_type = document.getElementById("debt_type");
 
       if (
         !debt_type.value ||
-        !debt_amount.value ||
-        !debt_monthly.value ||
+        !expenses.value ||
+        !monthly_payment.value ||
         !duration.value
       ) {
         error_validation.classList.add("error_active");
@@ -103,28 +103,28 @@ if (insert_debt) {
         return;
       }
 
-      if (!debt_amount.value) {
-        debt_amount.focus();
+      if (!expenses.value) {
+        expenses.focus();
         error_validation.innerHTML = "كمية الدين مطلوبة.";
         return;
       }
 
-      if (!debt_monthly.value) {
-        debt_monthly.focus();
+      if (!monthly_payment.value) {
+        monthly_payment.focus();
         error_validation.innerHTML = "القسط الشهري مطلوب.";
         return;
       }
 
       if (!duration.value) {
         duration.focus();
-        error_validation.innerHTML = "مدة التأخير مطلوب.";
+        error_validation.innerHTML = "المدة مطلوب.";
         return;
       }
 
       let data = {
         debt_type: debt_type.value,
-        debt_amount: debt_amount.value,
-        debt_monthly: debt_monthly.value,
+        expenses: expenses.value,
+        monthly_payment: monthly_payment.value,
         duration: duration.value,
       };
 
@@ -132,75 +132,162 @@ if (insert_debt) {
     });
 }
 
-let insert_budget = document.getElementById("insert_budget");
-if (insert_budget) {
-  let monthly_amount = document.getElementById("monthly_amount");
-  let expenses = document.getElementById("expenses");
-  let goal_amount = document.getElementById("goal_amount");
-  let duration = document.getElementById("duration");
+// let insert_budget = document.getElementById("insert_budget");
+// if (insert_budget) {
+//   let monthly_income = document.getElementById("monthly_income");
+//   let expenses = document.getElementById("expenses");
+//   let selling_goal = document.getElementById("selling_goal");
+//   let target_type = document.getElementById("target_type");
+//   let duration = document.getElementById("duration");
 
-  document
-    .getElementById("insert_budget_form")
-    .addEventListener("input", () => {
-      if (monthly_amount.value && expenses.value && expenses.value != 0) {
-        duration.value = Math.ceil(
-          goal_amount.value / (monthly_amount.value - expenses.value)
-        );
-      } else if (
-        !monthly_amount.value ||
-        !expenses.value ||
-        expenses.value == 0
-      ) {
-        duration.value = 0;
-      }
-    });
+//   document
+//     .getElementById("insert_budget_form")
+//     .addEventListener("keyup", () => {
+//       if (monthly_income.value && expenses.value && selling_goal.value) {
+//         duration.value = Math.ceil(
+//           selling_goal.value / (monthly_income.value - expenses.value)
+//         );
+//       } else if (
+//         monthly_income.value ||
+//         expenses.value ||
+//         expenses.value == 0
+//       ) {
+//         duration.value = 0;
+//       }
+//     });
 
-  document
-    .getElementById("insert_budget_form")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
-      let error_validation = document.querySelector(".error_validation");
+//   document
+//     .getElementById("insert_budget_form")
+//     .addEventListener("submit", function (e) {
+//       e.preventDefault();
+//       let error_validation = document.querySelector(".error_validation");
 
-      if (
-        !monthly_amount.value ||
-        !expenses.value ||
-        !goal_amount.value ||
-        !duration.value
-      ) {
-        error_validation.classList.add("error_active");
-      }
+//       error_validation.classList.add("error_active");
 
-      if (!monthly_amount.value) {
-        monthly_amount.focus();
-        error_validation.innerHTML = "الدخل الشهري مطلوب.";
-        return;
-      }
-      if (!expenses.value) {
-        expenses.focus();
-        error_validation.innerHTML = "المصروفات مطلوبة.";
-        return;
-      }
-      if (!goal_amount.value) {
-        goal_amount.focus();
-        error_validation.innerHTML = "مبلغ الهدف مطلوب.";
-        return;
-      }
-      if (!duration.value) {
-        duration.focus();
-        error_validation.innerHTML = "المدة مطلوبة.";
-        return;
-      }
+//       if (!monthly_income.value) {
+//         monthly_income.focus();
+//         error_validation.innerHTML = "الدخل الشهري مطلوب.";
+//         return;
+//       }
+//       if (!expenses.value) {
+//         expenses.focus();
+//         error_validation.innerHTML = "المصروفات مطلوبة.";
+//         return;
+//       }
+//       if (!selling_goal.value) {
+//         selling_goal.focus();
+//         error_validation.innerHTML = "سعر الهدف مطلوب.";
+//         return;
+//       }
+//       if (!target_type.value) {
+//         target_type.focus();
+//         error_validation.innerHTML = "الهدف مطلوبة.";
+//         return;
+//       }
+//       if (!duration.value) {
+//         duration.focus();
+//         error_validation.innerHTML = "المدة مطلوبة.";
+//         return;
+//       }
 
-      let data = {
-        monthly_amount: monthly_amount.value,
-        expenses: expenses.value,
-        goal_amount: goal_amount.value,
-        duration: duration.value,
-      };
+//       let data = {
+//         monthly_income: monthly_income.value,
+//         expenses: expenses.value,
+//         selling_goal: selling_goal.value,
+//         target_type: target_type.value,
+//         duration: duration.value,
+//       };
 
-      insertData("budget", data, "تم إنشاء الميزانية!");
-    });
-}
+//       insertData("budget", data, "تم إنشاء الميزانية!");
+//     });
+// }
+
+// let insert_budget = document.getElementById("insert_budget");
+// if (insert_budget) {
+//   document
+//     .getElementById("insert_budget_form")
+//     .addEventListener("submit", function (e) {
+//       e.preventDefault();
+
+//       let error_validation = document.querySelector(".error_validation");
+//       error_validation.classList.add("error_active");
+//       let array_expenses = document.querySelectorAll(
+//         "input[name='expenses[]']"
+//       );
+//       let monthly_income1 = document.querySelector(
+//         "input[name='monthly_income1']"
+//       );
+//       let monthly_income2 = document.querySelector(
+//         "input[name='monthly_income2']"
+//       );
+//       let budget_goal = document.querySelector("input[name='budget_goal']");
+//       let expenses = document.querySelector("input[name='expenses']");
+//       let goal_date = document.querySelector("input[name='goal_date']");
+//       let selling_goal = document.querySelector("input[name='selling_goal']");
+
+//       // تحويل المدخلات إلى مصفوفة وجلب القيم
+//       let expenseValues = Array.from(array_expenses)
+//         .map((input) => input.value)
+//         .filter((value) => value.trim() !== "");
+
+//       if (!monthly_income1.value) {
+//         monthly_income1.focus();
+//         error_validation.innerHTML = "الدخل الشهري مطلوب!";
+//         return;
+//       } else if (expenseValues.length <= 0) {
+//         array_expenses[1].focus();
+//         error_validation.innerHTML = "اجمالي المصروفات مطلوب!";
+//         return;
+//       }
+
+//       monthly_income2.value = monthly_income1.value;
+
+//       if (budget_goal.length <= 0) {
+//         budget_goal.focus();
+//         error_validation.innerHTML = "الهدف مطلوب!";
+//         return;
+//       } else if (expenses.length <= 0) {
+//         expenses.focus();
+//         error_validation.innerHTML = "المصروفات مطلوب!";
+//         return;
+//       } else if (goal_date.length <= 0) {
+//         goal_date.focus();
+//         error_validation.innerHTML = "مبلغ الهدف مطلوب!";
+//         return;
+//       } else if (selling_goal.length <= 0) {
+//         selling_goal.focus();
+//         error_validation.innerHTML = "سعر الهدف مطلوبة!";
+//         return;
+//       }
+
+//       const firstRow = document.querySelector(".row");
+//       const secondRow = document.querySelector(".row.hide");
+
+//       if (firstRow && secondRow) {
+//         firstRow.classList.add("hide");
+//         secondRow.classList.remove("hide");
+//       }
+
+//       setTimeout(() => {
+//         firstRow.style.display = "none";
+//         error_validation.classList.remove("error_active");
+//       }, 150);
+
+//       let data = {
+//         monthly_income: monthly_income.value,
+//         expenses: expenses.value,
+//         selling_goal: selling_goal.value,
+//         target_type: target_type.value,
+//         duration: duration.value,
+//       };
+
+//       insertData("budget", data, "تم إنشاء الميزانية!");
+
+//       setTimeout(() => {
+//         error_validation.classList.remove("error_active");
+//       }, 2000);
+//     });
+// }
 
 let register = document.getElementById("register");
 if (register) {
@@ -342,7 +429,7 @@ function insertData(requestType, data, successMessage) {
               location.href = "./services.php?page=debts_details";
             }
             if (requestType == "budget") {
-              location.href = "./services.php?page=budget";
+              location.href = "./services.php?page=budgets_details";
             }
             if (requestType == "register") {
               location.href = "./";
@@ -382,4 +469,78 @@ if (profile_form) {
   profile_form.addEventListener("change", () => {
     profile_submit.classList.remove("disabled");
   });
+}
+
+// Function debts
+let fa_minuses = document.querySelectorAll(".tbody .fa-minus");
+fa_minuses.forEach((minus) => {
+  minus.addEventListener("click", () => {
+    console.log(minus.dataset.debt_id);
+    updatedData("trash", minus.dataset.debt_id);
+
+    // let payment = minus.closest(".row").nextElementSibling;
+    // minus.classList.toggle("fa-rotate-180");
+    // if (payment) payment.classList.toggle("show");
+  });
+});
+
+let fa_chevron_downs = document.querySelectorAll(".tbody .fa-chevron-down");
+fa_chevron_downs.forEach((chevron) => {
+  chevron.addEventListener("click", () => {
+    let payment = chevron.closest(".row").nextElementSibling;
+    chevron.classList.toggle("fa-rotate-180");
+    if (payment) payment.classList.toggle("show");
+  });
+});
+
+let update_debts = document.querySelectorAll(".update_debt");
+update_debts.forEach((debt) => {
+  debt.addEventListener("click", () => {
+    debt.classList.add("fa-check");
+    debt.classList.add("disabled");
+    debt.classList.remove("fa-circle");
+    updatedData("check", debt.dataset.debt_id);
+  });
+});
+
+function updatedData(requestType, id) {
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4) {
+      let customAlert = document.querySelector(".customAlert");
+      if (xhr.status == 200) {
+        let response = JSON.parse(xhr.responseText);
+        console.log(response);
+        if (response.status == "success") {
+          customAlert.innerHTML = response.message;
+          customAlert.classList.add("success");
+
+          if (requestType == "check") {
+            document.querySelector(
+              `.expenses_${id}`
+            ).innerHTML = `${response.data.total_expenses} ر.س`;
+          } else if (requestType == "trash") {
+            document.getElementById(`debt_${id}`).remove();
+          }
+
+          setTimeout(() => {
+            customAlert.classList.remove("success");
+          }, 1000);
+        } else {
+          customAlert.innerHTML = response.message;
+        }
+      } else {
+        console.error("Error: " + xhr.status);
+        customAlert.innerHTML = "في مشكلة! جرب مرة أخرى.";
+      }
+    }
+  };
+
+  xhr.open(
+    "POST",
+    `./includes/database/debts.php?request=${requestType}`,
+    true
+  );
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("id=" + encodeURIComponent(id));
 }

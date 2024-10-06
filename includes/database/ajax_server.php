@@ -67,18 +67,18 @@ function handleDebt()
     global $message;
 
     $debt_type = isset($_POST['debt_type']) ? trim($_POST['debt_type']) : '';
-    $debt_amount = isset($_POST['debt_amount']) ? floatval($_POST['debt_amount']) : 0;
-    $debt_monthly = isset($_POST['debt_monthly']) ? floatval($_POST['debt_monthly']) : 0;
+    $expenses = isset($_POST['expenses']) ? floatval($_POST['expenses']) : 0;
+    $monthly_payment = isset($_POST['monthly_payment']) ? floatval($_POST['monthly_payment']) : 0;
     $duration = isset($_POST['duration']) ? floatval($_POST['duration']) : 0;
 
-    if (empty($debt_type) || $debt_amount <= 0) {
+    if (empty($debt_type) || $expenses <= 0 || $monthly_payment < 0 || $duration < 0) {
         sendErrorResponse('كل الحقول يجب أن تكون صحيحة');
     }
 
     $data = [
         'debt_type' => $debt_type,
-        'debt_amount' => $debt_amount,
-        'debt_monthly' => $debt_monthly,
+        'expenses' => $expenses,
+        'monthly_payment' => $monthly_payment,
         'duration' => $duration,
         'user_id' => $_SESSION['user_id'],
     ];
@@ -98,58 +98,38 @@ function handleDebt()
 function handleBudget()
 {
     global $message;
+    global $connect;
 
-    $monthly_amount = isset($_POST['monthly_amount']) ? floatval($_POST['monthly_amount']) : 0;
+    $monthly_income = isset($_POST['monthly_income']) ? floatval($_POST['monthly_income']) : 0;
     $expenses = isset($_POST['expenses']) ? floatval($_POST['expenses']) : 0;
-    // $goal_type = isset($_POST['goal_type']) ? trim($_POST['goal_type']) : '';
-    $goal_amount = isset($_POST['goal_amount']) ? floatval($_POST['goal_amount']) : 0;
+    $selling_goal = isset($_POST['selling_goal']) ? floatval($_POST['selling_goal']) : 0;
+    $target_type = isset($_POST['target_type']) ? trim($_POST['target_type']) : '';
     $duration = isset($_POST['duration']) ? intval($_POST['duration']) : 0;
 
     // تحقق من صحة البيانات
-    if ($monthly_amount <= 0 || $expenses < 0 || $goal_amount <= 0 || $duration <= 0) {
+    if ($monthly_income <= 0 || $expenses < 0 || $selling_goal <= 0 || empty($target_type) || $duration < 0) {
         sendErrorResponse('البيانات غير صالحة');
     }
 
-    // حساب الدخل الصافي
-    $netIncome = $monthly_amount - $expenses;
-    $current_amount = 0;
-
-    // تأكد من أن الدخل الصافي موجب
-    if ($netIncome > 0) {
-        while ($current_amount < $goal_amount) {
-            $current_amount += $netIncome;
-
-            // إذا كنت ترغب في وضع حد لحساب المبلغ الحالي، يمكنك إضافة شرط هنا
-            if ($current_amount >= $goal_amount) {
-                break;
-            }
-        }
-    }
-
-    // يمكنك الاحتفاظ بمبلغ الدخل الصافي كقيمة نهائية إذا كنت تحتاج لذلك
-    $current_amount = min($current_amount, $goal_amount); // التأكد من أن current_amount لا يتجاوز الهدف
-
-    while ($current_amount < $goal_amount) {
-        $current_amount += $netIncome;
-    }
-
     $data = [
-        'monthly_amount' => $monthly_amount,
+        'monthly_income' => $monthly_income,
         'expenses' => $expenses,
-        'target_amount' => $goal_amount,
+        'net_income' => $monthly_income - $expenses,
+        'selling_goal' => $selling_goal,
+        'target_type' => $target_type,
         'duration' => $duration,
-        'currency' => $_SESSION['currency'],
         'user_id' => $_SESSION['user_id']
     ];
 
-    $row = insertRows('budget', $data);
+    $row = insertRows('budgets', $data);
 
     if ($row) {
         $message = ['status' => 'success', 'message' => 'لقد تم إعداد الميزانية.'];
     } else {
-        sendErrorResponse('فشل الإنشاء.');
+        sendErrorResponse('فشل الإنشاء: ' . mysqli_error($connect));
     }
 
+    header('Content-Type: application/json');
     echo json_encode($message);
     exit();
 }

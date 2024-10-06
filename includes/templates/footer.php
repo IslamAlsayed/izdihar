@@ -4,39 +4,38 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2>مساعدة</h2>
+                <p>روابط مهمة</p>
+
+                <ul>
+                    <li><a href="./home.php">الرئيسية</a></li>
+                    <li><a href="./about.php">من نحن</a></li>
+                    <li><a href="./services.php?page=privacy">الخصوصية</a></li>
+                    <li><a href="./services.php?page=conditions">الشروط والأحكام</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <p>مساعدة</p>
                 <ul>
                     <li>
                         <a href="mailto:<?= $site['email'] ?>">
-                            <i class="fas fa-envelope"></i>
+                            <i class="far fa-envelope"></i>
                             <span class="email"><?= $site['email'] ?></span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class="fas fa-paper-plane"></i>
+                        <a href="./contact.php">
+                            <i class="far fa-comments"></i>
                             <span>تواصل معنا</span>
                         </a>
                     </li>
                 </ul>
             </div>
-
-            <div class="col">
-                <h2>روابط سريعة</h2>
-
-                <ul>
-                    <li><a href="./home.php">الرئيسية</a></li>
-                    <li><a href="./services.php?page=privacy">الخصوصية</a></li>
-                    <li><a href="./services.php?page=conditions">الشروط والأحكام</a></li>
-                </ul>
-            </div>
         </div>
 
-        <!-- <div class="row">
-            <h2>about us</h2>
-            <p>
-            </p>
-        </div> -->
+        <div class="image">
+            <img src="<?= $image . 'Mention-bro.png' ?>" alt="">
+        </div>
     </div>
 </footer>
 

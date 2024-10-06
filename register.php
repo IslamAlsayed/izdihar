@@ -1,13 +1,14 @@
 <?php
 $pageTitle = 'إنشاء حساب';
+$noNavbar = '';
 include './init.php';
 
+$message = getFlashMessage();
 if (isset($_SESSION['username'])) {
     header('Location: ./home.php');
     exit();
 }
 
-$message = getFlashMessage();
 ?>
 
 <?php if (!empty($message['message'])) { ?>
@@ -17,7 +18,7 @@ $message = getFlashMessage();
 <section class="authForm register">
     <div class="form-content">
         <div class="image">
-            <img src="<?= $image ?>one.jpeg" alt="">
+            <img src="<?= $image ?>Tablet login-amico.png" alt="">
         </div>
         <div class="form">
             <?php if (!empty($message['message'])) { ?>
@@ -30,7 +31,7 @@ $message = getFlashMessage();
             <form id="register_user">
                 <div class="group">
                     <input type="text" name="username" id="username" placeholder=" " />
-                    <label for="username">الاسم</label>
+                    <label for="username">الإسم</label>
                 </div>
                 <div class="group">
                     <input type="email" class="email" name="email" id="email" placeholder=" " />
@@ -45,13 +46,6 @@ $message = getFlashMessage();
                         <input type="password" name="password_confirmation" id="password_confirmation" placeholder=" " />
                         <label for="password_confirmation">تأكيد كلمة المرور</label>
                     </div>
-                </div>
-                <div class="group">
-                    <select name="currency" id="currency">
-                        <option value="">العملة</option>
-                        <option value="egp">egp</option>
-                        <option value="sar">sar</option>
-                    </select>
                 </div>
 
                 <div class="group">

@@ -1,51 +1,50 @@
-<?php
-$user_debts = selectRows('*', 'debts', "user_id=$user_id", '', '*');
+<?php $user_debts = selectRows('*', 'debts', "duration!=0 AND user_id=$user_id", '', '*');
 
 if (count($user_debts) <= 0) {
-    header('Location: ./services.php?page=add_debt');
+    header('Location: ./services.php?page=debts');
     exit();
-}
-
-$total_debt_amount = 0;
-$total_debt_monthly = 0;
-
-foreach ($user_debts as $debt) {
-    $total_debt_amount += isset($debt['debt_amount']) ? $debt['debt_amount'] : 0;
-    $total_debt_monthly += isset($debt['debt_monthly']) ? $debt['debt_monthly'] : 0;
 }
 ?>
 
-<section class="debts_details">
-    <div class="head">
-        <h2 class="headSection">خطة سداد الديون</h2>
+<div class="customAlert"></div>
+<section class="services-debts-details">
+    <h2>اعداد الميزانية</h2>
 
-        <a href="./services.php?page=add_debt" class="btn btn-dark">إضافة دين</a>
+    <div class="rows">
+        <div class="thead">
+            <div class="col"></div>
+            <div class="col">نوع الديــــن</div>
+            <div class="col">مبلغ الديـــن</div>
+            <div class="col">القسط الشهري</div>
+            <div class="col"></div>
+        </div>
+        <?php foreach ($user_debts as $key => $debt) { ?>
+            <div class="tbody" id="debt_<?= $debt['id'] ?>">
+                <div class=" row">
+                    <div class="col"><i class="fas fa-minus" data-debt_id="<?= $debt['id'] ?>"></i></div>
+                    <div class=" col"><?= $debt['debt_type'] ?></div>
+                    <div class="col expenses_<?= $debt['id'] ?>"><?= $debt['expenses'] ?> ر.س</div>
+                    <div class="col"><?= $debt['monthly_payment'] ?> ر.س</div>
+                    <div class="col"><i class="fas fa-chevron-down"></i></div>
+                </div>
+
+                <div class="plan_payment">
+                    <ul>
+                        <h2>خطة الدفع</h2>
+                        <?php $installment_count = ceil($debt['expenses'] / $debt['monthly_payment']);
+                        $current_installments = $debt['duration'] - $installment_count; ?>
+                        <?php for ($i = 1; $i <= $debt['duration']; $i++) { ?>
+                            <li class="<?= $i <= $current_installments ? 'disabled' : '' ?>">
+                                <span><?= $debt['monthly_payment'] ?> ر.س</span>
+                                <span>الشهر <?= $i ?>
+
+                                    <i class="fas <?= $i > $current_installments ? 'fa-circle update_debt' : 'fa-check' ?>" data-debt_id="<?= $debt['id'] ?>"></i>
+                                </span>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+        <?php } ?>
     </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>نوع الدين</th>
-                <th>إجمالي مبلغ الدين</th>
-                <th>الدين المتكلف</th>
-                <th>المدة</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($user_debts as $debt) { ?>
-                <tr>
-                    <td><?= $debt['debt_type'] ?></td>
-                    <td><?= $debt['debt_amount'] . ' '  . $_SESSION['currency'] ?></td>
-                    <td><?= $debt['debt_monthly'] . ' '  . $_SESSION['currency'] ?></td>
-                    <td><?= $debt['duration']; ?></td>
-                <?php } ?>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td><b class="site_name">total <?= $total_debt_amount . ' '  . $_SESSION['currency'] ?> </b></td>
-                    <td><b class="site_name">total <?= $total_debt_monthly . ' '  . $_SESSION['currency'] ?></b></td>
-                    <td>--</td>
-                </tr>
-        </tbody>
-    </table>
 </section>

@@ -34,7 +34,7 @@ $user = selectRows('*', 'users', "id=$user_id", '', '1');
                     <input type="email" name="email" value="<?= $user['email'] ?>">
                 </div>
                 <div class="group">
-                    <label for="image">upload image <i class="fas fa-upload"></i></label>
+                    <label for="image">رفع صورة <i class="fas fa-upload"></i></label>
                     <input type="file" name="image" id="image">
                 </div>
                 <div class="actions">
@@ -42,14 +42,6 @@ $user = selectRows('*', 'users', "id=$user_id", '', '1');
                         <span>تحديث</span>
                         <i class="fas fa-retweet"></i>
                     </button>
-                    <a href="./contact.php" class="btn">
-                        <span>تواصل معنا</span>
-                        <i class="fas fa-paper-plane"></i>
-                    </a>
-                    <a href="./logout.php" class="btn">
-                        <span>تسجيل خروج</span>
-                        <i class="fas fa-right-from-bracket"></i>
-                    </a>
                     <button class="btn" id="delete_profile">
                         <span>حذف حسابي</span>
                         <i class="fas fa-trash"></i>
@@ -81,8 +73,7 @@ $user = selectRows('*', 'users', "id=$user_id", '', '1');
             $user_id = $_SESSION['user_id'];
 
             // التحقق مما إذا كانت الصورة قد تم رفعها
-            if (isset($_FILES['image']) && !empty($_FILES['image'])) {
-                echo 'image';
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 // تأكد من الحصول على اسم الملف
                 $original_image_name = $_FILES['image']['name'];
                 $tmp_name = $_FILES['image']['tmp_name'];
@@ -103,9 +94,9 @@ $user = selectRows('*', 'users', "id=$user_id", '', '1');
                 // تحديث قاعدة البيانات مع الصورة
                 $query = "UPDATE users SET username='$username', email='$email', image='$image' WHERE id='$user_id'";
             } else {
-                echo 'no image';
+                $user_image = $user['image'];
                 // تحديث قاعدة البيانات بدون تغيير الصورة
-                $query = "UPDATE users SET username='$username', email='$email' WHERE id='$user_id'";
+                $query = "UPDATE users SET username='$username', email='$email', image='$user_image' WHERE id='$user_id'";
             }
 
             $result = mysqli_query($connect, $query);

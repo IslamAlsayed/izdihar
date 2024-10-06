@@ -2,10 +2,10 @@
 
 :root {
     --whiteColor: #ffffff;
-    --darkColor: #34323e;
-    --darkHoverColor: #000000;
-    --mainColor: #5d64ae;
-    --darkMainColor: #3e47a6;
+    --darkColor: #1D2024;
+    --darkHoverColor: #242424;
+    --mainColor: #435760;
+    --hoverColor: #D9DCDE;
     --mainHoverColor: #c4c6de;
     --successColor: #66ce32;
     --errorColor: #ce3c32;
@@ -16,10 +16,10 @@
     margin: 0px;
     padding: 0px;
     transition: 0.3s;
-    color: var(--darkColor);
+    color: var(--mainColor);
     box-sizing: border-box;
     text-transform: capitalize;
-    font-family: 'Cairo', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -75,6 +75,10 @@ input::-webkit-inner-spin-button {
     caret-color: var(--mainColor);
 }
 
+::placeholder {
+    opacity: 0.7;
+}
+
 .email {
     text-transform: lowercase !important;
 }
@@ -110,7 +114,6 @@ input::-webkit-inner-spin-button {
 @media (max-width: 425px) {
     .container {
         max-width: 100%;
-        /* padding: 30px; */
     }
 }
 
@@ -149,59 +152,15 @@ input::-webkit-inner-spin-button {
     }
 }
 
-.headSection {
-    border-radius: 25px;
-    margin-bottom: 30px;
+.head {
     position: relative;
-    text-align: center;
 
-    &.left {
-        text-align: start;
-    }
-
-    &.right {
-        text-align: end;
-    }
-
-    &::before,
-    &::after {
-        content: '';
-        width: 150px;
-        height: 30px;
-        background-color: var(--mainColor);
+    & .sup-link {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        z-index: -1;
-        opacity: 0.5;
-    }
-
-    &::before {
-        animation: headSectionBefore 3s infinite linear;
-    }
-
-    &::after {
-        animation: headSectionAfter 3s infinite linear;
-    }
-}
-
-@keyframes headSectionBefore {
-    0% {
-        transform: translate(-50%, -50%) rotate(17deg) skew(-12deg);
-    }
-
-    100% {
-        transform: translate(-50%, -50%) rotate(11deg) skew(-7deg);
-    }
-}
-
-@keyframes headSectionAfter {
-    0% {
-        transform: translate(-50%, -50%) rotate(11deg) skew(-7deg);
-    }
-
-    100% {
-        transform: translate(-50%, -50%) rotate(17deg) skew(-12deg);
+        top: 50px;
+        left: 15px;
+        z-index: 10;
+        color: var(--whiteColor);
     }
 }
 
@@ -276,19 +235,5 @@ input::-webkit-inner-spin-button {
 
     70% {
         opacity: 1;
-    }
-}
-
-@media (max-width:500px) {
-    .headSection {
-        font-size: 18px;
-        border-radius: 25px;
-        margin-bottom: 30px;
-
-        &::before,
-        &::after {
-            width: 100px;
-            height: 25px;
-        }
     }
 }
