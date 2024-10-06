@@ -16,14 +16,14 @@ if (isset($_SESSION['username'])) {
         </div>
         <div class="form">
             <?php if (!empty($message['message'])) { ?>
-            <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
+                <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
             <?php } ?>
 
             <label class="error_validation"></label>
 
             <h3>أهلا بعودتك!</h3>
             <h2>تسجيل الدخول</h2>
-
+            `
             <form id="signin_user">
                 <div class="group">
                     <input type="email" class="email" name="email" id="email" value="admin@gmail.com" placeholder=" " required />

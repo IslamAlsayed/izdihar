@@ -113,66 +113,71 @@ $expense_labels_json = json_encode($expense_labels);
 
 <!-- الميزانية -->
 <script>
-    var options = {
-        series: [{
-                name: 'صافي المال',
-                data: <?= json_encode($net_income_data); ?>
-            },
-            {
-                name: 'الادخار المستهدف شهريًا',
-                data: Array(<?= count($months); ?>).fill(<?= $installment_monthly; ?>) // خط ثابت للقسط الشهري
-            },
-            {
-                name: 'المصروفات الشهرية',
-                data: <?= json_encode($total_expenses_data); ?> // بيانات المصروفات
-            }
-        ],
-        chart: {
-            type: 'line',
-            height: 350
+var options = {
+    series: [{
+            name: 'صافي المال',
+            data: <?= json_encode($net_income_data); ?>
         },
-        colors: ['#435760', '#81A9B9', '#FF5733'], // إضافة لون للمصروفات
+        {
+            name: 'الادخار المستهدف شهريًا',
+            data: Array(<?= count($months); ?>).fill(<?= $installment_monthly; ?>) // خط ثابت للقسط الشهري
+        },
+        {
+            name: 'المصروفات الشهرية',
+            data: <?= json_encode($total_expenses_data); ?> // بيانات المصروفات
+        }
+    ],
+    chart: {
+        type: 'line',
+        height: 350
+    },
+    colors: ['#435760', '#81A9B9', '#FF5733'], // إضافة لون للمصروفات
+    title: {
+        text: "النفقات الشهرية مقابل الادخار المستهدف",
+        align: 'left',
+    },
+    xaxis: {
+        categories: <?= json_encode($months); ?>,
         title: {
-            text: "النفقات الشهرية مقابل الادخار المستهدف",
+            text: 'الشهر',
             align: 'left',
+        }
+    },
+    yaxis: {
+        title: {
+            text: "الكمية"
         },
-        xaxis: {
-            categories: <?= json_encode($months); ?>,
-            title: {
-                text: 'الشهر',
-                align: 'left',
+        labels: {
+            formatter: function(value) {
+                return value.toFixed(2);
             }
-        },
-        yaxis: {
-            title: {
-                text: "الكمية"
-            }
-        },
-    };
+        }
+    },
+};
 
-    var my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
-    my_chart_line.render();
+var my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
+my_chart_line.render();
 </script>
 
 <!-- إعداد مخطط الديون -->
 <script>
-    var debtData = <?= $expense_data_json ?>;
-    var debtLabels = <?= $expense_labels_json ?>;
+var debtData = <?= $expense_data_json ?>;
+var debtLabels = <?= $expense_labels_json ?>;
 
-    var debtOptions = {
-        chart: {
-            type: 'donut',
-            height: 350
-        },
-        series: debtData,
-        labels: debtLabels,
-        title: {
-            text: 'توزيع المصروفات',
-            align: 'center'
-        },
-        colors: ['#4e5389', '#3b428e', '#5D64AE', '#4c54a6'],
-    };
+var debtOptions = {
+    chart: {
+        type: 'donut',
+        height: 350
+    },
+    series: debtData,
+    labels: debtLabels,
+    title: {
+        text: 'توزيع المصروفات',
+        align: 'center'
+    },
+    colors: ['#4e5389', '#3b428e', '#5D64AE', '#4c54a6'],
+};
 
-    var my_chart_donut = new ApexCharts(document.querySelector("#my_chart_donut"), debtOptions);
-    my_chart_donut.render();
+var my_chart_donut = new ApexCharts(document.querySelector("#my_chart_donut"), debtOptions);
+my_chart_donut.render();
 </script>

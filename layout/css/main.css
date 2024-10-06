@@ -237,6 +237,7 @@
 
     & .head {
         display: flex;
+        margin-bottom: 30px;
         align-items: flex-end;
         justify-content: center;
         flex-direction: row-reverse;

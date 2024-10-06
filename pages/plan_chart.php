@@ -92,39 +92,44 @@ foreach ($monthly_expenses as $month => $total_expense) {
 </section>
 
 <script>
-    var options = {
-        series: [{
-                name: 'صافي المال',
-                data: <?= json_encode($net_income_data); ?>
-            },
-            {
-                name: 'الادخار المستهدف شهريًا',
-                data: Array(<?= count($months); ?>).fill(<?= $installment_monthly; ?>) // خط ثابت للقسط الشهري
-            }
-        ],
-        chart: {
-            type: 'line',
-            height: 350
+var options = {
+    series: [{
+            name: 'صافي المال',
+            data: <?= json_encode($net_income_data); ?>
         },
-        colors: ['#435760', '#81A9B9'],
+        {
+            name: 'الادخار المستهدف شهريًا',
+            data: Array(<?= count($months); ?>).fill(<?= $installment_monthly; ?>) // خط ثابت للقسط الشهري
+        }
+    ],
+    chart: {
+        type: 'line',
+        height: 350
+    },
+    colors: ['#435760', '#81A9B9'],
+    title: {
+        text: "النفقات الشهرية مقابل الادخار المستهدف",
+        align: 'center',
+    },
+    xaxis: {
+        categories: <?= json_encode($months); ?>,
         title: {
-            text: "النفقات الشهرية مقابل الادخار المستهدف",
+            text: 'الشهر',
             align: 'center',
+        }
+    },
+    yaxis: {
+        title: {
+            text: "الكمية"
         },
-        xaxis: {
-            categories: <?= json_encode($months); ?>,
-            title: {
-                text: 'الشهر',
-                align: 'center',
+        labels: {
+            formatter: function(value) {
+                return value.toFixed(2);
             }
-        },
-        yaxis: {
-            title: {
-                text: "الكمية"
-            }
-        },
-    };
+        }
+    },
+};
 
-    var my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
-    my_chart_line.render();
+var my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
+my_chart_line.render();
 </script>
