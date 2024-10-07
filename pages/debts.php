@@ -1,10 +1,6 @@
 <section class="services-add-budget">
     <div class="head">
         <h2>إدارة الديون</h2>
-
-        <a href="./services.php?page=debts_details" class="btn btn-dark sup-link">
-            جميع الديون
-        </a>
     </div>
 
     <div class="row">
@@ -34,7 +30,7 @@
         </form>
 
         <div class="image">
-            <img src="<?= $image ?>Business Plan-amico.png" alt="">
+            <img src="<?= $image ?>Business Plan-amico1.png" alt="">
         </div>
     </div>
 </section>

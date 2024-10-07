@@ -1,5 +1,5 @@
 <?php
-$user_budgets = selectRows('*', 'budgets', "user_id=$user_id", '', '1');
+$user_budget = selectRows('*', 'budgets', "user_id=$user_id", '', '1');
 $user_debts = selectRows('*', 'debts', "user_id=$user_id", '', '*');
 
 if (empty($user_budget)) {
@@ -7,85 +7,66 @@ if (empty($user_budget)) {
     exit();
 }
 
-// صافي الدخل
-$net_income = $user_budget['net_income'];
+// استخراج البيانات من جدول الميزانية
+$monthly_income = $user_budget['monthly_income'];
+$total_expenses = json_decode($user_budget['expenses'], true);
+$total_expenses_value = array_sum($total_expenses); // إجمالي المصروفات
+$net_income = $monthly_income - $total_expenses_value; // صافي الدخل
 
-// مبلغ الادخار الشهري
-$installment_monthly = $user_budget['selling_goal'] / $user_budget['goal_date'];
-
-// جميع النفقات الشهرية
-$monthly_expenses = [];
-
-// إضافة النفقات من الديون
-foreach ($user_debts as $debt) {
-    $month = date('Y-m', strtotime($debt['created_at']));
-    if (!isset($monthly_expenses[$month])) {
-        $monthly_expenses[$month] = 0;
-    }
-    $monthly_expenses[$month] += intval($debt['expenses']);
-}
-
-// إضافة مصروفات الميزانية
-if ($user_budgets) {
-    $month = date('Y-m', strtotime($user_budgets['created_at']));
-    $expenses = json_decode($user_budgets['expenses'], true);
-    if (is_array($expenses)) {
-        $total_expenses = array_sum($expenses);
-        if (!isset($monthly_expenses[$month])) {
-            $monthly_expenses[$month] = 0;
-        }
-        $monthly_expenses[$month] += $total_expenses;
-    }
-}
-
-// إعداد الشهور والبيانات للمخطط
+// إعداد البيانات للرسم البياني
 $months = [];
-$net_income_data = [];
-$total_expenses_data = [];
+$savings = [];
+$debt_payments = [];
 
-// فقط الأشهر التي تحتوي على نفقات
-foreach ($monthly_expenses as $month => $total_expense) {
-    $months[] = $month;
-    $net_income = $installment_monthly - $total_expense; // صافي المال بعد النفقات
-    $net_income_data[] = $net_income;
-    $total_expenses_data[] = $total_expense; // بيانات المصروفات
-}
-?>
+// عدد الأشهر المراد عرضها
+$number_of_months = 12;
 
-<?php
-$expenses = json_decode($user_budgets['expenses'], true);
-
-// إعداد البيانات للمخطط الدائري
-$expense_types = [];
-
-// جمع المصروفات
-foreach ($expenses as $type => $amount) {
-    if ($amount != 0) {
-        $expense_types[$type] = floatval($amount);
-    }
+// حساب إجمالي المصروفات من الديون
+$monthly_debt_payments = [];
+foreach ($user_debts as $debt) {
+    $monthly_debt_payments[] = $debt['monthly_payment'];
 }
 
-// حساب المجموع الكلي للمصروفات
-$total_expenses = array_sum($expense_types);
+// حساب المدفوعات الشهرية من الديون
+$total_monthly_debt_payment = array_sum($monthly_debt_payments);
+
+// حساب البيانات لكل شهر
+for ($i = 0; $i < $user_budget['goal_date']; $i++) {
+    $months[] = 'شهر ' . ($i + 1);
+
+    // حساب صافي الدخل بعد خصم قسط الدين
+    $current_net_income = $monthly_income - $total_expenses_value - $total_monthly_debt_payment;
+
+    // حساب المدخرات، إذا كانت أقل من 0 تكون 0
+    $current_savings = max(0, $current_net_income);
+
+    // إضافة القيم إلى المصفوفات
+    $savings[] = $current_savings; // صافي المدخرات
+    // $debt_payments[] = $total_monthly_debt_payment; // إجمالي أقساط الديون ثابت
+    $debt_payments[] = $net_income; // إجمالي أقساط الديون والمصروفات
+}
 
 // حساب النسب المئوية
 $expense_percentages = [];
-foreach ($expense_types as $type => $amount) {
-    $expense_percentages[$type] = ($amount / $total_expenses) * 100; // النسبة المئوية
+foreach ($total_expenses as $category => $amount) {
+    $expense_percentages[$category] = ($amount / $monthly_income) * 100;
 }
 
 // تحويل البيانات إلى JSON
-$expense_labels = array_keys($expense_percentages);
-$expense_data = array_values($expense_percentages);
-
-$expense_data_json = json_encode($expense_data);
-$expense_labels_json = json_encode($expense_labels);
-
+$expense_data_json = json_encode(array_values($expense_percentages));
+$expense_labels_json = json_encode(array_keys($expense_percentages));
 ?>
 
-
 <section class="services-budget-chart">
+    <label class="error_validation"></label>
     <h2>تحـــديد الهــدف</h2>
+
+    <div class="actions">
+        <form action="./services.php?page=budget" method="POST" id="edit_budget_form">
+            <button type="submit" class="btn btn-dark active" name="edit_budget" id="edit_budget">تعديل</button>
+        </form>
+        <button class="btn btn-dark active" id="trash_budget" data-id="<?= $user_budget['id'] ?? '' ?>">حذف</button>
+    </div>
 
     <div class="cards">
         <div class="card">
@@ -94,7 +75,7 @@ $expense_labels_json = json_encode($expense_labels);
         </div>
         <div class="card">
             <h2>اجمالي المصروفات</h2>
-            <h3><?= number_format($user_budget['total_expenses']) . 'ر.س'  ?></h3>
+            <h3><?= number_format($total_expenses_value) . 'ر.س'  ?></h3>
         </div>
         <div class="card">
             <h2>مبلغ الهدف</h2>
@@ -113,49 +94,61 @@ $expense_labels_json = json_encode($expense_labels);
 
 <!-- الميزانية -->
 <script>
-var options = {
-    series: [{
-            name: 'صافي المال',
-            data: <?= json_encode($net_income_data); ?>
-        },
-        {
-            name: 'الادخار المستهدف شهريًا',
-            data: Array(<?= count($months); ?>).fill(<?= $installment_monthly; ?>) // خط ثابت للقسط الشهري
-        },
-        {
-            name: 'المصروفات الشهرية',
-            data: <?= json_encode($total_expenses_data); ?> // بيانات المصروفات
-        }
-    ],
+const months = <?= json_encode($months) ?>;
+const savings = <?= json_encode($savings) ?>;
+const debtPayments = <?= json_encode($debt_payments) ?>;
+
+const options = {
     chart: {
         type: 'line',
         height: 350
     },
-    colors: ['#435760', '#81A9B9', '#FF5733'], // إضافة لون للمصروفات
-    title: {
-        text: "النفقات الشهرية مقابل الادخار المستهدف",
-        align: 'left',
-    },
+    series: [{
+            name: 'صافي المال بعد المصروفات والديون',
+            data: savings,
+            color: '#435760',
+        },
+        {
+            name: 'القسط الشهري',
+            data: debtPayments,
+            color: '#81A9B9',
+        }
+    ],
+
     xaxis: {
-        categories: <?= json_encode($months); ?>,
+        categories: months,
         title: {
-            text: 'الشهر',
-            align: 'left',
+            text: 'الشهور'
         }
     },
     yaxis: {
         title: {
-            text: "الكمية"
+            text: 'القيمة (ر.س) في الشهر'
         },
         labels: {
             formatter: function(value) {
-                return value.toFixed(2);
+                return value.toFixed(0);
             }
         }
     },
+    markers: {
+        size: 5,
+    },
+    tooltip: {
+        shared: true,
+        intersect: false
+    },
+    title: {
+        text: 'مخطط صافي المدخرات وأقساط الديون',
+        align: 'left',
+        style: {
+            fontSize: '16px',
+            color: '#435760'
+        }
+    }
 };
 
-var my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
+const my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
 my_chart_line.render();
 </script>
 
@@ -173,7 +166,7 @@ var debtOptions = {
     labels: debtLabels,
     title: {
         text: 'توزيع المصروفات',
-        align: 'center'
+        align: 'left'
     },
     colors: ['#4e5389', '#3b428e', '#5D64AE', '#4c54a6'],
 };

@@ -41,45 +41,44 @@ if (isset($_SESSION['user_id'])) {
                         </a>
                     </li>
 
-
-                    <?php if (isset($user_budget) && !empty($user_budget)) { ?>
-                        <li>
-                            <a href="./services.php?page=budget_chart" class="<?= setPageActive('budget_chart') ?>">
-                                <span>تحديد الهدف</span>
-                                <i class="fas fa-sheet-plastic"></i>
-                            </a>
-                        </li>
+                    <?php if (empty($user_retirement_plan)) { ?>
+                    <li>
+                        <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
+                            <span>إضافة خطة تقاعد</span>
+                            <i class="fas fa-money-check-dollar"></i>
+                        </a>
+                    </li>
                     <?php } else { ?>
-                        <li>
-                            <a href="./services.php?page=budget" class="<?= setPageActive('budget') ?>">
-                                <span>أعداد الميزانية</span>
-                                <i class="fas fa-sheet-plastic"></i>
-                            </a>
-                        </li>
+                    <li>
+                        <a href="./services.php?page=plan_chart" class="<?= setPageActive('plan_chart') ?>">
+                            <span>تفاصيل خطة التقاعد</span>
+                            <i class="fas fa-money-check-dollar"></i>
+                        </a>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (empty($user_budget)) { ?>
+                    <li>
+                        <a href="./services.php?page=budget" class="<?= setPageActive('budget') ?>">
+                            <span>إضافة الميزانية</span>
+                            <i class="fas fa-sheet-plastic"></i>
+                        </a>
+                    </li>
+                    <?php } else { ?>
+                    <li>
+                        <a href="./services.php?page=budget_chart" class="<?= setPageActive('budget_chart') ?>">
+                            <span>تحديد الهدف</span>
+                            <i class="fas fa-sheet-plastic"></i>
+                        </a>
+                    </li>
                     <?php } ?>
 
                     <li>
-                        <a href="./services.php?page=debts" class="<?= setPageActive('debts') ?>">
+                        <a href="./services.php?page=debts_details" class="<?= setPageActive('debts') ?>">
                             <span>إدارة الديون</span>
                             <i class="fas fa-list-check"></i>
                         </a>
                     </li>
-
-                    <?php if (!isset($user_retirement_plan) && !empty($user_retirement_plan)) { ?>
-                        <li>
-                            <a href="./services.php?page=plan" class="<?= setPageActive('plan') ?>">
-                                <span>خطة التقاعد</span>
-                                <i class="fas fa-money-check-dollar"></i>
-                            </a>
-                        </li>
-                    <?php } else { ?>
-                        <li>
-                            <a href="./services.php?page=plan_chart" class="<?= setPageActive('plan_chart') ?>">
-                                <span>اعداد خطة التقاعد</span>
-                                <i class="fas fa-money-check-dollar"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
                 </ul>
             </div>
 

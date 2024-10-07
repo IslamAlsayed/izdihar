@@ -15,49 +15,21 @@ $net_income = $user_retirement_plan['monthly_income'] - $user_retirement_plan['d
 $user_retirement_age = $user_retirement_plan['retirement_age'] - $user_retirement_plan['user_age'];
 
 // مبلغ الادخار الشهري
-$installment_monthly = $user_retirement_plan['retirement_goal'] / $net_income;
-
-// جميع النفقات الشهرية
-$monthly_expenses = [];
-
-// إضافة النفقات من الديون
-foreach ($user_debts as $debt) {
-    $month = date('Y-m', strtotime($debt['created_at']));
-    if (!isset($monthly_expenses[$month])) {
-        $monthly_expenses[$month] = 0;
-    }
-    $monthly_expenses[$month] += intval($debt['expenses']);
-}
-
-// إضافة مصروفات الميزانية
-if ($user_budgets) {
-    $month = date('Y-m', strtotime($user_budgets['created_at']));
-    $expenses = json_decode($user_budgets['expenses'], true);
-    if (is_array($expenses)) {
-        $total_expenses = array_sum($expenses);
-
-        if (!isset($monthly_expenses[$month])) {
-            $monthly_expenses[$month] = 0;
-        }
-        $monthly_expenses[$month] += $total_expenses;
-    }
-}
-
-// إعداد الشهور وصافي المال
-$months = [];
-$net_income_data = [];
-
-// فقط الأشهر التي تحتوي على نفقات
-foreach ($monthly_expenses as $month => $total_expense) {
-    $months[] = $month;
-    $net_income_data[] = $installment_monthly - $total_expense; // صافي المال بعد النفقات
-}
+$installment_monthly = $user_retirement_plan['retirement_goal'] / ($user_retirement_age * 12);
 ?>
 
 <section class="services-plan-chart">
+    <label class="error_validation"></label>
     <h2>خطة التقاعد</h2>
 
-    <div class="content">
+    <div class="actions">
+        <form action="./services.php?page=plan" method="POST" id="edit_plan_form">
+            <button type="submit" class="btn btn-dark active" name="edit_plan" id="edit_plan">تعديل</button>
+        </form>
+        <button class="btn btn-dark active" id="trash_plan" data-id="<?= $user_retirement_plan['id'] ?? '' ?>">حذف</button>
+    </div>
+
+    <div class=" content">
         <div class="cards">
             <div class="card">
                 <h2>الدخل الشهري</h2>
@@ -76,8 +48,8 @@ foreach ($monthly_expenses as $month => $total_expense) {
                 <h3><?= $user_retirement_plan['retirement_age'] . 'عام'  ?? '0 عام' ?> </h3>
             </div>
             <div class="card">
-                <h2>مبلغ الادخار</h2>
-                <h3><?= number_format($installment_monthly) . 'ر.س'  ?? '00' ?> </h3>
+                <h2>مبلغ الادخار في الشهر</h2>
+                <h3><?= number_format($installment_monthly, 3) . 'ر.س'  ?? '00' ?> </h3>
             </div>
             <div class="card">
                 <h2>الهدف المراد الوصول اليه</h2>
@@ -92,44 +64,68 @@ foreach ($monthly_expenses as $month => $total_expense) {
 </section>
 
 <script>
-var options = {
-    series: [{
-            name: 'صافي المال',
-            data: <?= json_encode($net_income_data); ?>
-        },
-        {
-            name: 'الادخار المستهدف شهريًا',
-            data: Array(<?= count($months); ?>).fill(<?= $installment_monthly; ?>) // خط ثابت للقسط الشهري
-        }
-    ],
-    chart: {
-        type: 'line',
-        height: 350
-    },
-    colors: ['#435760', '#81A9B9'],
-    title: {
-        text: "النفقات الشهرية مقابل الادخار المستهدف",
-        align: 'center',
-    },
-    xaxis: {
-        categories: <?= json_encode($months); ?>,
-        title: {
-            text: 'الشهر',
-            align: 'center',
-        }
-    },
-    yaxis: {
-        title: {
-            text: "الكمية"
-        },
-        labels: {
-            formatter: function(value) {
-                return value.toFixed(2);
-            }
-        }
-    },
-};
+    // بيانات المستخدم
+    const debtsAndExpenses = <?= $user_retirement_plan['debts_and_expenses'] ?>; // الديون والمصاريف
+    const retirementGoal = <?= $user_retirement_plan['retirement_goal'] ?>; // الهدف المراد الوصول إليه
+    const userAge = <?= $user_retirement_plan['user_age'] ?>; // عمر المستخدم
+    const retirementAge = <?= $user_retirement_plan['retirement_age'] ?>; // عمر التقاعد
 
-var my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
-my_chart_line.render();
+    // مدة الهدف
+    const userRetirementAge = retirementAge - userAge;
+
+    // مبلغ الادخار الشهري
+    const installmentMonthly = retirementGoal / (userRetirementAge * 12);
+
+    // البيانات الأساسية للرسم البياني
+    const months = [];
+    const savings = [];
+    const targetAmount = retirementGoal; // الهدف المراد الوصول إليه
+    let currentSavings = 0; // بدء مبلغ الادخار الحالي من صفر
+
+    // حساب المدخرات على مدى مدة الهدف (بالسنوات) ولكن عرض كل 12 شهر
+    for (let i = 0; i <= userRetirementAge * 12; i += 12) {
+        months.push(i / 12); // تحويل إلى سنوات
+        currentSavings += installmentMonthly * 12; // إضافة المدخرات لكل 12 شهر
+        savings.push(currentSavings); // القيمة الحالية
+    }
+
+    const targetSavings = new Array(months.length).fill(targetAmount);
+
+    const options = {
+        chart: {
+            type: 'line',
+            height: 350
+        },
+        series: [{
+            name: 'المدخرات السنوية',
+            data: savings
+        }],
+        xaxis: {
+            categories: months,
+            title: {
+                text: 'السنوات'
+            }
+        },
+        yaxis: {
+            title: {
+                text: 'القيمة (ر.س) في السنة'
+            },
+            labels: {
+                formatter: function(value) {
+                    return value.toFixed(0);
+                }
+            }
+        },
+        markers: {
+            size: 5,
+        },
+        tooltip: {
+            shared: true,
+            intersect: false
+        },
+        colors: ['#435760'],
+    };
+
+    const my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
+    my_chart_line.render();
 </script>

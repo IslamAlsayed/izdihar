@@ -15,33 +15,27 @@ if (isset($_SESSION['username'])) {
             <img src="<?= $image ?>Tablet login-bro.png" alt="">
         </div>
         <div class="form">
-            <?php if (!empty($message['message'])) { ?>
-                <div class="customAlert <?= $message['status'] ?>"><?= $message['message'] ?></div>
-            <?php } ?>
-
-            <label class="error_validation"></label>
-
             <h3>أهلا بعودتك!</h3>
             <h2>تسجيل الدخول</h2>
-            `
             <form id="signin_user">
+                <label class="error_validation"></label>
                 <div class="group">
-                    <input type="email" class="email" name="email" id="email" value="admin@gmail.com" placeholder=" " required />
+                    <input type="email" class="email" name="email" id="email" required />
                     <label for="email">الإيميل</label>
                 </div>
                 <div class="group">
-                    <input type="password" name="password" id="password" value="123456" placeholder=" " required />
+                    <input type="password" name="password" id="password" required />
                     <label for="password">كلمة المرور</label>
                 </div>
                 <div class="group">
                     <button type="submit" name="signin" id="signin" class="btn btn-main">تسجيل الدخول</button>
                 </div>
-
-                <div class="create_account">
-                    <span>لا أملك حساب؟</span>
-                    <a href="./register.php">أنشاء حساب</a>
-                </div>
             </form>
+
+            <div class="create_account">
+                <span>لا أملك حساب؟</span>
+                <a href="./register.php">أنشاء حساب</a>
+            </div>
         </div>
     </div>
 </section>

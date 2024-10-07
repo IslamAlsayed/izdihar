@@ -61,6 +61,10 @@ function updateRows($table, $data, $where)
     }
     $setString = implode(", ", $set);
 
+    if (!is_array($where)) {
+        $where = [$where];
+    }
+
     $whereString = implode(" AND ", $where);
 
     $query = "UPDATE `$table` SET $setString WHERE $whereString";

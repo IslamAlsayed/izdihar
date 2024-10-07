@@ -104,7 +104,9 @@ if (!isset($_SESSION['username'])) {
                 <img src="<?= $image . 'Banknote-bro.png' ?>" alt="">
                 <p>قريبًا سنقدم مجموعة من العروض الاستثمارية لمساعدتك في تنمية أموالك. من خلال توفير للفرص الاستثمارية المتاحة التي تحقق لك عوائد مالية جيدة.</p>
             </div>
-            <a href="#" class="btn btn-dark">قريبا</a>
+            <div class="button">
+                <button class="btn btn-dark active">قريبا</button>
+            </div>
         </div>
         <div class="card">
             <h3>ادارة الديون</h3>

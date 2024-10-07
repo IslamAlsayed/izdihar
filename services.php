@@ -1,14 +1,18 @@
 <?php
 $pageTitle = 'الخدمات';
 include 'init.php';
+$user_id = '';
 
-if (!isset($_SESSION['username'])) {
+if ($_SESSION['user_id']) {
+    $user_id = $_SESSION['user_id'];
+}
+
+if (!isset($user_id)) {
     header('Location: ./');
     exit();
 }
 
 $page = isset($_GET['page']) ? $_GET['page'] : header('Location: .//services.php?page=services');
-$user_id = $_SESSION['user_id'];
 ?>
 
 <?php
@@ -21,24 +25,24 @@ if ($page == 'services') {
 } else if ($page == 'education') {
 
     include './pages/education.php';
-} elseif ($page == 'budget') { //? done
+} elseif ($page == 'budget') {
 
-    include './pages/budget.php'; //? done
-} elseif ($page == 'budget_chart') { //? done
+    include './pages/budget.php';
+} elseif ($page == 'budget_chart') {
 
-    include './pages/budget_chart.php'; //? done
-} elseif ($page == 'debts') { //? done
+    include './pages/budget_chart.php';
+} elseif ($page == 'debts') {
 
-    include './pages/debts.php'; //? done
-} elseif ($page == 'debts_details') { //? done
+    include './pages/debts.php';
+} elseif ($page == 'debts_details') {
 
-    include './pages/debts_details.php'; //? done
-} elseif ($page == 'plan') { //? done
+    include './pages/debts_details.php';
+} elseif ($page == 'plan') {
 
-    include './pages/plan.php'; //? done
-} elseif ($page == 'plan_chart') { //? done
+    include './pages/plan.php';
+} elseif ($page == 'plan_chart') {
 
-    include './pages/plan_chart.php'; //? done
+    include './pages/plan_chart.php';
 } elseif ($page == 'contact') {
 
     include './pages/contact.php';

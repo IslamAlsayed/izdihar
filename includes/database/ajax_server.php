@@ -7,14 +7,18 @@ $message = ['status' => '', 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_GET['request'])) {
-
         $requestType = $_GET['request'];
-        if ($requestType == 'plan') {
-            handleRetirementPlan();
+        $id = $_POST['id'] ?? null;
+        if ($requestType == 'plan_insert' || $requestType == 'plan_update') {
+            handleRetirementPlan($requestType);
+        } elseif ($requestType == 'trash_plan') {
+            handleTrash('retirement_plan', $id);
+        } elseif ($requestType == 'budget_insert' || $requestType == 'budget_update') {
+            handleBudget($requestType);
+        } elseif ($requestType == 'trash_budget') {
+            handleTrash('budgets', $id);
         } elseif ($requestType == 'debt') {
             handleDebt();
-        } elseif ($requestType == 'budget') {
-            handleBudget();
         } elseif ($requestType == 'register') {
             handleRegister();
         } elseif ($requestType == 'signin') {
@@ -27,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-function handleRetirementPlan()
+function handleRetirementPlan($requestType)
 {
     global $message;
 
@@ -51,14 +55,86 @@ function handleRetirementPlan()
         'user_id' => $_SESSION['user_id']
     ];
 
-    $row = insertRows('retirement_plan', $data);
-
-    if ($row == true) {
-        $message = ['status' => 'success', 'message' => 'تم إعداد خطة التقاعد.'];
-    } else {
-        sendErrorResponse('فشل الإنشاء.');
+    $row = '';
+    if ($requestType == 'plan_insert') {
+        $row = insertRows('retirement_plan', $data);
+    } else if ($requestType == 'plan_update') {
+        $user_id = $_SESSION['user_id'];
+        $row = updateRows('retirement_plan', $data, ["user_id='$user_id'"]);
     }
 
+    if ($row) {
+        $message = ['status' => 'success', 'message' => $requestType == 'plan_insert' ? 'تم إعداد خطة التقاعد.' : 'تم تحديث خطة التقاعد.'];
+    } else {
+        sendErrorResponse($requestType == 'plan_insert' ? 'فشل الإنشاء.' : 'فشل التحديث.');
+    }
+
+    echo json_encode($message);
+    exit();
+}
+
+function handleTrash($table, $id)
+{
+    global $connect;
+    global $response;
+    $user_id = $_SESSION['user_id'];
+    // الحذف من ال database
+    $deleteQuery = "DELETE FROM `$table` WHERE `id`='$id' AND `user_id`='$user_id'";
+    $result = mysqli_query($connect, $deleteQuery);
+
+    if ($result) {
+        $response = ['status' => 'success', 'message' => 'تم الحذف بنجاح.'];
+    } else {
+        $response = ['status' => 'error', 'message' => 'لم يتم الحذف.'];
+    }
+
+    echo json_encode($response);
+    exit();
+}
+
+function handleBudget($requestType)
+{
+    global $message;
+
+    $data = json_decode(file_get_contents('php://input'), true);
+    $monthly_income = isset($data['monthly_income1']) ? floatval($data['monthly_income1']) : 0;
+    $expenses = isset($data['expenses']) ? json_decode($data['expenses'], true) : [];
+    $total_expenses = isset($data['total_expenses']) ? floatval($data['total_expenses']) : 0;
+    $selling_goal = isset($data['selling_goal']) ? floatval($data['selling_goal']) : 0;
+    $budget_goal = isset($data['budget_goal']) ? trim($data['budget_goal']) : '';
+    $goal_date = isset($data['goal_date']) ? intval($data['goal_date']) : 0;
+
+    // تحقق من صحة البيانات
+    if ($monthly_income <= 0 || empty($expenses) || $total_expenses <= 0 || $selling_goal <= 0 || empty($budget_goal) || $goal_date < 0) {
+        sendErrorResponse('البيانات غير صالحة');
+    }
+
+    $data = [
+        'monthly_income' => $monthly_income,
+        'expenses' => json_encode($expenses),
+        'total_expenses' => $total_expenses,
+        'net_income' => $monthly_income - $total_expenses,
+        'selling_goal' => $selling_goal,
+        'budget_goal' => $budget_goal,
+        'goal_date' => $goal_date,
+        'user_id' => $_SESSION['user_id']
+    ];
+
+    $row = '';
+    if ($requestType == 'budget_insert') {
+        $row = insertRows('budgets', $data);
+    } else if ($requestType == 'budget_update') {
+        $user_id = $_SESSION['user_id'];
+        $row = updateRows('budgets', $data, ["user_id='$user_id'"]);
+    }
+
+    if ($row) {
+        $message = ['status' => 'success', 'message' => $requestType == 'budget_insert' ? 'تم إعداد الميزانية.' : 'تم تحديث الميزانية.'];
+    } else {
+        sendErrorResponse($requestType == 'budget_insert' ? 'فشل الإنشاء.' : 'فشل التحديث.');
+    }
+
+    header('Content-Type: application/json');
     echo json_encode($message);
     exit();
 }
@@ -78,6 +154,8 @@ function handleDebt()
         sendErrorResponse('كل الحقول يجب أن تكون صحيحة');
     }
 
+    $user_id = $_SESSION['user_id'];
+
     $data = [
         'debt_goal' => $debt_goal,
         'expenses' => $expenses,
@@ -87,6 +165,10 @@ function handleDebt()
     ];
 
     $row = insertRows('debts', $data);
+
+    usleep(500);
+    // تحديث الميزانية بعد انشاء الدين
+    updateBudgetAfterDebtDeletion($user_id);
 
     if ($row) {
         $message = ['status' => 'success', 'message' => 'لقد تم إعداد دينك.'];
@@ -98,56 +180,54 @@ function handleDebt()
     exit();
 }
 
-function handleBudget()
+function updateBudgetAfterDebtDeletion($user_id)
 {
-    global $message;
-    global $connect;
+    // استرجاع الميزانية الحالية
+    $user_budget = selectRows('*', 'budgets', "user_id=$user_id", '', '1');
+    $user_debts = selectRows('*', 'debts', "user_id=$user_id", '', '*');
 
-    $data = json_decode(file_get_contents('php://input'), true);
-    $monthly_income = isset($data['monthly_income1']) ? floatval($data['monthly_income1']) : 0;
-    $expenses = isset($data['expenses']) ? json_decode($data['expenses'], true) : [];
-    $total_expenses = isset($data['total_expenses']) ? floatval($data['total_expenses']) : 0;
-    $selling_goal = isset($data['selling_goal']) ? floatval($data['selling_goal']) : 0;
-    $budget_goal = isset($data['budget_goal']) ? trim($data['budget_goal']) : '';
-    $goal_date = isset($data['goal_date']) ? intval($data['goal_date']) : 0;
-
-    // تحقق من صحة البيانات
-    if ($monthly_income <= 0 || empty($expenses) || $total_expenses <= 0 || $selling_goal <= 0 || empty($budget_goal) || $goal_date < 0) {
-        sendErrorResponse('البيانات غير صالحة');
+    $total_monthly_payment = 0;
+    foreach ($user_debts as $debt) {
+        $total_monthly_payment += $debt['monthly_payment'];
     }
 
-    $user_id = $_SESSION['user_id'];
-    $user_retirement_plan = selectRows('*', 'retirement_plan', "user_id=$user_id", '', '1');
+    if ($user_budget) {
+        // تحديث الديون في الميزانية
+        $new_expenses = json_decode($user_budget['expenses'], true);
+        $new_expenses['debts'] = $total_monthly_payment; // تحديث الديون في الميزانية
+        $new_expenses_json = json_encode($new_expenses);
 
-    $data = [
-        'monthly_income' => $monthly_income,
-        'expenses' => json_encode($expenses),
-        'total_expenses' => $total_expenses,
-        'net_income' => $user_retirement_plan['monthly_income'] - $total_expenses,
-        'selling_goal' => $selling_goal,
-        'budget_goal' => $budget_goal,
-        'goal_date' => $goal_date,
-        'user_id' => $_SESSION['user_id']
-    ];
+        // حساب اجمالي الديون والمصروفات
+        $total_expenses = array_sum($new_expenses);
+        $net_income = $user_budget['monthly_income'] - $total_expenses;
 
-    $row = insertRows('budgets', $data);
+        $goal_date = ceil($user_budget['selling_goal'] / $net_income);
 
-    if ($row) {
-        $message = ['status' => 'success', 'message' => 'لقد تم إعداد الميزانية.'];
+        // تحديث اجمالي المصروفات في الميزانية
+        $update_data = [
+            'expenses' => $new_expenses_json,
+            'total_expenses' => $total_expenses,
+            'net_income' => $net_income,
+            'goal_date' => $goal_date,
+        ];
+
+        // تحديث البيانات
+        $budget = updateRows('budgets', $update_data, ["user_id=$user_id"]);
+
+        if (!$budget) {
+            sendErrorResponse('فشل في تحديث الميزانية بعد حذف الدين.');
+        }
     } else {
-        sendErrorResponse('فشل الإنشاء: ' . mysqli_error($connect));
+        sendErrorResponse('لم يتم العثور على الميزانية.');
     }
-
-    header('Content-Type: application/json');
-    echo json_encode($message);
-    exit();
 }
 
 function handleRegister()
 {
+    global $connect;
     global $message;
-    $data = json_decode(file_get_contents('php://input'), true);
 
+    $data = json_decode(file_get_contents('php://input'), true);
     $username = isset($data['username']) ? trim($data['username']) : '';
     $email = isset($data['email']) ? trim($data['email']) : '';
     $password = isset($data['password']) ? trim($data['password']) : '';
@@ -160,6 +240,15 @@ function handleRegister()
 
     if ($password !== $password_confirmation) {
         sendErrorResponse('كلمة المرور وتأكيد كلمة المرور لا تتطابقان.');
+    }
+
+    // التحقق من وجود البريد الإلكتروني
+    $email = mysqli_real_escape_string($connect, $email);
+    $check = "SELECT * FROM `users` WHERE email='$email'";
+    $result = mysqli_query($connect, $check);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        sendErrorResponse('هذا البريد الإلكتروني مستخدم.');
     }
 
     // إعداد البيانات
