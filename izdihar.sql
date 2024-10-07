@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2024 at 05:10 PM
+-- Generation Time: Oct 07, 2024 at 11:40 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -39,13 +39,6 @@ CREATE TABLE `budgets` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `budgets`
---
-
-INSERT INTO `budgets` (`id`, `monthly_income`, `expenses`, `total_expenses`, `net_income`, `selling_goal`, `budget_goal`, `goal_date`, `user_id`, `created_at`) VALUES
-(22, 17000, '{\"bills\":5000,\"rent\":5000,\"healthcare\":4646}', '14646', '-14646', '150000', 'شراء سيارة', 64, 1, '2024-10-06 17:23:19');
 
 -- --------------------------------------------------------
 
@@ -149,7 +142,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT 'profile.jpeg',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -158,7 +151,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `image`, `created_at`) VALUES
-(1, 'admin', 'admin@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'profile.jpeg', '2024-09-29 21:00:00');
+(20, 'IslamAlsayed', 'islam@gamil.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-07 19:13:09');
 
 --
 -- Indexes for dumped tables
@@ -211,13 +204,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `budgets`
 --
 ALTER TABLE `budgets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `debts`
 --
 ALTER TABLE `debts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `education`
@@ -229,7 +222,7 @@ ALTER TABLE `education`
 -- AUTO_INCREMENT for table `retirement_plan`
 --
 ALTER TABLE `retirement_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `site`
@@ -241,7 +234,7 @@ ALTER TABLE `site`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
