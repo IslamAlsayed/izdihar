@@ -43,7 +43,7 @@ for ($i = 0; $i < $user_budget['goal_date']; $i++) {
     // إضافة القيم إلى المصفوفات
     $savings[] = $current_savings; // صافي المدخرات
     // $debt_payments[] = $total_monthly_debt_payment; // إجمالي أقساط الديون ثابت
-    $debt_payments[] = $net_income; // إجمالي أقساط الديون والمصروفات
+    $debt_payments[] = $user_budget['selling_goal'] / $user_budget['goal_date']; // إجمالي أقساط الديون ثابت
 }
 
 // حساب النسب المئوية
