@@ -12,7 +12,7 @@ if (!isset($user_id)) {
     exit();
 }
 
-$page = isset($_GET['page']) ? $_GET['page'] : header('Location: .//services.php?page=services');
+$page = isset($_GET['page']) ? $_GET['page'] : header('Location: ./services.php?page=services');
 ?>
 
 <?php

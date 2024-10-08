@@ -115,18 +115,15 @@ delete_profile.addEventListener('click', (e) => {
     if ($_SESSION['username']) {
         $user_id = $_SESSION['user_id'];
 
-        $query = "DELETE FROM users WHERE id='$user_id'";
+        $query = "DELETE FROM `users` WHERE id='$user_id'";
         $result = mysqli_query($connect, $query);
 
-        session_unset();
-        session_destroy();
-
         if ($result) {
-            setFlashMessage('success', 'تم حذف الحساب بنجاح.');
+            session_unset();
+            session_destroy();
             header('Location: ./register.php');
             exit();
         } else {
-            setFlashMessage('error', 'لم يتم حذف الحساب بنجاح.');
             header('Location: ./profile.php');
             exit();
         }
