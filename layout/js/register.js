@@ -1,9 +1,9 @@
 // تخزين بيانات المستخدم في قاعدة البيانات
 let register_form = document.getElementById("register_form");
 if (register_form) {
+  let error_validation = document.querySelector(".error_validation");
   register_form.addEventListener("submit", function (e) {
     e.preventDefault();
-    let error_validation = document.querySelector(".error_validation");
     let username = document.getElementById("username");
     let email = document.getElementById("email");
     let password = document.getElementById("password");
