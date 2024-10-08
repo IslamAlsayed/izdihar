@@ -16,52 +16,52 @@ $user = selectRows('*', 'users', "id=$user_id", '', '1');
 ?>
 
 <?php if (!empty($message['message'])) { ?>
-    <div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
+<div class="customAlert absolute <?= $message['status'] ?>"><?= $message['message'] ?></div>
 <?php } ?>
 
 <?php if ($do == 'index') { ?>
 
-    <section class="profile">
-        <div class="image">
-            <img src="<?= $upload . $user['image'] ?>" alt="">
-        </div>
-        <div class="info">
-            <form id="profile_form" action="./profile.php?do=update" method="POST" enctype="multipart/form-data">
-                <div class="group">
-                    <input type="text" name="username" value="<?= $user['username'] ?>">
-                </div>
-                <div class="group">
-                    <input type="email" name="email" value="<?= $user['email'] ?>">
-                </div>
-                <div class="group">
-                    <label for="image">رفع صورة <i class="fas fa-upload"></i></label>
-                    <input type="file" name="image" id="image">
-                </div>
-                <div class="actions">
-                    <button type="submit" name="update" id="profile_submit" class="btn disabled">
-                        <span>تحديث</span>
-                        <i class="fas fa-retweet"></i>
-                    </button>
-                    <button class="btn" id="delete_profile">
-                        <span>حذف حسابي</span>
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </section>
+<section class="profile">
+    <div class="image">
+        <img src="<?= $upload . $user['image'] ?>" alt="">
+    </div>
+    <div class="info">
+        <form id="profile_form" action="./profile.php?do=update" method="POST" enctype="multipart/form-data">
+            <div class="group">
+                <input type="text" name="username" value="<?= $user['username'] ?>">
+            </div>
+            <div class="group">
+                <input type="email" name="email" value="<?= $user['email'] ?>">
+            </div>
+            <div class="group">
+                <label for="image">رفع صورة <i class="fas fa-upload"></i></label>
+                <input type="file" name="image" id="image">
+            </div>
+            <div class="actions">
+                <button type="submit" name="update" id="profile_submit" class="btn disabled">
+                    <span>تحديث</span>
+                    <i class="fas fa-retweet"></i>
+                </button>
+                <button class="btn" id="delete_profile">
+                    <span>حذف حسابي</span>
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
 
-    <script>
-        let delete_profile = document.getElementById('delete_profile');
-        delete_profile.addEventListener('click', (e) => {
-            e.preventDefault();
-            const result = confirm('هل أنت متأكد أنك تريد حذف حسابك؟');
+<script>
+let delete_profile = document.getElementById('delete_profile');
+delete_profile.addEventListener('click', (e) => {
+    e.preventDefault();
+    const result = confirm('هل أنت متأكد أنك تريد حذف حسابك؟');
 
-            if (result) {
-                location.href = './profile.php?do=delete';
-            }
-        });
-    </script>
+    if (result) {
+        location.href = './profile.php?do=delete';
+    }
+});
+</script>
 
 <?php } elseif ($do == 'update') {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -132,3 +132,7 @@ $user = selectRows('*', 'users', "id=$user_id", '', '1');
         }
     }
 }
+
+?>
+
+<script src="<?= $js . 'script.js' ?>"></script>

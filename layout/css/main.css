@@ -817,7 +817,7 @@
             border-radius: 3px;
             background-color: var(--mainColor);
 
-            &#trash_budget {
+            &#delete_budget {
                 background-color: var(--errorColor);
             }
         }
@@ -900,7 +900,7 @@
             border-radius: 3px;
             background-color: var(--mainColor);
 
-            &#trash_plan {
+            &#delete_plan {
                 background-color: var(--errorColor);
             }
         }

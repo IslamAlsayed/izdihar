@@ -26,7 +26,7 @@ $installment_monthly = $user_retirement_plan['retirement_goal'] / ($user_retirem
         <form action="./services.php?page=plan" method="POST" id="edit_plan_form">
             <button type="submit" class="btn btn-dark active" name="edit_plan" id="edit_plan">تعديل</button>
         </form>
-        <button class="btn btn-dark active" id="trash_plan" data-id="<?= $user_retirement_plan['id'] ?? '' ?>">حذف</button>
+        <button class="btn btn-dark active" id="delete_plan" data-id="<?= $user_retirement_plan['id'] ?? '' ?>">حذف</button>
     </div>
 
     <div class=" content">
@@ -129,3 +129,5 @@ $installment_monthly = $user_retirement_plan['retirement_goal'] / ($user_retirem
     const my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
     my_chart_line.render();
 </script>
+
+<script src="<?= $js . 'retirement_plan.js' ?>"></script>

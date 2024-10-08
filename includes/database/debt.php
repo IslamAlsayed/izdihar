@@ -7,11 +7,12 @@ $message = ['status' => '', 'message' => ''];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_GET['request'])) {
         $requestType = $_GET['request'];
-        $id = $_POST['id'];
-        if ($requestType == 'check') {
-            handleCheck($id);
-        } elseif ($requestType == 'trash') {
-            handleTrash($id);
+        if ($requestType == 'insert') {
+            handleInsert();
+        } elseif ($requestType == 'check') {
+            handleCheck($_POST['id']);
+        } elseif ($requestType == 'delete') {
+            handleDelete($_POST['id']);
         } else {
             sendErrorResponse('طلب غير معروف.');
         }
@@ -20,6 +21,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+// تخزين الدين
+function handleInsert()
+{
+    global $message;
+
+    $data = json_decode(file_get_contents('php://input'), true);
+    $debt_goal = isset($data['debt_goal']) ? trim($data['debt_goal']) : '';
+    $expenses = isset($data['expenses']) ? floatval($data['expenses']) : 0;
+    $monthly_payment = isset($data['monthly_payment']) ? floatval($data['monthly_payment']) : 0;
+    $duration = isset($data['duration']) ? floatval($data['duration']) : 0;
+
+    // التحقق من القيم المدخلة
+    if (empty($debt_goal) || $expenses <= 0 || $monthly_payment < 0 || $duration < 0) {
+        sendErrorResponse('كل الحقول يجب أن تكون صحيحة');
+    }
+
+    $data = [
+        'debt_goal' => $debt_goal,
+        'expenses' => $expenses,
+        'monthly_payment' => $monthly_payment,
+        'duration' => $duration,
+        'user_id' => $_SESSION['user_id'],
+    ];
+
+    $row = insertRows('debts', $data);
+
+    if ($row == true) {
+        $message = ['status' => 'success', 'message' => 'لقد تم إعداد دينك.'];
+    } else {
+        sendErrorResponse('فشل في إنشاء الدين.');
+    }
+
+    echo json_encode($message);
+    exit();
+}
+
+// دفع الدين
 function handleCheck($id)
 {
     global $connect;
@@ -47,14 +85,15 @@ function handleCheck($id)
         if ($result) {
             sendSuccessResponse($expenses, 'تم الدفع بنجاح.');
         } else {
-            sendErrorResponse('لم يتم التحقق.');
+            sendErrorResponse('لم يتم الدفع.');
         }
     } else {
         sendErrorResponse('لم يتم العثور على الدين.');
     }
 }
 
-function handleTrash($id)
+// حذف الدين
+function handleDelete($id)
 {
     global $connect;
     $user_id = $_SESSION['user_id'];
@@ -73,6 +112,7 @@ function handleTrash($id)
     exit();
 }
 
+// تحديث الميزانية بعد تخزين الديون او دفع القسط
 function updateBudgetAfterDebtDeletion($rest_division, $user_id)
 {
     // استرجاع الميزانية الحالية

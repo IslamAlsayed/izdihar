@@ -42,3 +42,16 @@ if (bars) {
     });
   });
 }
+
+let profile_form = document.getElementById("profile_form");
+if (profile_form) {
+  let profile_submit = document.getElementById("profile_submit");
+
+  profile_form.addEventListener("keyup", () => {
+    profile_submit.classList.remove("disabled");
+  });
+
+  profile_form.addEventListener("change", () => {
+    profile_submit.classList.remove("disabled");
+  });
+}

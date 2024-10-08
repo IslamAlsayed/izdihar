@@ -19,7 +19,7 @@ $array_expenses = !empty($user_budget['expenses']) ? json_decode($user_budget['e
     </div>
 
     <div class="row">
-        <form id="insert_budget_form" class="form" data-action="<?= empty($action) ? 'insert' : 'update' ?>">
+        <form id="budget_form" class="form" data-action="<?= empty($action) ? 'insert' : 'update' ?>">
             <label class="error_validation"></label>
             <div class="version">
                 <div class="group">
@@ -79,7 +79,7 @@ $array_expenses = !empty($user_budget['expenses']) ? json_decode($user_budget['e
                 </div>
 
                 <div class="col">
-                    <button type="click" class="btn btn-dark" id="insert_budget"><?= empty($user_budget) ? 'حفظ' : 'تحديث' ?></button>
+                    <button class="btn btn-dark" id="insert_budget"><?= empty($user_budget) ? 'حفظ' : 'تحديث' ?></button>
                 </div>
             </div>
         </form>
@@ -89,3 +89,5 @@ $array_expenses = !empty($user_budget['expenses']) ? json_decode($user_budget['e
         </div>
     </div>
 </section>
+
+<script src="<?= $js . 'budget.js' ?>"></script>

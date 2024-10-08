@@ -1,8 +1,7 @@
 <?php $user_debts = selectRows('*', 'debts', "duration!=0 AND user_id=$user_id", '', '*'); ?>
 
-<div class="customAlert"></div>
 <section class="services-debts-details">
-
+    <label class="error_validation"></label>
     <div class="head">
         <h2>اعداد الديون</h2>
 
@@ -26,7 +25,7 @@
                 <div class="tbody" id="debt_<?= $debt['id'] ?>">
                     <div class="row">
                         <div class="col"><i class="fas fa-minus" data-debt_id="<?= $debt['id'] ?>"></i></div>
-                        <div class=" col"><?= $debt['debt_goal'] ?></div>
+                        <div class="col"><?= $debt['debt_goal'] ?></div>
                         <div class="col expenses_<?= $debt['id'] ?>"><?= $debt['expenses'] ?> ر.س</div>
                         <div class="col"><?= $debt['monthly_payment'] ?> ر.س</div>
                         <div class="col"><i class="fas fa-chevron-down"></i></div>
@@ -67,3 +66,5 @@
         <?php }  ?>
     </div>
 </section>
+
+<script src="<?= $js . 'debt.js' ?>"></script>

@@ -4,7 +4,7 @@
     </div>
 
     <div class="row">
-        <form id="insert_debt_form" class="form">
+        <form id="debt_form" class="form">
             <div class="version">
                 <label class="error_validation"></label>
                 <div class="group">
@@ -34,3 +34,5 @@
         </div>
     </div>
 </section>
+
+<script src="<?= $js . 'debt.js' ?>"></script>

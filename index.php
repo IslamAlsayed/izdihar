@@ -17,18 +17,19 @@ if (isset($_SESSION['username'])) {
         <div class="form">
             <h3>أهلا بعودتك!</h3>
             <h2>تسجيل الدخول</h2>
-            <form id="signin_user">
+
+            <form id="signin_form">
                 <label class="error_validation"></label>
                 <div class="group">
-                    <input type="email" class="email" name="email" id="email" required />
+                    <input type="email" class="email" name="email" id="email" />
                     <label for="email">الإيميل</label>
                 </div>
                 <div class="group">
-                    <input type="password" name="password" id="password" required />
+                    <input type="password" name="password" id="password" />
                     <label for="password">كلمة المرور</label>
                 </div>
                 <div class="group">
-                    <button type="submit" name="signin" id="signin" class="btn btn-main">تسجيل الدخول</button>
+                    <button type="submit" class="btn btn-main">تسجيل الدخول</button>
                 </div>
             </form>
 
@@ -39,3 +40,5 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 </section>
+
+<script src="<?= $js . 'signin.js' ?>"></script>
