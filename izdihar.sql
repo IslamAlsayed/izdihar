@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 11:40 PM
+-- Generation Time: Oct 08, 2024 at 10:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,6 +40,14 @@ CREATE TABLE `budgets` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `budgets`
+--
+
+INSERT INTO `budgets` (`id`, `monthly_income`, `expenses`, `total_expenses`, `net_income`, `selling_goal`, `budget_goal`, `goal_date`, `user_id`, `created_at`) VALUES
+(39, 17000, '{\"rent\":5000,\"debts\":0}', '5000', '12000', '10000', 'شراء سيارة', 1, 26, '2024-10-08 21:27:04'),
+(41, 17000, '{\"bills\":500,\"rent\":500,\"food\":500,\"healthcare\":500,\"clothing\":500,\"entertainment\":500,\"debts\":0}', '3000', '14000', '150000', 'شراء سيارة', 11, 27, '2024-10-08 22:55:56');
+
 -- --------------------------------------------------------
 
 --
@@ -55,6 +63,13 @@ CREATE TABLE `debts` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `debts`
+--
+
+INSERT INTO `debts` (`id`, `debt_goal`, `expenses`, `monthly_payment`, `duration`, `user_id`, `created_at`) VALUES
+(95, 'قرض دراسي', 4500, '500', '9', 26, '2024-10-08 21:29:59');
 
 -- --------------------------------------------------------
 
@@ -80,11 +95,11 @@ INSERT INTO `education` (`id`, `title`, `image`, `description`, `link`, `type`, 
 (50, 'التخطيط المالي\r\n', NULL, '', 'https://www.youtube.com/embed/Ru-yBS7wXEU?si=cknu1AUuyxjbhQ8g', 'video', '2024-10-03 12:33:34'),
 (51, 'كيف تخطط لحياتك المالية؟', NULL, '', 'https://www.youtube.com/embed/erADTfaK9Pk?si=QVJSQfN2AJqC7M5f', 'video', '2024-10-03 12:33:34'),
 (52, 'كيف تكتفي مالياً؟ مع صلاح خاشقجي', NULL, '', 'https://www.youtube.com/embed/reHvsmSHzhY?si=91afDytwTBxNUawg', 'video', '2024-10-03 12:33:34'),
-(58, 'الإدارة المالية', NULL, '', 'الإدارة المالية.png', 'book', '2024-10-03 12:52:30'),
-(59, 'التخطيط المالي في الاستقرار', NULL, '', 'التخطيط المالي في الاستقرار.jpeg', 'book', '2024-10-03 12:52:30'),
-(60, 'الاب الروحي', NULL, '', 'الاب الروحي.jpeg', 'book', '2024-10-03 12:52:30'),
-(61, 'الإدارة المالية فى الإسلام2', NULL, '', 'الإدارة المالية فى الإسلام2.png', 'book', '2024-10-03 12:52:30'),
-(62, 'الإدارة المالية دليل المعايير والتنفيذ', NULL, '', 'الإدارة المالية دليل المعايير والتنفيذ.png', 'book', '2024-10-03 12:52:30');
+(58, 'الإدارة المالية', 'الإدارة المالية.png', '', 'الإدارة المالية.pdf', 'book', '2024-10-03 12:52:30'),
+(59, 'التخطيط المالي في الاستقرار', 'التخطيط المالي في الاستقرار.jpeg', '', 'التخطيط المالي في الاستقرار.pdf', 'book', '2024-10-03 12:52:30'),
+(60, 'الاب الروحي', 'الاب الروحي.jpeg', '', 'الاب الروحي.pdf', 'book', '2024-10-03 12:52:30'),
+(61, 'الإدارة المالية فى الإسلام2', 'الإدارة المالية فى الإسلام2.png', '', 'الإدارة المالية فى الإسلام2.pdf', 'book', '2024-10-03 12:52:30'),
+(62, 'الإدارة المالية دليل المعايير والتنفيذ', 'الإدارة المالية دليل المعايير والتنفيذ.png', '', 'الإدارة المالية دليل المعايير والتنفيذ.pdf', 'book', '2024-10-03 12:52:30');
 
 -- --------------------------------------------------------
 
@@ -102,6 +117,14 @@ CREATE TABLE `retirement_plan` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `retirement_plan`
+--
+
+INSERT INTO `retirement_plan` (`id`, `retirement_age`, `user_age`, `monthly_income`, `debts_and_expenses`, `retirement_goal`, `user_id`, `created_at`) VALUES
+(60, 60, 23, 25000, '6000', '150000', 26, '2024-10-08 21:26:19'),
+(61, 60, 24, 25000, '6000', '150000', 27, '2024-10-08 22:57:14');
 
 -- --------------------------------------------------------
 
@@ -151,7 +174,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `image`, `created_at`) VALUES
-(20, 'IslamAlsayed', 'islam@gamil.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-07 19:13:09');
+(23, 'IslamAlsayed', 'islam@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-08 13:07:01'),
+(25, 'ola', 'olahamdy139@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', 'profile.jpeg', '2024-10-08 17:56:57'),
+(26, 'IslamAlsayed', 'islam2@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-08 18:25:55'),
+(27, 'IslamAlsayed', 'eslamalsayed8133@outlook.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-08 19:52:02');
 
 --
 -- Indexes for dumped tables
@@ -204,13 +230,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `budgets`
 --
 ALTER TABLE `budgets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `debts`
 --
 ALTER TABLE `debts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `education`
@@ -222,7 +248,7 @@ ALTER TABLE `education`
 -- AUTO_INCREMENT for table `retirement_plan`
 --
 ALTER TABLE `retirement_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `site`
@@ -234,7 +260,7 @@ ALTER TABLE `site`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables
