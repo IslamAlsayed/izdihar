@@ -16,7 +16,7 @@ Izdihar is a system designed to help users plan for retirement and manage their 
 1. Clone the repository:
    ```bash
    git clone https://github.com/IslamAlsayed/izdihar.git
-   cd project
+   cd izdihar
    ```
 2. Set up the database:
 
@@ -24,7 +24,7 @@ Izdihar is a system designed to help users plan for retirement and manage their 
    - Update the database settings in `connect.php`.
 
 3. Start the web server:
-   - If using XAMPP, place the project in the `htdocs` directory and start Apache from the XAMPP control panel.
+   - If using XAMPP, place the izdihar in the `htdocs` directory and start Apache from the XAMPP control panel.
 
 ## Usage
 
