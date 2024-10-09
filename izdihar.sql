@@ -40,14 +40,6 @@ CREATE TABLE `budgets` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `budgets`
---
-
-INSERT INTO `budgets` (`id`, `monthly_income`, `expenses`, `total_expenses`, `net_income`, `selling_goal`, `budget_goal`, `goal_date`, `user_id`, `created_at`) VALUES
-(39, 17000, '{\"rent\":5000,\"debts\":0}', '5000', '12000', '10000', 'شراء سيارة', 1, 26, '2024-10-08 21:27:04'),
-(41, 17000, '{\"bills\":500,\"rent\":500,\"food\":500,\"healthcare\":500,\"clothing\":500,\"entertainment\":500,\"debts\":0}', '3000', '14000', '150000', 'شراء سيارة', 11, 27, '2024-10-08 22:55:56');
-
 -- --------------------------------------------------------
 
 --
@@ -63,13 +55,6 @@ CREATE TABLE `debts` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `debts`
---
-
-INSERT INTO `debts` (`id`, `debt_goal`, `expenses`, `monthly_payment`, `duration`, `user_id`, `created_at`) VALUES
-(95, 'قرض دراسي', 4500, '500', '9', 26, '2024-10-08 21:29:59');
 
 -- --------------------------------------------------------
 
@@ -118,14 +103,6 @@ CREATE TABLE `retirement_plan` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `retirement_plan`
---
-
-INSERT INTO `retirement_plan` (`id`, `retirement_age`, `user_age`, `monthly_income`, `debts_and_expenses`, `retirement_goal`, `user_id`, `created_at`) VALUES
-(60, 60, 23, 25000, '6000', '150000', 26, '2024-10-08 21:26:19'),
-(61, 60, 24, 25000, '6000', '150000', 27, '2024-10-08 22:57:14');
-
 -- --------------------------------------------------------
 
 --
@@ -168,16 +145,6 @@ CREATE TABLE `users` (
   `image` varchar(255) DEFAULT 'profile.jpeg',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `image`, `created_at`) VALUES
-(23, 'IslamAlsayed', 'islam@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-08 13:07:01'),
-(25, 'ola', 'olahamdy139@gmail.com', '7c222fb2927d828af22f592134e8932480637c0d', 'profile.jpeg', '2024-10-08 17:56:57'),
-(26, 'IslamAlsayed', 'islam2@gmail.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-08 18:25:55'),
-(27, 'IslamAlsayed', 'eslamalsayed8133@outlook.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-08 19:52:02');
 
 --
 -- Indexes for dumped tables
