@@ -817,7 +817,7 @@
             border-radius: 3px;
             background-color: var(--mainColor);
 
-            &#trash_budget {
+            &#delete_budget {
                 background-color: var(--errorColor);
             }
         }
@@ -900,7 +900,7 @@
             border-radius: 3px;
             background-color: var(--mainColor);
 
-            &#trash_plan {
+            &#delete_plan {
                 background-color: var(--errorColor);
             }
         }
@@ -1022,7 +1022,6 @@
         }
 
         & .tbody {
-            overflow: hidden;
 
             & .col:not(:first-child),
             & .col:not(:last-child) {
@@ -1034,11 +1033,11 @@
         & .tbody .plan_payment {
             height: 0;
             direction: ltr;
+            overflow: hidden;
             transition: height 0.3s ease;
 
             &.show {
                 height: auto;
-                /* max-height: 500px; */
             }
 
             & h2 {
@@ -1093,7 +1092,27 @@
                     }
                 }
             }
+
+            & .pagination {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            & .pagination a {
+                margin: 0 5px;
+                padding: 8px 12px;
+                text-decoration: none;
+                border: 1px solid var(--mainHoverColor);
+            }
+
+            & .pagination a.active {
+                color: var(--whiteColor);
+                background-color: var(--mainColor);
+            }
         }
+
 
         & .tbody .center {
             font-size: 20px;

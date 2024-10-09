@@ -24,7 +24,7 @@
         <div class="books">
             <?php foreach ($books as $book) { ?>
             <div class="book">
-                <img src="<?= $education . $book['link'] ?>" alt="" />
+                <img src="<?= $education . $book['image'] ?>" alt="" />
                 <h3><?= $book['title'] ?></h3>
                 <a href="<?= $education . $book['link'] ?>" download class="btn btn-dark">تنزيل</a>
             </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 11:40 PM
+-- Generation Time: Oct 08, 2024 at 10:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -80,11 +80,11 @@ INSERT INTO `education` (`id`, `title`, `image`, `description`, `link`, `type`, 
 (50, 'التخطيط المالي\r\n', NULL, '', 'https://www.youtube.com/embed/Ru-yBS7wXEU?si=cknu1AUuyxjbhQ8g', 'video', '2024-10-03 12:33:34'),
 (51, 'كيف تخطط لحياتك المالية؟', NULL, '', 'https://www.youtube.com/embed/erADTfaK9Pk?si=QVJSQfN2AJqC7M5f', 'video', '2024-10-03 12:33:34'),
 (52, 'كيف تكتفي مالياً؟ مع صلاح خاشقجي', NULL, '', 'https://www.youtube.com/embed/reHvsmSHzhY?si=91afDytwTBxNUawg', 'video', '2024-10-03 12:33:34'),
-(58, 'الإدارة المالية', NULL, '', 'الإدارة المالية.png', 'book', '2024-10-03 12:52:30'),
-(59, 'التخطيط المالي في الاستقرار', NULL, '', 'التخطيط المالي في الاستقرار.jpeg', 'book', '2024-10-03 12:52:30'),
-(60, 'الاب الروحي', NULL, '', 'الاب الروحي.jpeg', 'book', '2024-10-03 12:52:30'),
-(61, 'الإدارة المالية فى الإسلام2', NULL, '', 'الإدارة المالية فى الإسلام2.png', 'book', '2024-10-03 12:52:30'),
-(62, 'الإدارة المالية دليل المعايير والتنفيذ', NULL, '', 'الإدارة المالية دليل المعايير والتنفيذ.png', 'book', '2024-10-03 12:52:30');
+(58, 'الإدارة المالية', 'الإدارة المالية.png', '', 'الإدارة المالية.pdf', 'book', '2024-10-03 12:52:30'),
+(59, 'التخطيط المالي في الاستقرار', 'التخطيط المالي في الاستقرار.jpeg', '', 'التخطيط المالي في الاستقرار.pdf', 'book', '2024-10-03 12:52:30'),
+(60, 'الاب الروحي', 'الاب الروحي.jpeg', '', 'الاب الروحي.pdf', 'book', '2024-10-03 12:52:30'),
+(61, 'الإدارة المالية فى الإسلام2', 'الإدارة المالية فى الإسلام2.png', '', 'الإدارة المالية فى الإسلام2.pdf', 'book', '2024-10-03 12:52:30'),
+(62, 'الإدارة المالية دليل المعايير والتنفيذ', 'الإدارة المالية دليل المعايير والتنفيذ.png', '', 'الإدارة المالية دليل المعايير والتنفيذ.pdf', 'book', '2024-10-03 12:52:30');
 
 -- --------------------------------------------------------
 
@@ -147,13 +147,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `image`, `created_at`) VALUES
-(20, 'IslamAlsayed', 'islam@gamil.com', '20eabe5d64b0e216796e834f52d61fd0b70332fc', 'profile.jpeg', '2024-10-07 19:13:09');
-
---
 -- Indexes for dumped tables
 --
 
@@ -204,13 +197,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `budgets`
 --
 ALTER TABLE `budgets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `debts`
 --
 ALTER TABLE `debts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `education`
@@ -222,7 +215,7 @@ ALTER TABLE `education`
 -- AUTO_INCREMENT for table `retirement_plan`
 --
 ALTER TABLE `retirement_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `site`
@@ -234,7 +227,7 @@ ALTER TABLE `site`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables

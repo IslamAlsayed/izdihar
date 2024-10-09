@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <div class="row">
-        <form id="insert_plan_form" class="form" data-action="<?= empty($action) ? 'insert' : 'update' ?>">
+        <form id="retirement_plan_form" class="form" data-action="<?= empty($action) ? 'insert' : 'update' ?>">
             <div class="version">
                 <label class="error_validation"></label>
                 <div class="groups">
@@ -57,3 +57,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </section>
+
+<script src="<?= $js . 'retirement_plan.js' ?>"></script>

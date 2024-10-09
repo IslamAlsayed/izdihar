@@ -18,7 +18,7 @@ if (isset($_SESSION['username'])) {
             <h3>أهلا بعودتك !</h3>
             <h2>إنشاء حساب جديد</h2>
 
-            <form id="register_user">
+            <form id="register_form">
                 <label class="error_validation"></label>
                 <div class="group">
                     <input type="text" name="username" id="username" />
@@ -40,7 +40,7 @@ if (isset($_SESSION['username'])) {
                 </div>
 
                 <div class="group">
-                    <button type="submit" id="register" class="btn btn-main">إنشاء</button>
+                    <button type="submit" class="btn btn-main">إنشاء</button>
                 </div>
             </form>
 
@@ -51,3 +51,5 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
 </section>
+
+<script src="<?= $js . 'register.js' ?>"></script>
