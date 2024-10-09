@@ -8,7 +8,7 @@ if (empty($user_budget)) {
 }
 
 // استخراج البيانات من جدول الميزانية
-$monthly_income = $user_budget[0]['monthly_income'];
+$monthly_income = $user_budget['monthly_income'];
 $total_expenses = json_decode($user_budget['expenses'], true);
 $total_expenses_value = array_sum($total_expenses); // إجمالي المصروفات
 $net_income = $monthly_income - $total_expenses_value; // صافي الدخل
@@ -94,85 +94,85 @@ $expense_labels_json = json_encode(array_keys($expense_percentages));
 
 <!-- الميزانية -->
 <script>
-const months = <?= json_encode($months) ?>;
-const savings = <?= json_encode($savings) ?>;
-const debtPayments = <?= json_encode($debt_payments) ?>;
+    const months = <?= json_encode($months) ?>;
+    const savings = <?= json_encode($savings) ?>;
+    const debtPayments = <?= json_encode($debt_payments) ?>;
 
-const options = {
-    chart: {
-        type: 'line',
-        height: 350
-    },
-    series: [{
-            name: 'صافي المال بعد المصروفات والديون',
-            data: savings,
-            color: '#435760',
+    const options = {
+        chart: {
+            type: 'line',
+            height: 350
         },
-        {
-            name: 'القسط الشهري',
-            data: debtPayments,
-            color: '#81A9B9',
-        }
-    ],
+        series: [{
+                name: 'صافي المال بعد المصروفات والديون',
+                data: savings,
+                color: '#435760',
+            },
+            {
+                name: 'القسط الشهري',
+                data: debtPayments,
+                color: '#81A9B9',
+            }
+        ],
 
-    xaxis: {
-        categories: months,
-        title: {
-            text: 'الشهور'
-        }
-    },
-    yaxis: {
-        title: {
-            text: 'القيمة (ر.س) في الشهر'
+        xaxis: {
+            categories: months,
+            title: {
+                text: 'الشهور'
+            }
         },
-        labels: {
-            formatter: function(value) {
-                return value.toFixed(0);
+        yaxis: {
+            title: {
+                text: 'القيمة (ر.س) في الشهر'
+            },
+            labels: {
+                formatter: function(value) {
+                    return value.toFixed(0);
+                }
+            }
+        },
+        markers: {
+            size: 5,
+        },
+        tooltip: {
+            shared: true,
+            intersect: false
+        },
+        title: {
+            text: 'مخطط صافي المدخرات وأقساط الديون',
+            align: 'left',
+            style: {
+                fontSize: '16px',
+                color: '#435760'
             }
         }
-    },
-    markers: {
-        size: 5,
-    },
-    tooltip: {
-        shared: true,
-        intersect: false
-    },
-    title: {
-        text: 'مخطط صافي المدخرات وأقساط الديون',
-        align: 'left',
-        style: {
-            fontSize: '16px',
-            color: '#435760'
-        }
-    }
-};
+    };
 
-const my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
-my_chart_line.render();
+    const my_chart_line = new ApexCharts(document.querySelector("#my_chart_line"), options);
+    my_chart_line.render();
 </script>
 
 <!-- إعداد مخطط الديون -->
 <script>
-var debtData = <?= $expense_data_json ?>;
-var debtLabels = <?= $expense_labels_json ?>;
+    var debtData = <?= $expense_data_json ?>;
+    var debtLabels = <?= $expense_labels_json ?>;
 
-var debtOptions = {
-    chart: {
-        type: 'donut',
-        height: 350
-    },
-    series: debtData,
-    labels: debtLabels,
-    title: {
-        text: 'توزيع المصروفات',
-        align: 'left'
-    },
-    colors: ['#1f759b', '#435760', '#81A9B9', '#C7D7DE'],
-};
+    var debtOptions = {
+        chart: {
+            type: 'donut',
+            height: 350
+        },
+        series: debtData,
+        labels: debtLabels,
+        title: {
+            text: 'توزيع المصروفات',
+            align: 'left'
+        },
+        colors: ['#1f759b', '#435760', '#81A9B9', '#C7D7DE'],
+    };
 
-var my_chart_donut = new ApexCharts(document.querySelector("#my_chart_donut"), debtOptions);
-my_chart_donut.render();
+    var my_chart_donut = new ApexCharts(document.querySelector("#my_chart_donut"), debtOptions);
+    my_chart_donut.render();
 </script>
 
 <script src="<?= $js . 'budget.js' ?>"></script>
