@@ -1,5 +1,7 @@
 # Izdihar - Retirement and Debt Management System
 
+## Source code is private
+
 Izdihar is a system designed to help users plan for retirement and manage their debts effectively. Users can input their retirement goals and current debts, and the system will calculate the monthly savings needed to achieve the retirement goal. Additionally, the system provides visualization of monthly expenses and targeted savings through charts.
 
 ## Features
