@@ -46,72 +46,72 @@ Izdihar is a system designed to help users plan for retirement and manage their 
 
 ## home
 
-![home](./layout/mockup/home.png)
+![home](./mockup/home.png)
 home page of the project.
 
 ## signin
 
-![signin](./layout/mockup/signin.png)
+![signin](./mockup/signin.png)
 signin page of the project.
 
 ## register
 
-![register](./layout/mockup/register.png)
+![register](./mockup/register.png)
 register page of the project.
 
 ## about-us
 
-![about-us](./layout/mockup/about-us.png)
+![about-us](./mockup/about-us.png)
 about-us page of the project.
 
 ## contact-us
 
-![contact-us](./layout/mockup/contact-us.png)
+![contact-us](./mockup/contact-us.png)
 contact-us page of the project.
 
 ## services
 
-![services](./layout/mockup/services.png)
+![services](./mockup/services.png)
 services page of the project.
 
 ## retirement-plan
 
-![retirement-plan](./layout/mockup/retirement-plan.png)
+![retirement-plan](./mockup/retirement-plan.png)
 retirement-plan page of the project.
 
 ## retirement-plan-chart
 
-![retirement-plan-chart](./layout/mockup/retirement-plan-chart.png)
+![retirement-plan-chart](./mockup/retirement-plan-chart.png)
 retirement-plan-chart page of the project.
 
 ## budget
 
-![budget](./layout/mockup/budget.png)
+![budget](./mockup/budget.png)
 budget page of the project.
 
 ## budget-chart
 
-![budget-chart](./layout/mockup/budget-chart.png)
+![budget-chart](./mockup/budget-chart.png)
 budget-chart page of the project.
 
 ## debts
 
-![debts](./layout/mockup/debts.png)
+![debts](./mockup/debts.png)
 debts page of the project.
 
 ## debts-details
 
-![debts-details](./layout/mockup/debts-details.png)
+![debts-details](./mockup/debts-details.png)
 debts-details page of the project.
 
 ## education
 
-![education](./layout/mockup/education.png)
+![education](./mockup/education.png)
 education page of the project.
 
 ## profile
 
-![profile](./layout/mockup/profile.png)
+![profile](./mockup/profile.png)
 profile page of the project.
 
 ## Contributing
