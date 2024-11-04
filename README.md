@@ -31,6 +31,11 @@ Izdihar is a system designed to help users plan for retirement and manage their 
 
 # Overview
 
+## mockup
+
+![mockup](./mockup/izdihar-mockup.jpg)
+mockup of the project.
+
 ## home
 
 ![home](./mockup/home.png)
