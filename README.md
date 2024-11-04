@@ -86,6 +86,11 @@ budget page of the project.
 ![budget-chart](./mockup/budget-chart.png)
 budget-chart page of the project.
 
+## budget-chart-columns
+
+![budget-chart-columns](./mockup/budget-chart-columns.png)
+budget-chart-columns page of the project.
+
 ## debts
 
 ![debts](./mockup/debts.png)
