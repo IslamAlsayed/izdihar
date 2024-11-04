@@ -117,7 +117,7 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## Credits
 
-This project was developed by IslamAlsayed and OlaHamdy.
+This project was developed by IslamAlsayed.
 
 ## Contact me
 
